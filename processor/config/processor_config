@@ -1,0 +1,132 @@
+################################################################################
+#
+# This file contains environment variables for running the Processor component in
+# the Generate Program.
+#
+################################################################################
+
+# Set environment for sigevent manager.
+setenv GHRSST_SIGEVENT_URL http://test.test.test:8080
+
+# Flag to perform a move instead of copy when staging the HDF file to scratch.
+setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE yes    # (OPS.)
+#setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE no    # (DEV.)
+
+# Points Processor 'root' directory and to where the Perl & IDL codes are installed.
+setenv PROCESSOR_DIRECTORY $HOME/generate/workspace/generate/processor    # NET edit. (Local)
+# setenv PROCESSOR_DIRECTORY /app    # NET edit. (Docker container)
+setenv GHRSST_PERL_LIB_DIRECTORY $PROCESSOR_DIRECTORY/perl    # NET edit. (Local)
+# setenv GHRSST_PERL_LIB_DIRECTORY /app/perl    # NET edit. (Docker container)
+setenv GHRSST_IDL_LIB_DIRECTORY $PROCESSOR_DIRECTORY/idl    # NET edit. (Local)
+# setenv GHRSST_IDL_LIB_DIRECTORY /app/idl    # NET edit. (Docker container)
+
+# Configuration files
+setenv GHRSST_DATA_CONFIG_FILE $PROCESSOR_DIRECTORY/config/ghrsst_data_config_file.dat
+setenv MAF_THRESHOLD_CONFIG_FILE $PROCESSOR_DIRECTORY/config/maf_threshold_config.dat
+setenv GHRSST_CLUSTER_HOST_FILENAME_LIST $PROCESSOR_DIRECTORY/config/host_list.txt
+
+# Scratch directory to store temporary files, MAFs and registry.
+setenv SCRATCH_AREA         /data/dev/tebaldi/processor/scratch     
+# setenv MAF_OUTPUT_DIRECTORY $HOME/ghrsst-rdac/scratch
+# setenv SCRATCH_ECMWF_WRITE_FLAG_FILE $SCRATCH_AREA/ecmwf_dataset_written
+# setenv SCRATCH_FNMOC_WRITE_FLAG_FILE $SCRATCH_AREA/fnmoc_dataset_written
+setenv QUICKLOOK_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_quicklook.dat
+setenv REFINED_FILE_ERROR_REGISTRY_FILENAME   $SCRATCH_AREA/ghrsst_master_error_file_registry_refined.dat
+
+# Environment for logging
+setenv GAPFARMPROCESSINGLOGFILENAME /data/dev/tebaldi/processor/logs/task_farm/ghrsst_processing_log_archive.txt # Set to the name of the log file where each MODIS L2P job will log to.
+
+# Flag to determine if MODIS L2P should be sent and to what machine.
+# Set this to true to push the MODIS L2P to melia once it is created.
+# Set to false for dev/test.
+setenv SEND_MODIS_L2P_TO_MELIA_FLAG false
+
+# Set this to true to push the MODIS L2P to seatide/seafire once it is created.
+# Set to false for dev/test if only wish to create the MODIS L2P and not sftp it.
+# Always set to false as ghrsst-rdac1 gds2 data handler is used.
+setenv SEND_MODIS_L2P_TO_DMAS_FOR_INGESTION_FLAG false
+
+# Set this to the appropriate machine to push the MODIS L2P once it is created.
+# For dev/test, use seatide, for ops, use seafire machine.
+# setenv SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO gftpin@ops-seafire.jpl.nasa.gov    # ? Is this still in use? 
+
+# Directory to keep the wgrib readers
+# setenv GRIB_READER $GHRSST_PERL_LIB_DIRECTORY/../wgrib/wgrib    # Is this still in use?
+
+# Directory holding the MODIS current jobs
+setenv MODIS_CURRENT_JOBS_DIR $SCRATCH_AREA/current_jobs
+
+# Directory holding the MODIS L2P Core: assumption, this directory must have been created already.
+setenv MODIS_SEATMP_L2P_CORE_DIRECTORY /data/dev/tebaldi/processor/output/MODIS_L2P_CORE_NETCDF
+setenv VIIRS_SEATMP_L2P_CORE_DIRECTORY /data/dev/tebaldi/processor/output/VIIRS_L2P_CORE_NETCDF
+
+# Directories for regression tests.    # ? Is this still in use?
+# setenv BASELINE_REGRESSION_CATALOGUE_INPUT  $GHRSST_PERL_LIB_DIRECTORY/baseline/input
+# setenv BASELINE_REGRESSION_CATALOGUE_OUTPUT $GHRSST_PERL_LIB_DIRECTORY/baseline/output
+
+# Directories to hold common locks.
+setenv SEMAPHORE_LOCK_COMMON_AREA /data/dev/tebaldi/processor/scratch/locks
+
+# Environments for monitor programs.  The list of names in these settings is to control
+# who gets notified about what.
+setenv MACHINE "test-test-test"
+setenv GENERATE_VERSION "Generate Cloud"
+
+setenv OPS_DISK_MONITOR_EMAIL_LIST  "test@test.com"
+setenv OPS_MAF_MONITOR_EMAIL_LIST   "test@test.com"
+setenv OPS_MODIS_MONITOR_EMAIL_LIST "test@test.com"
+setenv OPSMAILSRC                   "test@test.com"
+
+# Directory to look for "filled" Quicklook MODIS L2P
+# Assumption: it is mounted.
+setenv GHRSST_PUBLIC_STORE_DATA_L2P /data/dev/tebaldi/processor/output/previously_processed
+setenv RDAC_INSTITUTION_NAME JPL
+
+# Resource directory needed for FNMOC related processing:
+#
+# The two files in this directory should be:
+#
+#    grdlat_sfc_000000_000000_1o3241x2441_00000000_datafld
+#    grdlon_sfc_000000_000000_1o3241x2441_00000000_datafld
+#
+# setenv FNMOC_LATLON_GRID_DEF_DIRECTORY $GHRSST_PERL_LIB_DIRECTORY/resources/
+
+##########################################################################################################
+#
+# GDS2 related settings.
+#
+##########################################################################################################
+
+# Environment to create the MODIS L2P in GDS2 format or not.
+# The default is to create the MODIS L2P in GDS1 format if not specified.
+setenv CREATE_MODIS_L2P_IN_GDS2_FORMAT true
+
+# Normally, the GDS2 files are not compressed.
+setenv FORCE_COMPRESS_GDS2_FORMAT_FLAG false
+
+# If the GDS2 is to be compressed, it defaults to BZ2 if not specified.
+setenv GHRSST_MODIS_L2P_COMPRESSION_TYPE BZ2
+
+# The GDS2 is internally compressed.  The default chunking level is 5 if not specified.
+setenv GHRSST_MODIS_L2P_CHUNKING_COMPRESSION_LEVEL 5
+
+# If the following 2 variables are set to false or not set at all,
+# the GDS2 file will contain these variables with fill values.
+setenv GHRSST_IGNORE_WRITE_WIND_SPEED_VARIABLE_IN_GDS2_FILE   false
+setenv GHRSST_IGNORE_WRITE_DT_ANALYSIS_VARIABLE_IN_GDS2_FILE  false
+
+# Environment to show debug printing while running IDL programs/functions.
+# If set to 'false' or not set at all, none of the printing will take place.
+# setenv GHRSST_MODIS_L2P_DEBUG_MODE 'false'
+setenv GHRSST_MODIS_L2P_DEBUG_MODE 'true'
+
+# Extra settings for moving MODIS L2P back to GAPIO for ancillary filling.
+# Set flag GAPPUSHL2PFORANCILLARYFILLING to 'true' for pushing back L2P to GAPIO
+# setenv GAPPUSHL2PFORANCILLARYFILLING 'false'    # Is this in use?
+
+# Directory to push MODIS L2P back to GAPIO for ancillary filling.
+# setenv GAPIO /rdac/incoming/data/apstage/   # Is this still in use?
+
+# Will use the new apply_scaling_from_short_to_byte() function to properly scale some
+# variables from short to byte and correct the scale_factor and add_offset values.
+setenv GHRSST_MODIS_L2P_CONVERTING_FROM_ORIGINAL_NETCDF_FILES true
