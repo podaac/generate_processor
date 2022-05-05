@@ -43,4 +43,4 @@ source $HOME/generate/workspace/generate/processor/config/processor_config
 
 touch $PROCESSOR_LOGGING/my_crontab_log_from_ghrsst_modis_refined_aqua_seatmp_manager
 
-perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_modis_refined_aqua_seatmp_manager.pl 100 yes >> $HOME/my_crontab_log_from_ghrsst_modis_refined_aqua_seatmp_manager   # NET Edit. (Added perl binary)
+perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_modis_refined_aqua_seatmp_manager.pl 100 yes >> $PROCESSOR_LOGGING/my_crontab_log_from_ghrsst_modis_refined_aqua_seatmp_manager   # NET Edit. (Added perl binary)
