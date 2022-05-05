@@ -749,7 +749,7 @@ if (2 EQ 3) then begin
   
   num_tokens = size(called_tokens,/N_ELEMENTS);
 
-  SYSTEM_COMMAND_PARTIAL_STRING = "idl_one_process_executor.sav -args ";
+  SYSTEM_COMMAND_PARTIAL_STRING = GETENV('GHRSST_IDL_LIB_DIRECTORY') + "/" + "idl_one_process_executor.sav -args ";
   operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING;
   arguments_string = '';
   token_minus_single_quotes = '';
@@ -837,7 +837,7 @@ print ,'idl_execute_sorted_similar_granules_jobs:N_ELEMENTS(i_sorted_granules_jo
 number_of_different_files = N_ELEMENTS(i_sorted_granules_jobs);
 
 ; For every different file, we send the list of via a file, containig jobs to one machine (one process) to execute.
-SYSTEM_COMMAND_PARTIAL_STRING = "idl_many_jobs_one_process_executor.sav -args ";
+SYSTEM_COMMAND_PARTIAL_STRING = GETENV('GHRSST_IDL_LIB_DIRECTORY') + "/" + "idl_many_jobs_one_process_executor.sav -args ";
 MAX_NUM_DIFFERENT_ANCILLARY_DATA_TYPES = 6; This is defined elsewhere in this file.
 
 print ,'idl_execute_sorted_similar_granules_jobs:number_of_different_files ',number_of_different_files;
@@ -958,7 +958,7 @@ if (actual_num_files GT 0) then begin
 
     ; For every different file, we send the list of via a file, containing jobs to one machine (one process) to execute.
 
-    SYSTEM_COMMAND_CHECK_JOB_COMPLETION = "idl_monitor_jobs_completion.sav -args ";
+    SYSTEM_COMMAND_CHECK_JOB_COMPLETION = GETENV('GHRSST_IDL_LIB_DIRECTORY') + "/" + "idl_monitor_jobs_completion.sav -args ";
 
     SPAWN, "cat " + filename_partial_job_completion_filelist;
 
@@ -1083,7 +1083,7 @@ endif
 ; Loop through each entry in the input array and pass the string to the worker via the SPAWN function.
 ;
 
-SYSTEM_COMMAND_PARTIAL_STRING = "idl_one_process_executor.sav -args ";
+SYSTEM_COMMAND_PARTIAL_STRING = GETENV('GHRSST_IDL_LIB_DIRECTORY') + "/" + "idl_one_process_executor.sav -args ";
 
 idl_command_str = ""; 
 operating_system_command = "";

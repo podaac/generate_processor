@@ -102,7 +102,8 @@ PRO ghrsst_processing_logger::write_to_log_file
 ; 3.  If GELA file does not already exist, an empty one will be created.
 ;
 
-    log_home = GETENV('SCRATCH_AREA');
+    log_home = GETENV('PROCESSING_LOGGER');
+    print, log_home
     l_do_not_care_status = actualize_directory(log_home);
     log_filename = GETENV('GAPFARMPROCESSINGLOGFILENAME');
     if (log_filename EQ '') then begin

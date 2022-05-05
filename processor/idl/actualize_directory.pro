@@ -20,7 +20,7 @@ FUNCTION actualize_directory,$
 r_status = SUCCESS;
 
 if (~FILE_TEST(i_directory_name)) then begin
-;    print, i_directory_name + " prior_to_birth";
+   print, i_directory_name + " prior_to_birth";
 ;    print, "Will be creating directory.";
     FILE_MKDIR, i_directory_name, /NOEXPAND_PATH;
 endif

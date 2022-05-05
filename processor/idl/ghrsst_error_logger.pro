@@ -112,7 +112,8 @@ PRO ghrsst_error_logger::write_to_log_file
         print, debug_module + 'Entering function.';
     endif
 
-    log_home = GETENV('SCRATCH_AREA');
+    log_home = GETENV('ERROR_LOGGER');
+    print, log_home
     l_do_not_care_status = actualize_directory(log_home);
     gela_filename = log_home + '/ghrsst_error_log_archive.txt';
 
