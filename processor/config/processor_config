@@ -6,7 +6,7 @@
 ################################################################################
 
 # Set environment for sigevent manager.
-setenv GHRSST_SIGEVENT_URL http://test.test.test:8080
+setenv GHRSST_SIGEVENT_URL podaac-test1.jpl.nasa.gov:8080/sigevent/
 
 # Flag to perform a move instead of copy when staging the HDF file to scratch.
 setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE yes    # (OPS.)
@@ -31,10 +31,20 @@ setenv SCRATCH_AREA         /data/dev/tebaldi/processor/scratch
 # setenv SCRATCH_ECMWF_WRITE_FLAG_FILE $SCRATCH_AREA/ecmwf_dataset_written
 # setenv SCRATCH_FNMOC_WRITE_FLAG_FILE $SCRATCH_AREA/fnmoc_dataset_written
 setenv QUICKLOOK_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_quicklook.dat
-setenv REFINED_FILE_ERROR_REGISTRY_FILENAME   $SCRATCH_AREA/ghrsst_master_error_file_registry_refined.dat
+setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_refined.dat
+
+# Empty email content location
+setenv EMPTY_EMAIL_LOCATION $SCRATCH_AREA/email
+
+# Path to log directory.
+setenv PROCESSOR_LOGGING /data/dev/tebaldi/processor/logs    # NET edit. (Local)
+# setenv PROCESSOR_LOGGING /data/logs    # NET edit. (Docker container)
+setenv SEATMP_LOGGING $PROCESSOR_LOGGING/seatmp_manager
+setenv PROCESSING_LOGGER $PROCESSOR_LOGGING/processing_logs    # ghrsst_processing_logger.pro
+setenv ERROR_LOGGER $PROCESSOR_LOGGING/error_logs    # ghrsst_error_logger.pro
 
 # Environment for logging
-setenv GAPFARMPROCESSINGLOGFILENAME /data/dev/tebaldi/processor/logs/task_farm/ghrsst_processing_log_archive.txt # Set to the name of the log file where each MODIS L2P job will log to.
+setenv GAPFARMPROCESSINGLOGFILENAME ghrsst_processing_log_archive.txt # Set to the name of the log file where each MODIS L2P job will log to.
 
 # Flag to determine if MODIS L2P should be sent and to what machine.
 # Set this to true to push the MODIS L2P to melia once it is created.
@@ -69,13 +79,13 @@ setenv SEMAPHORE_LOCK_COMMON_AREA /data/dev/tebaldi/processor/scratch/locks
 
 # Environments for monitor programs.  The list of names in these settings is to control
 # who gets notified about what.
-setenv MACHINE "test-test-test"
+setenv MACHINE "podaac-dev2"
 setenv GENERATE_VERSION "Generate Cloud"
 
-setenv OPS_DISK_MONITOR_EMAIL_LIST  "test@test.com"
-setenv OPS_MAF_MONITOR_EMAIL_LIST   "test@test.com"
-setenv OPS_MODIS_MONITOR_EMAIL_LIST "test@test.com"
-setenv OPSMAILSRC                   "test@test.com"
+setenv OPS_DISK_MONITOR_EMAIL_LIST  "nicole.tebaldi@jpl.nasa.gov"
+setenv OPS_MAF_MONITOR_EMAIL_LIST   "nicole.tebaldi@jpl.nasa.gov"
+setenv OPS_MODIS_MONITOR_EMAIL_LIST "nicole.tebaldi@jpl.nasa.gov"
+setenv OPSMAILSRC                   "nicole.tebaldi@jpl.nasa.gov"
 
 # Directory to look for "filled" Quicklook MODIS L2P
 # Assumption: it is mounted.
@@ -130,3 +140,7 @@ setenv GHRSST_MODIS_L2P_DEBUG_MODE 'true'
 # Will use the new apply_scaling_from_short_to_byte() function to properly scale some
 # variables from short to byte and correct the scale_factor and add_offset values.
 setenv GHRSST_MODIS_L2P_CONVERTING_FROM_ORIGINAL_NETCDF_FILES true
+
+# 2019 naming scheme
+setenv GHRSST_OBPG_USE_2019_NAMING_PATTERN true
+setenv GHRSST_WRITE_COVERAGE_CONTENT_TYPE_FLAG true

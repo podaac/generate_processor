@@ -76,7 +76,8 @@ MODIS_T_REPROCESSED_SEATMP_DATASETS_DIRECTORY /data/dev/tebaldi/processor/input/
 # file is already uncompressed either by the data provider or a local
 # uncompressor machine.
 
-UNCOMPRESS_MODIS_INPUT_FILE_FLAG yes
+# UNCOMPRESS_MODIS_INPUT_FILE_FLAG yes
+UNCOMPRESS_MODIS_INPUT_FILE_FLAG no    # NET edit. (Input already decompressed)
 
 # Flag to either uncompress the Filled Quicklook file or not right after staging.
 # This gives us the ability turn the uncompression off if the input
