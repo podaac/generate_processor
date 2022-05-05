@@ -55,11 +55,11 @@ sub is_granule_night_or_day {
 
     my @args = ("/usr/local/bin/idl");
 
-    if ($GHRSST_PERL_LIB_DIRECTORY == '') {
-        $GHRSST_PERL_LIB_DIRECTORY = $ENV{GHRSST_PERL_LIB_DIRECTORY};
-    }
+    # if ($GHRSST_PERL_LIB_DIRECTORY == '') {
+    #     $GHRSST_PERL_LIB_DIRECTORY = $ENV{GHRSST_PERL_LIB_DIRECTORY};
+    # }
 
-    $rt_flag = "-rt=$GHRSST_PERL_LIB_DIRECTORY/is_granule_night_or_day.sav";
+    $rt_flag = "-rt=$ENV{GHRSST_IDL_LIB_DIRECTORY}/is_granule_night_or_day.sav";        # NET edit. (IDL directory)
     $call_system_command_str = "$args[0] $rt_flag $idl_argument_strings";
 
 print "call_system_command_str [$call_system_command_str]\n";

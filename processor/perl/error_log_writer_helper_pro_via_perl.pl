@@ -33,7 +33,7 @@ sub error_log_writer_helper_pro_via_perl {
     # Set the argument and the runtime flag.
 
     my $idl_argument_strings = "-args \"$i_calle_name\" \"$i_error_reason\" ";
-    my $rt_flag = "-quiet -rt=$GHRSST_PERL_LIB_DIRECTORY/error_log_writer_helper_pro.sav";
+    my $rt_flag = "-quiet -rt=$ENV{GHRSST_IDL_LIB_DIRECTORY}/error_log_writer_helper_pro.sav";    # NET edit. (IDL directory)
 
     # Set the system command string.
 

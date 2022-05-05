@@ -31,7 +31,7 @@ sub append_heart_beat {
     my $i_heart_beat_filename = $_[0];
     my $i_heart_beat_message  = $_[1];
 
-$i_heart_beat_filename =  "$ENV{HOME}/heart_beat.txt";
+$i_heart_beat_filename =  "$ENV{SCRATCH_AREA}/heart_beat.txt";    # NET edit. (Place in scratch)
 
     #
     # Local variable(s).

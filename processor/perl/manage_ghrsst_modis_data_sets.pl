@@ -86,7 +86,7 @@ sub manage_ghrsst_modis_data_sets {
     my $debug_module = "manage_ghrsst_modis_data_sets:";
     my $debug_mode   = 0;
 
-print "manage_ghrsst_modis_data_sets: i_test_parameter [$i_test_parameter]\n";
+    print "manage_ghrsst_modis_data_sets: i_test_parameter [$i_test_parameter]\n";
 
     my $file_search_directory = "DUMMY";
     my $modis_search_directory = "DUMMY";
@@ -166,7 +166,7 @@ print "manage_ghrsst_modis_data_sets: i_test_parameter [$i_test_parameter]\n";
     # Extract everything except the last two characters from the l_partial_directory_name
     # since we don't want the "_a" or "_t" from the name.
 
-#    my $source_name = substr($l_partial_directory_name,0,length($l_partial_directory_name)-2);
+    #    my $source_name = substr($l_partial_directory_name,0,length($l_partial_directory_name)-2);
     my $source_name = get_actual_source_name($l_partial_directory_name);
 
     ($l_status,$tmp_filelist) = take_directory_snapshot(
@@ -188,7 +188,7 @@ print "manage_ghrsst_modis_data_sets: i_test_parameter [$i_test_parameter]\n";
         print $debug_module . "sort_flag              [$sort_flag]\n";
         print $debug_module . "l_current_time         [$l_current_time]\n";
     }
-#    exit(0);
+    #    exit(0);
 
     if ($i_test_parameter eq "FAILED_TAKE_DIRECTORY_SNAPSHOT") { $l_status = 1; }
 
@@ -360,76 +360,75 @@ print "manage_ghrsst_modis_data_sets: i_test_parameter [$i_test_parameter]\n";
 
     # Add to heart beat.
 
-#    my $l_heart_beat_status = append_heart_beat("dummy","manage_ghrsst_modis_data_sets, MODIS_L2P_JOB_BEGIN $i_processing_type $i_datasource $i_use_cluster_flag, $num_datasets_to_process datasets");
+    #    my $l_heart_beat_status = append_heart_beat("dummy","manage_ghrsst_modis_data_sets, MODIS_L2P_JOB_BEGIN $i_processing_type $i_datasource $i_use_cluster_flag, $num_datasets_to_process datasets");
 
     # Call IDL if anything to process.
 
     # ---> Begin IDL call block 
     if ($num_datasets_to_process > 0) {
 
-    $idl_argument_strings = "-args \"$tmp_uncompressed_bzip_filelist\" \"$source_and_type\" \"$i_convert_to_kelvin\" \"$L2P_registry\" \"$i_compress_flag\" \"$i_processing_type\" \"$i_use_cluster_flag\" ";
+        $idl_argument_strings = "-args \"$tmp_uncompressed_bzip_filelist\" \"$source_and_type\" \"$i_convert_to_kelvin\" \"$L2P_registry\" \"$i_compress_flag\" \"$i_processing_type\" \"$i_use_cluster_flag\" ";
 
-    #
-    # Pass the list of MODIS data files and have them processed by the IDL program. 
-    #
+        #
+        # Pass the list of MODIS data files and have them processed by the IDL program. 
+        #
 
-#print "calling process_modis_datasets.pro with modis_filelist\n";
+        #print "calling process_modis_datasets.pro with modis_filelist\n";
 
-print "manage_ghrsst_modis_data_sets: Running process_modis_datasets IDL script...\n\n";
+        print "manage_ghrsst_modis_data_sets: Running process_modis_datasets IDL script...\n\n";
 
-    @args = ("/usr/local/bin/idl");
+        @args = ("/usr/local/bin/idl");
 
-#    print "args[0] = $args[0]\n";
+        #    print "args[0] = $args[0]\n";
 
-    $rt_flag = "-rt=$GHRSST_PERL_LIB_DIRECTORY/process_modis_datasets.sav";
-    $call_system_command_str = "$args[0] $rt_flag $idl_argument_strings";
+        $rt_flag = "-rt=$ENV{GHRSST_IDL_LIB_DIRECTORY}/process_modis_datasets.sav";    # NET edit. (IDL directory)
+        $call_system_command_str = "$args[0] $rt_flag $idl_argument_strings";
 
-#    system("$call_system_command_str");
-#    my $sys_stat = $? >> 8;
-#
-#    if ($sys_stat != 1) {
-#        print "manage_ghrsst_modis_data_sets: sys_stat is not equal to 1.  sys_stat = $sys_stat\n";
-#    } else {
-#        print "manage_ghrsst_modis_data_sets: sys_stat is equal to 1\n";
-#    }
+        #    system("$call_system_command_str");
+        #    my $sys_stat = $? >> 8;
+        #
+        #    if ($sys_stat != 1) {
+        #        print "manage_ghrsst_modis_data_sets: sys_stat is not equal to 1.  sys_stat = $sys_stat\n";
+        #    } else {
+        #        print "manage_ghrsst_modis_data_sets: sys_stat is equal to 1\n";
+        #    }
 
 
-    if ($i_test_parameter eq "FAILED_IDL_EXECUTION") {
-        # This is a no-op 
-        my $dummy_variable = 0;
-    } else {
-        # Only make the system call if we are not testing the FAILED_IDL_EXECUTION parameter.
-        system("$call_system_command_str");
-    }
+        if ($i_test_parameter eq "FAILED_IDL_EXECUTION") {
+            # This is a no-op 
+            my $dummy_variable = 0;
+        } else {
+            # Only make the system call if we are not testing the FAILED_IDL_EXECUTION parameter.
+            system("$call_system_command_str");
+        }
 
-    #
-    # Check for errors.
-    #
+        #
+        # Check for errors.
+        #
 
-    if ($? == -1) {
-            print "manage_ghrsst_modis_data_sets: system [$call_system_command_str] failed to execute: $?\n";
-            $o_status = 1;
-    } elsif ($? == 256){
-            print "manage_ghrsst_modis_data_sets: Cannot find file in system [$call_system_command_str].\n";
-            $o_status = 1;
-    } elsif ($? == 0){
-#            print "manage_ghrsst_modis_data_sets: system $args[0] < $args[1] executed with: $?\n";
-#            print "manage_ghrsst_modis_data_sets: Everything is OK.\n";
-            $o_status = 0;
-    } else {
-            print "manage_ghrsst_modis_data_sets: system [$call_system_command_str] executed with: $?\n";
-            $o_status = 1;
-    }
+        if ($? == -1) {
+                print "manage_ghrsst_modis_data_sets: system [$call_system_command_str] failed to execute: $?\n";
+                $o_status = 1;
+        } elsif ($? == 256){
+                print "manage_ghrsst_modis_data_sets: Cannot find file in system [$call_system_command_str].\n";
+                $o_status = 1;
+        } elsif ($? == 0){
+                # print "manage_ghrsst_modis_data_sets: system $args[0] < $args[1] executed with: $?\n";
+                # print "manage_ghrsst_modis_data_sets: Everything is OK.\n";
+                $o_status = 0;
+        } else {
+                print "manage_ghrsst_modis_data_sets: system [$call_system_command_str] executed with: $?\n";
+                $o_status = 1;
+        }
 
-#  Must shift 8 bits to get the actual value.
+        #  Must shift 8 bits to get the actual value.
 
-#printf "manage_ghrsst_modis_data_sets: child exited with value %d\n", $?;
-#printf "manage_ghrsst_modis_data_sets: child exited with value shifted %d\n", $? >> 8;
+        #printf "manage_ghrsst_modis_data_sets: child exited with value %d\n", $?;
+        #printf "manage_ghrsst_modis_data_sets: child exited with value shifted %d\n", $? >> 8;
 
-#print "done calling process_modis_datasets.pro with modis_filelist\n";
+        #print "done calling process_modis_datasets.pro with modis_filelist\n";
 
-    }
-    # ---> End IDL call block 
+    } # ---> End IDL call block 
 
     # Time-related calculations for heart_beat.
 

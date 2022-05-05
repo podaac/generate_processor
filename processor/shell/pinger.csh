@@ -62,7 +62,7 @@ echo "percent_loss [$percent_loss]"
 echo "SEND_MAIL_FLAG_VALUE [$SEND_MAIL_FLAG_VALUE]"
 
 # Create an empty email content.
-set empty_mail_content = $HOME/empty_file_used_in_sending_out_blank_email
+set empty_mail_content = $EMPTY_EMAIL_LOCATION/empty_file_used_in_sending_out_blank_email
 
 # Check for the percent loss value.  Send email if not equal to 0%.
 
@@ -96,7 +96,7 @@ if $percent_loss == "0%" then
 else
 
  # Only send the email if it hasn't been sent already to prevent email flood. 
- if (!(-e $HOME/empty_file_used_in_sending_out_blank_email)) then
+ if (!(-e $EMPTY_EMAIL_LOCATION/empty_file_used_in_sending_out_blank_email)) then
     # Create an empty email content.
 
     touch $empty_mail_content

@@ -9,32 +9,29 @@
 #
 # C-shell script to start the Quicklook MODIS Aqua processing script.
 
-
-#setenv TASKDL2_DIR /usr/depot/cots/redhat/taskdl/2.0.0
+# Envrionment variables
 setenv TASKDL2_DIR /usr/depot/cots/redhat/taskdl/taskdl-jpl 
-#setenv HOST seaworld.jpl.nasa.gov
+source $HOME/generate/workspace/generate/processor/config/processor_config
 
-source $HOME/define_ghrsst_operation_environment
-
+# # *** COMMENTING OUT FOR TESTING AS SFTP IS NOT NEEDED *** # #
 # Make sure the machine we will be pushing the L2P to is alive and well.  Exit if machine is down.
 # Split the environment SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO with the equal sign, then further split by the @ symbol in the 
-# value 'gftpin@seatide.jpl.nasa.gov' to get access to the host name.
+# value 'sftp@test.test.com' to get access to the host name.
 #
 # % printenv | grep SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO
-# SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO=gftpin@seatide.jpl.nasa.gov
-#
+# SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO=sftp@test.test.com
 
-set host_to_ping = `printenv | grep SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO | awk '{split ($0,a,"="); print a[2]}' | awk '{split ($0,b,"@"); print b[2]}'`
-echo "host_to_ping [$host_to_ping]"
+# set host_to_ping = `printenv | grep SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO | awk '{split ($0,a,"="); print a[2]}' | awk '{split ($0,b,"@"); print b[2]}'`
+# echo "host_to_ping [$host_to_ping]"
 
-source $GHRSST_PERL_LIB_DIRECTORY/pinger.csh $host_to_ping $OPS_MODIS_MONITOR_EMAIL_LIST
+# source $GHRSST_PERL_LIB_DIRECTORY/pinger.csh $host_to_ping $OPS_MODIS_MONITOR_EMAIL_LIST
 
-# The exit status of the previous command will be 1 if machine is down.  We exit.
+# # The exit status of the previous command will be 1 if machine is down.  We exit.
 
-if ($status == 1) then
-   echo "Something is wrong.  Status of $GHRSST_PERL_LIB_DIRECTORY/pinger.csh is [$status].  Must exit."
-   exit 1
-endif
+# if ($status == 1) then
+#    echo "Something is wrong.  Status of $GHRSST_PERL_LIB_DIRECTORY/pinger.csh is [$status].  Must exit."
+#    exit 1
+# endif
 
 # Continue as normal.
 
@@ -45,6 +42,6 @@ setenv GAPFARMUSEMULTIPROCESSESEXECUTOR TRUE
 # The touch command is to create a log file if one does not exist already.
 # The >> re-direction of the perl script below requires that the file exist.
 
-touch $HOME/my_crontab_log_from_ghrsst_modis_aqua_seatmp_manager
+touch $PROCESSOR_LOGGING/my_crontab_log_from_ghrsst_modis_aqua_seatmp_manager
 
-$GHRSST_PERL_LIB_DIRECTORY/ghrsst_modis_aqua_seatmp_manager.pl 15 yes >> $HOME/my_crontab_log_from_ghrsst_modis_aqua_seatmp_manager
+perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_modis_aqua_seatmp_manager.pl 15 yes >> $PROCESSOR_LOGGING/my_crontab_log_from_ghrsst_modis_aqua_seatmp_manager    # NET edit. (Added perl binary)
