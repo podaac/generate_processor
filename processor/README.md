@@ -1,0 +1,50 @@
+# processor
+
+The processor processes the files produced from the Processor to create 3 datasets depending on the input parameters: 
+1. MODIS_T-JPL-L2P-v2019.0;	https://podaac.jpl.nasa.gov/dataset/MODIS_T-JPL-L2P-v2019.0
+2. MODIS_A-JPL-L2P-v2019.0;	https://podaac.jpl.nasa.gov/dataset/MODIS_A-JPL-L2P-v2019.0
+3. VIIRS_NPP-JPL-L2P-v2016.2; https://podaac.jpl.nasa.gov/dataset/VIIRS_NPP-JPL-L2P-v2016.2
+
+## pre-requisites to building
+
+An IDL license for executing IDL within the Docker container. This can be accomplished by mounting your local IDL installation into the Docker container.
+
+The following IDL files must be compiled to `.sav` files:
+- error_log_writer_helper_pro.sav
+- is_granule_night_or_day.sav
+- process_modis_datasets.sav
+- idl_one_process_executor.sav
+- idl_many_jobs_one_process_executor.sav
+- idl_monitor_jobs_completion.sav
+
+To compile IDL files:
+1. `cd` to the IDL directory (`processor/idl`).
+2. Execute `idl`.
+3. Inside the IDL command prompt, execute: `.FULL_RESET_SESSION`
+4. Inside the IDL command prompt, execute: `.COMPILE {file name without '.pro' extension}` 
+    1. Example: `.COMPILE process_modis_datasets`
+5. Inside the IDL command prompt, execute: `RESOLVE_ALL`
+6. Inside the IDL command prompt, execute: `SAVE, /ROUTINES, FILENAME='{file name}.sav'`
+    1. Example: `SAVE, /ROUTINES, FILENAME='process_modis_datasets.sav'`
+
+## build command
+
+`docker build --tag processor:0.1 . `
+
+## execute command
+
+MODIS A: 
+`docker run --name gen-proc -v /processor/input:/data/input -v /processor/output:/data/output -v /processor/logs:/data/logs -v /processor/scratch:/data/scratch -v /usr/local:/usr/local processor:0.1 15 yes MODIS_A QUICKLOOK no`
+`docker run --name gen-proc -v /processor/input:/data/input -v /processor/output:/data/output -v /processor/logs:/data/logs -v /processor/scratch:/data/scratch -v /usr/local:/usr/local processor:0.1 100 yes MODIS_A REFINED no`
+
+MODIS T: 
+`docker run --name gen-proc -v /processor/input:/data/input -v /processor/output:/data/output -v /processor/logs:/data/logs -v /processor/scratch:/data/scratch -v /usr/local:/usr/local processor:0.1 15 yes MODIS_T QUICKLOOK no`
+`docker run --name gen-proc -v /processor/input:/data/input -v /processor/output:/data/output -v /processor/logs:/data/logs -v /processor/scratch:/data/scratch -v /usr/local:/usr/local processor:0.1 100 yes MODIS_T REFINED no`
+
+VIIRS: 
+`docker run --name gen-proc -v /processor/input:/data/input -v /processor/output:/data/output -v /processor/logs:/data/logs -v /processor/scratch:/data/scratch -v /usr/local:/usr/local processor:0.1 50 yes VIIRS QUICKLOOK no`
+`docker run --name gen-proc -v /processor/input:/data/input -v /processor/output:/data/output -v /processor/logs:/data/logs -v /processor/scratch:/data/scratch -v /usr/local:/usr/local processor:0.1 50 yes VIIRS REFINED no`
+
+**NOTES**
+- In order for the commands to execute the `/processor/` directories will need to point to actual directories on the system.
+- The `/usr/local` directory contains the IDL license requirements.

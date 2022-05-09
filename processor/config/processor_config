@@ -13,22 +13,17 @@ setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE yes    # (OPS.)
 #setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE no    # (DEV.)
 
 # Points Processor 'root' directory and to where the Perl & IDL codes are installed.
-setenv PROCESSOR_DIRECTORY $HOME/generate/workspace/generate/processor    # NET edit. (Local)
-# setenv PROCESSOR_DIRECTORY /app    # NET edit. (Docker container)
-setenv GHRSST_PERL_LIB_DIRECTORY $PROCESSOR_DIRECTORY/perl    # NET edit. (Local)
-# setenv GHRSST_PERL_LIB_DIRECTORY /app/perl    # NET edit. (Docker container)
-setenv GHRSST_IDL_LIB_DIRECTORY $PROCESSOR_DIRECTORY/idl    # NET edit. (Local)
-# setenv GHRSST_IDL_LIB_DIRECTORY /app/idl    # NET edit. (Docker container)
-setenv GHRSST_SHELL_LIB_DIRECTORY $PROCESSOR_DIRECTORY/shell    # NET edit. (Local)
-# setenv GHRSST_SHELL_LIB_DIRECTORY /app/shell    # NET edit. (Docker container)
+setenv GHRSST_PERL_LIB_DIRECTORY /app/perl
+setenv GHRSST_IDL_LIB_DIRECTORY /app/idl
+setenv GHRSST_SHELL_LIB_DIRECTORY /app/shell
 
 # Configuration files
-setenv GHRSST_DATA_CONFIG_FILE $PROCESSOR_DIRECTORY/config/ghrsst_data_config_file.dat
-setenv MAF_THRESHOLD_CONFIG_FILE $PROCESSOR_DIRECTORY/config/maf_threshold_config.dat
-setenv GHRSST_CLUSTER_HOST_FILENAME_LIST $PROCESSOR_DIRECTORY/config/host_list.txt
+setenv GHRSST_DATA_CONFIG_FILE /app/config/ghrsst_data_config_file.dat
+setenv MAF_THRESHOLD_CONFIG_FILE /app/config/maf_threshold_config.dat
+setenv GHRSST_CLUSTER_HOST_FILENAME_LIST /app/config/host_list.txt
 
 # Scratch directory to store temporary files, MAFs and registry.
-setenv SCRATCH_AREA         /data/dev/tebaldi/processor/scratch     
+setenv SCRATCH_AREA         /data/scratch     
 setenv QUICKLOOK_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_quicklook.dat
 setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_refined.dat
 
@@ -36,7 +31,7 @@ setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_fi
 setenv EMPTY_EMAIL_LOCATION $SCRATCH_AREA/email
 
 # Path to log directory.
-setenv PROCESSOR_LOGGING /data/dev/tebaldi/processor/logs    # NET edit. (Local)
+setenv PROCESSOR_LOGGING /data/logs    # NET edit. (Local)
 # setenv PROCESSOR_LOGGING /data/logs    # NET edit. (Docker container)
 setenv SEATMP_LOGGING $PROCESSOR_LOGGING/seatmp_manager
 setenv PROCESSING_LOGGER $PROCESSOR_LOGGING/processing_logs    # ghrsst_processing_logger.pro
@@ -77,11 +72,11 @@ setenv SEND_MODIS_L2P_SFTP_AUTHENTICATION_INFO test@test.test.com
 setenv MODIS_CURRENT_JOBS_DIR $SCRATCH_AREA/current_jobs
 
 # Directory holding the MODIS L2P Core: assumption, this directory must have been created already.
-setenv MODIS_SEATMP_L2P_CORE_DIRECTORY /data/dev/tebaldi/processor/output/MODIS_L2P_CORE_NETCDF
-setenv VIIRS_SEATMP_L2P_CORE_DIRECTORY /data/dev/tebaldi/processor/output/VIIRS_L2P_CORE_NETCDF
+setenv MODIS_SEATMP_L2P_CORE_DIRECTORY /data/output/MODIS_L2P_CORE_NETCDF
+setenv VIIRS_SEATMP_L2P_CORE_DIRECTORY /data/output/VIIRS_L2P_CORE_NETCDF
 
 # Directories to hold common locks.
-setenv SEMAPHORE_LOCK_COMMON_AREA /data/dev/tebaldi/processor/scratch/locks
+setenv SEMAPHORE_LOCK_COMMON_AREA /data/scratch/locks
 
 # Environments for monitor programs.  The list of names in these settings is to control
 # who gets notified about what.
@@ -95,7 +90,7 @@ setenv OPSMAILSRC                   "nicole.tebaldi@jpl.nasa.gov"
 
 # Directory to look for "filled" Quicklook MODIS L2P
 # Assumption: it is mounted.
-setenv GHRSST_PUBLIC_STORE_DATA_L2P /data/dev/tebaldi/processor/output/previously_processed
+setenv GHRSST_PUBLIC_STORE_DATA_L2P /data/output/previously_processed
 setenv RDAC_INSTITUTION_NAME JPL
 
 ################################################################################

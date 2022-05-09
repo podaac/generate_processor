@@ -39,7 +39,7 @@ echo "processing_type                  = $processing_type"
 echo "run_this_jobs_in_parallel        = $run_this_jobs_in_parallel"
 
 # Config file
-source $HOME/generate/workspace/generate/processor/config/processor_config
+source /app/config/processor_config
 
 # Make sure the machine we will be pushing the L2P to is alive and well.  
 # Ignore if running a test execution and Exit if machine is down.
