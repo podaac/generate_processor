@@ -11,19 +11,6 @@
 # This is a C-shell to ping seatide/seafire (or any other host) to make sure it is alive before proceeding with other processing.
 # It is helpful to know if these machines are up before proceeding with creating MODIS L2P or doing Ancillary Filling Processing.
 #
-# Example:
-# 
-#  lapinta{}% ping -c 10 lanina 
-#
-#  PING lanina (128.149.132.99) 56(84) bytes of data.
-#
-#  64 bytes from lanina (128.149.132.99): icmp_seq=0 ttl=64 time=0.162 ms
-#  64 bytes from lanina (128.149.132.99): icmp_seq=1 ttl=64 time=0.167 ms
-#
-#  --- lanina ping statistics ---
-#  2 packets transmitted, 2 received, 0% packet loss, time 1000ms
-#  rtt min/avg/max/mdev = 0.162/0.164/0.167/0.013 ms, pipe 2
-
 # First parameter is the host name to ping
 # Second parameter is the list of email addresses to send out if the host is down.
 # Third optional paramter is send_mail_if_alive if wish to receive email if the host is up.
@@ -81,7 +68,7 @@ if $percent_loss == "0%" then
     echo "machine $host_name is alive and well" 
 
     # Send a short email to notify someone that is is alive and well.
-    mail -s "$ENV{'MACHINE'} - $ENV{'GENERATE_VERSION'} Alert: Machine $host_name is alive and well" $recipient_names  < $empty_mail_content
+    mail -s "$MACHINE - $GENERATE_VERSION Alert: Machine $host_name is alive and well" $recipient_names  < $empty_mail_content
 
     # Don't forget to remove temporary empty file.
     rm -f $empty_mail_content
@@ -105,7 +92,7 @@ else
     echo "machine $host_name is down" 
 
     # Send a short email to notify someone that is is down.
-    mail -s "$ENV{'MACHINE'} - $ENV{'GENERATE_VERSION'} Alert: Machine $host_name is down" $recipient_names < $empty_mail_content
+    mail -s "$MACHINE - $GENERATE_VERSION Alert: Machine $host_name is down" $recipient_names < $empty_mail_content
 
     # Cannot continue, must exit.  Exit with value 1 so subsequent command can check for $status and not continue.
     exit 1
