@@ -31,9 +31,9 @@ sub generic_get_registry_filename {
     # Depend on the data source and processing type, use different registries.
     if ($i_data_source eq "MODIS_A" or $i_data_source eq "MODIS_T") {
         if ($i_processing_type eq "QUICKLOOK") {
-            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_list_processed_files.dat";
+            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_quicklook_list_processed_files.dat";
         } elsif ($i_processing_type eq "REFINED") {
-            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_refined_list_processed_files.dat";
+            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_refined_list_processed_files.dat";
         }
     } elsif ($i_data_source eq "VIIRS") {
         if ($i_processing_type eq "QUICKLOOK") {
