@@ -35,6 +35,10 @@ set host_name       = $1
 set recipient_names = $2
 set send_if_alive   = $3
 
+# Start postfix
+
+/etc/init.d/postfix start
+
 # Set the value of flag to send email
 
 set SEND_MAIL_FLAG_VALUE = "send_mail_if_alive" 
@@ -49,6 +53,7 @@ echo "percent_loss [$percent_loss]"
 echo "SEND_MAIL_FLAG_VALUE [$SEND_MAIL_FLAG_VALUE]"
 
 # Create an empty email content.
+
 set empty_mail_content = $EMPTY_EMAIL_LOCATION/empty_file_used_in_sending_out_blank_email
 
 # Check for the percent loss value.  Send email if not equal to 0%.
@@ -68,7 +73,7 @@ if $percent_loss == "0%" then
     echo "machine $host_name is alive and well" 
 
     # Send a short email to notify someone that is is alive and well.
-    mail -s "$MACHINE - $GENERATE_VERSION Alert: Machine $host_name is alive and well" $recipient_names  < $empty_mail_content
+    mail -s "$MACHINE - $GENERATE_VERSION Alert: Machine $host_name is alive and well" $recipient_names -a FROM:processor@generate.app < $empty_mail_content
 
     # Don't forget to remove temporary empty file.
     rm -f $empty_mail_content
@@ -77,9 +82,13 @@ if $percent_loss == "0%" then
   # Don't forget to remove temporary empty file because the machine is alive and we are resetting to as if everything was fine.
   rm -f $empty_mail_content
 
-  # Exit normally.
+ # Stop postfix
+  sleep 5
+  /etc/init.d/postfix stop 
 
+  # Exit normally.
   exit 0
+
 else
 
  # Only send the email if it hasn't been sent already to prevent email flood. 
@@ -92,12 +101,21 @@ else
     echo "machine $host_name is down" 
 
     # Send a short email to notify someone that is is down.
-    mail -s "$MACHINE - $GENERATE_VERSION Alert: Machine $host_name is down" $recipient_names < $empty_mail_content
+    mail -s "$MACHINE - $GENERATE_VERSION Alert: Machine $host_name is down" $recipient_names -a FROM:processor@generate.app < $empty_mail_content
+
+    # Stop postfix
+    sleep 5
+    /etc/init.d/postfix stop
 
     # Cannot continue, must exit.  Exit with value 1 so subsequent command can check for $status and not continue.
     exit 1
  else
     echo "machine $host_name is down and the email already has been sent" 
+
+    # Stop postfix
+    sleep 5
+    /etc/init.d/postfix stop
+
     # Cannot continue, must exit.  Exit with value 1 so subsequent command can check for $status and not continue.
     exit 1
  endif

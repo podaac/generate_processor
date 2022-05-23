@@ -48,3 +48,4 @@ VIIRS:
 **NOTES**
 - In order for the commands to execute the `/processor/` directories will need to point to actual directories on the system.
 - The `/usr/local` directory contains the IDL license requirements.
+- The Procesor component currently uses postfix and mailutils to send some notifications via email. It may make sense to move the mail functionality out of the container and let the Generate cloud infrastructure handling email notifications.
