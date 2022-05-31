@@ -139,7 +139,7 @@ FUNCTION  modis_notify_operator, routine_name, msg_type, msg, email, sigevent, t
       sigevt_type        = msg_type
       sigevt_source      = 'GHRSST-PROCESSING'
       sigevt_provider    = provider
-      sigevt_computer    = hostname
+      sigevt_computer    = 'processor-container'
 ;;;ckt,feb2011      sigevt_description = '***** '+routine_name+': '+desc
       sigevt_description = desc
 
@@ -212,6 +212,8 @@ FUNCTION  modis_notify_operator, routine_name, msg_type, msg, email, sigevent, t
 
           SPAWN,'curl  ' + curl_service_call + " >& /dev/null "; 
 
+          print, "CURL CALL: ", curl_service_call
+
       endif else begin 
           ; If the data content is small, we can send it as part of the data= parameter.
 
@@ -241,6 +243,8 @@ FUNCTION  modis_notify_operator, routine_name, msg_type, msg, email, sigevent, t
 
           resp               = oUrl->Get(URL=rest_service_call,/STRING_ARRAY)
           msg2               = ['   SigEvent URL','        '+rest_service_call,'   SigEvent Return Value','        '+resp]
+
+          print, "REST SERVICE CALL: ", rest_service_call
 
 ;print, 'rest_service_call [', rest_service_call, "]";
 

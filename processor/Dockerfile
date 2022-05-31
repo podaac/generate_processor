@@ -1,7 +1,7 @@
 # Stage 0 - Create from Perl 5.34.1-slim-buster image and install dependencies
 # FROM perl:5.34.1-slim-buster as stage0
 FROM perl:5.34.1-slim-buster
-RUN apt update && apt install -y tcsh libfreetype6 libxpm4 libxmu6 libidn11 procps iputils-ping
+RUN apt update && apt install -y tcsh libfreetype6 libxpm4 libxmu6 libidn11 procps iputils-ping curl
 RUN ln -s /usr/lib/x86_64-linux-gnu/libXpm.so.4.11.0 /usr/lib/x86_64-linux-gnu/libXp.so.6
 
 # Stage 1 - postfix/mailutils setup
@@ -12,7 +12,9 @@ RUN echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-s
     && apt install -y postfix \
     && /usr/sbin/postconf -e "inet_interfaces = loopback-only" \
     && /usr/sbin/postconf -e "local_transport = error:local delivery is disabled" \
-    && apt install -y mailutils
+    && apt install -y mailutils \
+    && /usr/bin/mkfifo /var/spool/postfix/public/pickup \
+    && /usr/sbin/service postfix restart
 
 # Stage 2 - Copy Generate code
 # FROM stage1 as stage2
