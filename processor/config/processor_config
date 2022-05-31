@@ -31,8 +31,7 @@ setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_fi
 setenv EMPTY_EMAIL_LOCATION $SCRATCH_AREA/email
 
 # Path to log directory.
-setenv PROCESSOR_LOGGING /data/logs    # NET edit. (Local)
-# setenv PROCESSOR_LOGGING /data/logs    # NET edit. (Docker container)
+setenv PROCESSOR_LOGGING /data/logs
 setenv SEATMP_LOGGING $PROCESSOR_LOGGING/seatmp_manager
 setenv PROCESSING_LOGGER $PROCESSOR_LOGGING/processing_logs    # ghrsst_processing_logger.pro
 setenv ERROR_LOGGER $PROCESSOR_LOGGING/error_logs    # ghrsst_error_logger.pro
@@ -80,7 +79,7 @@ setenv SEMAPHORE_LOCK_COMMON_AREA /data/scratch/locks
 
 # Environments for monitor programs.  The list of names in these settings is to control
 # who gets notified about what.
-setenv MACHINE "podaac-dev2"
+setenv MACHINE "podaac-devwhale2"
 setenv GENERATE_VERSION "Generate Cloud"
 
 setenv OPS_DISK_MONITOR_EMAIL_LIST  "nicole.tebaldi@jpl.nasa.gov"
