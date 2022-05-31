@@ -23,62 +23,21 @@ $GHRSST_PERL_LIB_DIRECTORY = $ENV{GHRSST_PERL_LIB_DIRECTORY};
 do "$GHRSST_PERL_LIB_DIRECTORY/get_error_file_registry_filename.pl";
 
 sub email_ops_to_report_error {
-
-    #
-    # Get input.
-    #
     
+    # Get input.
     my $ref_error_message = shift;
 
     # Dereference the input.
     my @l_error_message = @$ref_error_message;
 
-    ##########################################################################################
-    # Build the from and to strings.
-    ##########################################################################################
+    # Write the message to a file.
+    my $message = join(" ",@l_error_message);
+    my $mail_file = "$ENV{'EMPTY_EMAIL_LOCATION'}/email_ops_error_report.txt";
+    open(fh, ">", $mail_file);
+    print fh $message;
+    close(fh) or "ERROR: Could not close file to send email error.";
 
-    # Build the to string.
- 
-    my $address_to   = $ENV{OPS_MODIS_MONITOR_EMAIL_LIST}; 
-    if ($address_to eq "") {
-        die "email_ops_to_report_error:ERROR, System environment OPS_MODIS_MONITOR_EMAIL_LIST is not set.";
-    }
+    # Send the error email.
+    system("$ENV{'GHRSST_SHELL_LIB_DIRECTORY'}/email_ops_to_report_error.csh");
 
-    # Get the name of the process running this program.
-    # The name returned is the first string.
-
-    my @who_command_results = readpipe("whoami");
-    chomp($who_command_results[0]);
-    my $user_name = $who_command_results[0];
-
-    # Get the name of the host running this program.
-
-    my @host_command_results = readpipe("echo \$HOST");
-    chomp($host_command_results[0]);
-    my $host_name = $host_command_results[0];
-
-    # Build the from string.
-   
-    my $address_from = "$user_name" . "\@" . $host_name;
-
-    # Create the text message.
-
-    my @the_msg;
-    push @the_msg, "To: $address_to\n";
-    push @the_msg, "From: $address_from\n";
-    push @the_msg, "Subject: $ENV{'MACHINE'} - $ENV{'GENERATE_VERSION'} Reporting MODIS L2P or MAF Error\n";
-    push @the_msg, @l_error_message;
-
-    # Add the last character so the sendmail knows when the body ends.
-    push @the_msg, "\n."; 
-
-    # Ask the sendmail program to read the_msg to scan for recipients.
-    unless (open MAIL, "| /usr/sbin/sendmail -t") {
-        die "email_ops_to_report_error:ERROR, sendmail program failed.";
-    }
-    print MAIL @the_msg;
-    close MAIL;
-
-    # Close up shop.
-    return;
 }
