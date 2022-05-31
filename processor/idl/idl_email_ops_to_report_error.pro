@@ -18,38 +18,34 @@
 FUNCTION  idl_email_ops_to_report_error, $
               i_error_message
 
-;help, i_error_message;
-;return,1;
-    ;#########################################################################################
-    ; Build the from and to strings.
-    ;#########################################################################################
-
-    ; Build the "To" string.  Use 
- 
-    address_to = ""; empty string so we can check to see if it gets set.
-    if (STRLEN(GETENV('GAPOPSLIST')) GT 0) then begin
-        address_to = GETENV('GAPOPSLIST');
-    endif else begin
-        if (STRLEN(GETENV('OPS_MODIS_MONITOR_EMAIL_LIST')) GT 0) then begin
-            address_to = GETENV('OPS_MODIS_MONITOR_EMAIL_LIST');
-        endif
-    endelse
-
-    if (STRLEN(address_to) EQ 0) then begin
+    ; Determine if email address recipients have been defined
+    if (STRLEN(GETENV('OPS_MODIS_MONITOR_EMAIL_LIST')) EQ 0) then begin
         print, "idl_email_ops_to_report_error:ERROR, Neither system environment GAPOPSLIST nor OPS_MODIS_MONITOR_EMAIL_LIST is set.";
         print, "idl_email_ops_to_report_error:i_error_message = ";
         print, i_error_message;
         exit;
     endif
 
-    ; Get the name of the process running this program.
-    ; The name returned is the first string.
+    ; Create the email message.
+    temp_email_filename = GETENV('EMPTY_EMAIL_LOCATION') + "/send_this_email_to_operator_from_cluster_processing" + STRTRIM(STRING(LONG(SYSTIME(/SECONDS))),2) + '.txt';
+    OPENW, out_lun, temp_email_filename, ERROR = err_no, /GET_LUN;
+    
+    for loop = 0, N_ELEMENTS(i_error_message) - 1 do begin;
+        print, i_error_message[loop];
+        printf, out_lun, i_error_message[loop];
+    endfor
 
-    SPAWN,"whoami",who_command_results;
-    user_name = STRTRIM(who_command_results,2);
+    FREE_LUN, out_lun;
 
-    ; Get the name of the host running this program.
+    ; If err_no is nonzero, something bad happened.  Print the error message
+    ; to the standard error file (logical unit -2):
+    ; Changed later to print to log if desired.
+    if (err_no NE 0) then begin
+        print, 'idl_email_ops_to_report_error: ERROR, Cannot open pipe for sendmail program for output.'
+        exit;
+    end
 
+    ; Define the subject.
     SPAWN,"echo $HOST",host_command_results;
     host_name = STRTRIM(host_command_results,2);
 
@@ -58,83 +54,14 @@ FUNCTION  idl_email_ops_to_report_error, $
         host_name = host_name + ".jpl.nasa.gov";
     endif
 
-    ; Build the "From" string.  Use environment GAPMAILSRC if defined, it not, try OPSMAILSRC.  There should only be one name.  No error checking.
-   
-    ;address_from = user_name + "@" + host_name;
-    address_from = "";
-    if (STRLEN(GETENV('GAPMAILSRC')) GT 0) then begin
-        address_from = GETENV('GAPMAILSRC');
-    endif else begin
-        if (STRLEN(GETENV('OPSMAILSRC')) GT 0) then begin
-            address_from = GETENV('OPSMAILSRC');
-        endif
-    endelse
-
-    if (STRLEN(address_from) EQ 0) then begin
-        print, "idl_email_ops_to_report_error:ERROR, Neither system environments GAPMAILSRC nor OPSMAILSRC is set.";
-        print, "idl_email_ops_to_report_error:Attempting to report i_error_message = ";
-        print, i_error_message;
-        exit;
-    endif
-
-    ; Create the text message.
-
-    the_msg = STRARR(N_ELEMENTS(i_error_message) + 4);  The 4 lines are from the To, From and Subject lines and the last line.
-
-    ; Build the first 3 lines of the email.
-
-    the_msg[0] = "To: " + address_to;
-    the_msg[1] = "From: " + address_from;
-    the_msg[2] = "Subject: Reporting Cluster Significant Event Running on machine " + host_name;
-
-    ; Get the rest of the message as the body of the email.
-    ; Each element in the array i_error_message is one line in the body of the text.
-
-    input_message_index = 0;
-    for loop = 3, N_ELEMENTS(the_msg) - 2 do begin;
-        the_msg[loop] = i_error_message[input_message_index];
-        input_message_index = input_message_index + 1;
-    endfor
-
-    ; Add the last character so the sendmail knows when the body ends.
-
-    the_msg[N_ELEMENTS(the_msg) - 1] = "."; 
-
-    ; Ask the sendmail program to read the_msg to scan for recipients.
-    ;unless (open MAIL, "| /usr/sbin/sendmail -t") {
-    ;    die "email_ops_to_report_error:ERROR, sendmail program failed.";
-    ;}
-    print, "the_msg[", the_msg, "]";
-
-    temp_email_filename = GETENV('HOME') + "/send_this_email_to_operator_from_cluster_processing" + STRTRIM(STRING(LONG(SYSTIME(/SECONDS))),2) + '.txt';
-    OPENW, out_lun, temp_email_filename, ERROR = err_no, /GET_LUN;
-
-    ; If err_no is nonzero, something bad happened.  Print the error message
-    ; to the standard error file (logical unit -2):
-
-    ; Changed later to print to log if desired.
-
-    if (err_no NE 0) then begin
-        print, 'idl_email_ops_to_report_error: ERROR, Cannot open pipe for sendmail program for output.'
-        exit;
-    end
-
-    ; Send all the text to the text file program.
-
-    for loop = 0, N_ELEMENTS(the_msg) - 1 do begin;
-        print, the_msg[loop];
-        printf, out_lun, the_msg[loop];
-    endfor
-
-    FREE_LUN, out_lun;
+    subject = 'Reporting Cluster Significant Event Running on machine ' + host_name
 
     ; Now use SPAWN function to send the email.
-
-    SPAWN, 'cat ' + temp_email_filename + ' | sendmail -t', spawn_result, spawn_error;
+    mail_str = 'mail -r processor@generate.app -s ' + '"' + subject + '"' + ' ' + GETENV('OPS_MODIS_MONITOR_EMAIL_LIST') +' < ' + temp_email_filename
+    print, 'MAIL STRING: ', mail_str
+    SPAWN, mail_str
 
     FILE_DELETE, temp_email_filename,  /ALLOW_NONEXISTENT, /QUIET;
-
-;    print, 'Email sent.';
 
     ; Close up shop.
     return, 1;

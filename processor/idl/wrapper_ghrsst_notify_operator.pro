@@ -196,7 +196,7 @@ FUNCTION  modis_notify_operator, routine_name, msg_type, msg, email, sigevent, t
           ;
           ; Example call using curl:
           ;
-          ; curl -F data="</home/qchau/workspace/generate/ghrsst/combine/src/main/perl/hello.there" -F format=TEXT -F type=ERROR -F category=UNCATEGORIZED -F source=GHRSST-PROCESSING -F provider=jpl -F computer=lapinta -F description="modis_level2_combiner.pl:My script modis_level2_combiner.pl found SST files too old for processing. " http://lanina.jpl.nasa.gov:8100/sigevent/events/create
+          ; curl -F data="</home/qchau/workspace/generate/ghrsst/combine/src/main/perl/hello.there" -F format=TEXT -F type=ERROR -F category=GENERATE -F source=GHRSST-PROCESSING -F provider=jpl -F computer=lapinta -F description="modis_level2_combiner.pl:My script modis_level2_combiner.pl found SST files too old for processing. " http://lanina.jpl.nasa.gov:8100/sigevent/events/create
 
           curl_service_call  = '-F data="<'     +i_data + '"'          +' '+ $
                                '-F format='     +sigevt_format         +' '+ $
@@ -273,7 +273,7 @@ FUNCTION wrapper_ghrsst_notify_operator, i_routine_name, i_msg_type, i_msg, i_da
 
 email = "DUMMY_EMAIL"
 sigevent = GETENV('GHRSST_SIGEVENT_URL');
-sigevent_clause = "SIGEVENT=" + sigevent + "&category=UNCATEGORIZED&provider=jpl";
+sigevent_clause = "SIGEVENT=" + sigevent + "&category=GENERATE&provider=jpl";
 temp_dir = "/tmp/";
 msg2report = 7;
 ;i_data = "";
