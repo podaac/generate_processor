@@ -81,3 +81,9 @@ echo "GAPFARMUSEMULTIPROCESSESEXECUTOR $GAPFARMUSEMULTIPROCESSESEXECUTOR"
 #    dataset_name                     = {VIIRS} processing stream
 #    processing_type                  = {QUICKLOOK,REFINED} processing type of stream.
 perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type >> $log_filename
+
+# Wait for IDL,SPAWN subprocesses to complete.
+sleep 5   # Allow IDL to be spawned
+while ( `ps -ef | grep idl | wc -l` > 1 )
+    sleep 5
+end
