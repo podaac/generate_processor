@@ -6,7 +6,7 @@
 ################################################################################
 
 # Set environment for sigevent manager.
-setenv GHRSST_SIGEVENT_URL podaac-test1.jpl.nasa.gov:8080/sigevent/
+setenv GHRSST_SIGEVENT_URL http://test.test.com:8080
 
 # Flag to perform a move instead of copy when staging the HDF file to scratch.
 setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE yes    # (OPS.)
