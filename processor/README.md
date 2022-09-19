@@ -7,7 +7,9 @@ The processor processes the files produced from the Processor to create 3 datase
 
 ## pre-requisites to building
 
-An IDL license for executing IDL within the Docker container. This can be accomplished by mounting your local IDL installation into the Docker container.
+A compressed IDL installer (idlxxx-linux.tar.gz) placed in the `processor/idl/install` directory.
+
+An IDL license for executing IDL within the Docker container. This can be accomplished by pointing a build argument to an IDL license server (see build command section).
 
 The following IDL files must be compiled to `.sav` files:
 - error_log_writer_helper_pro.sav
@@ -29,7 +31,12 @@ To compile IDL files:
 
 ## build command
 
-`docker build --tag processor:0.1 . `
+`docker build --build-arg LICENSE_SERVER=http://xxx.xx.xx.xxx:4080 --build-arg IDL_INSTALLER=idlxxx-linux.tar.gz --build-arg IDL_VERSION=idlxx --tag processor:0.1 .`
+
+Build arguments:
+- LICENSE_SERVER: The IP address of an IDL license server.
+- IDL_INSTALLER: The file name of the IDL installer.
+- IDL_VERSION: The version of IDL that will be installed.
 
 ## execute command
 
@@ -47,5 +54,5 @@ VIIRS:
 
 **NOTES**
 - In order for the commands to execute the `/processor/` directories will need to point to actual directories on the system.
-- The `/usr/local` directory contains the IDL license requirements.
+- IDL is installed and configured by the Dockerfile.
 - The Procesor component currently uses postfix and mailutils to send some notifications via email. It may make sense to move the mail functionality out of the container and let the Generate cloud infrastructure handling email notifications.
