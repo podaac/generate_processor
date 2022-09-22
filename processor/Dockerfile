@@ -11,6 +11,9 @@ COPY . /app
 
 # Stage 2 - IDL installation
 # FROM stage1 AS stage2
+ARG IDL_INSTALLER
+ARG LICENSE_SERVER
+ARG IDL_VERSION
 RUN /bin/mkdir /root/idl_install \
     && /bin/tar -xf /app/idl/install/$IDL_INSTALLER -C /root/idl_install/ \
     && /bin/cp /app/idl/install/idl_answer_file /root/idl_install/ \
