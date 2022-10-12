@@ -37,7 +37,8 @@ setenv PROCESSING_LOGGER $PROCESSOR_LOGGING/processing_logs    # ghrsst_processi
 setenv ERROR_LOGGER $PROCESSOR_LOGGING/error_logs    # ghrsst_error_logger.pro
 
 # Multiprocessing (also handle by ghrsst_seatmp_manager.sh).
-setenv GAPFARMUSEMULTIPROCESSESEXECUTOR TRUE   # Set to true if you want to execute tasks in the background.
+# setenv GAPFARMUSEMULTIPROCESSESEXECUTOR TRUE   # Set to true if you want to execute tasks in the background.
+setenv GAPFARMUSEMULTIPROCESSESEXECUTOR FALSE   # Set to true if you want to execute tasks in the background.
 
 # Test run indicator: Set to true to execute and not intiate SFTP operations.
 setenv TEST_EXECUTION true
