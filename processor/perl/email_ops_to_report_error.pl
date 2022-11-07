@@ -32,7 +32,7 @@ sub email_ops_to_report_error {
 
     # Write the message to a file.
     my $message = join(" ",@l_error_message);
-    my $mail_file = "$ENV{'EMPTY_EMAIL_LOCATION'}/email_ops_error_report.txt";
+    my $mail_file = "$ENV{'EMPTY_EMAIL_LOCATION'}/email_ops_error_report_$ENV{'RANDOM_NUMBER'}.txt";
     open(fh, ">", $mail_file);
     print fh $message;
     close(fh) or "ERROR: Could not close file to send email error.";

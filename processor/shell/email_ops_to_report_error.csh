@@ -12,7 +12,7 @@
 set subject = "$MACHINE $GENERATE_VERSION Reporting MODIS L2P or MAF Error"
 
 # Email content text file
-set mail_content = $EMPTY_EMAIL_LOCATION/email_ops_error_report.txt
+set mail_content = "$EMPTY_EMAIL_LOCATION/email_ops_error_report_$RANDOM_NUMBER.txt"
 
 # Send mail
 mail -r processor@generate.app -s "$subject" $OPS_MODIS_MONITOR_EMAIL_LIST < $mail_content

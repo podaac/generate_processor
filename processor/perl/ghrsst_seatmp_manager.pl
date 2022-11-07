@@ -78,7 +78,7 @@ if ($processing_type eq "") {
 #     ghrsst_modis_t_processing_log_archive.txt   for the MODIS_T dataset name.
 #
 # When the L2P Processing module is running, the logging will go to these files.
-$ENV{GAPFARMPROCESSINGLOGFILENAME} = "ghrsst_" . lc($dataset_name) . "_processing_log_archive.txt";
+$ENV{GAPFARMPROCESSINGLOGFILENAME} = "ghrsst_" . lc($dataset_name) . "_processing_log_archive_" . $ENV{'RANDOM_NUMBER'} . ".txt";
 
 if ($debug_mode) {
     print $debug_module . "NUM_FILES_TO_PROCESS [$NUM_FILES_TO_PROCESS]\n";

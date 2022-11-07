@@ -142,7 +142,7 @@ sub manage_ghrsst_modis_data_sets {
     # Make sure to add the processing type to the name to allow the REFINED stream to run as well.
 
     my $semaphore_lock_common_area    = $ENV{SEMAPHORE_LOCK_COMMON_AREA};
-    my $lock_name = "$semaphore_lock_common_area" . "/" . $i_processing_type . "_" . $i_datasource . "_L2P_process";
+    my $lock_name = "$semaphore_lock_common_area" . "/" . $i_processing_type . "_" . $i_datasource . "_L2P_process_" . $ENV{RANDOM_NUMBER};
     my $l2p_stream_lock = OLock->new("$lock_name");
 
     # Lock the process stream.

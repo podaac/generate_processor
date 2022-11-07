@@ -42,7 +42,9 @@ echo "run_this_jobs_in_parallel        = $run_this_jobs_in_parallel"
 echo "job_index                        = $job_index"
 
 # Config file
-source /app/config/processor_config
+# source /app/config/processor_config
+source /home/tebaldi/generate/workspace/generate/processor/config/processor_config
+echo "unique_identifier                = $RANDOM_NUMBER"
 
 # Make sure the machine we will be pushing the L2P to is alive and well.  
 # Ignore if running a test execution and Exit if machine is down.
@@ -64,7 +66,7 @@ endif
 # Logging.
 # The touch command is to create a log file if one does not exist already.
 # The >> re-direction of the perl script below requires that the file exist.
-set log_filename = "$SEATMP_LOGGING/my_crontab_log_from_ghrsst_${processing_type}_${dataset_name}_seatmp_manager";
+set log_filename = "$SEATMP_LOGGING/my_crontab_log_from_ghrsst_${processing_type}_${dataset_name}_{$RANDOM_NUMBER}_seatmp_manager";
 echo "touch $log_filename"
 touch $log_filename
 

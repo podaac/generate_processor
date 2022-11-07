@@ -31,7 +31,7 @@ sub append_heart_beat {
     my $i_heart_beat_filename = $_[0];
     my $i_heart_beat_message  = $_[1];
 
-$i_heart_beat_filename =  "$ENV{SCRATCH_AREA}/heart_beat.txt";    # NET edit. (Place in scratch)
+$i_heart_beat_filename =  "$ENV{SCRATCH_AREA}/heart_beat_$ENV{RANDOM_NUMBER}.txt";    # NET edit. (Place in scratch)
 
     #
     # Local variable(s).
@@ -41,7 +41,7 @@ $i_heart_beat_filename =  "$ENV{SCRATCH_AREA}/heart_beat.txt";    # NET edit. (P
 
     # Create a lock name.
     my $semaphore_lock_common_area    = $ENV{SEMAPHORE_LOCK_COMMON_AREA};
-    my $lock_name = "$semaphore_lock_common_area" . "/MODIS_L2P_AND_MAF_HEARTBEAT";
+    my $lock_name = "$semaphore_lock_common_area" . "/MODIS_L2P_AND_MAF_HEARTBEAT_$ENV{RANDOM_NUMBER}";
 #print "append_heart_beat: lock_name = [$lock_name]\n";
     my $l2p_stream_lock = OLock->new("$lock_name");
 

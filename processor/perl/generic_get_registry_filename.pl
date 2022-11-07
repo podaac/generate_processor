@@ -28,18 +28,20 @@ sub generic_get_registry_filename {
 
     my $o_L2P_registry = "";
 
+    my $random_number = int(rand(1000));
+
     # Depend on the data source and processing type, use different registries.
     if ($i_data_source eq "MODIS_A" or $i_data_source eq "MODIS_T") {
         if ($i_processing_type eq "QUICKLOOK") {
-            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_quicklook_list_processed_files.dat";
+            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_quicklook_list_processed_files_" . $ENV{'RANDOM_NUMBER'} . ".dat";
         } elsif ($i_processing_type eq "REFINED") {
-            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_refined_list_processed_files.dat";
+            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_refined_list_processed_files_" . $ENV{'RANDOM_NUMBER'} . ".dat";
         }
     } elsif ($i_data_source eq "VIIRS") {
         if ($i_processing_type eq "QUICKLOOK") {
-            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_viirs_quicklook_list_processed_files.dat";
+            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_viirs_quicklook_list_processed_files_" . $ENV{'RANDOM_NUMBER'} . ".dat";
         } elsif ($i_processing_type eq "REFINED") {
-            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_viirs_refined_list_processed_files.dat";
+            $o_L2P_registry = $i_scratch_area . "/ghrsst_master_viirs_refined_list_processed_files_" . $ENV{'RANDOM_NUMBER'} . ".dat";
         }
     } else {
         die($debug_module . "ERROR: This function does not yet support data source [$i_data_source]");
