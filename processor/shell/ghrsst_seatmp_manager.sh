@@ -11,18 +11,19 @@
 #    run_this_jobs_in_parallel        = {yes,no} If set to true, each job will run in a sub process.
 
 # Command line arguments
-if ($#argv != 5) then
-   echo "You must give exact 5 arguments."
+if ($#argv != 6) then
+   echo "You must give exact 6 arguments."
    echo "    num_files_to_process             = (int) batch size"
    echo "    over_write_processed_modis_files = {yes,no} overwrite flag to overwrite if output file already exist."
    echo "    dataset_name                     = {VIIRS} processing stream"
    echo "    processing_type                  = {QUICKLOOK,REFINED} processing type of stream."
    echo "    run_this_jobs_in_parallel        = {yes,no} If set to true, each job will run in a sub process."
+   echo "    job_index                        = {0,1...i} Index of data to find job input."
    echo "Example:"
-   echo "source ghrsst_viirs_seatmp_manager.sh 25  yes VIIRS QUICKLOOK yes"
-   echo "source ghrsst_viirs_seatmp_manager.sh 100 yes yes VIIRS REFINED yes"
-   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS QUICKLOOK yes"
-   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS REFINED   yes"
+   echo "source ghrsst_viirs_seatmp_manager.sh 25  yes VIIRS QUICKLOOK yes 0"
+   echo "source ghrsst_viirs_seatmp_manager.sh 100 yes yes VIIRS REFINED yes 0"
+   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS QUICKLOOK yes 1"
+   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS REFINED   yes 3"
    exit(0)
 endif
 
@@ -31,12 +32,14 @@ set over_write_processed_modis_files = $argv[2]
 set dataset_name                     = $argv[3]
 set processing_type                  = $argv[4]
 set run_this_jobs_in_parallel        = $argv[5]
+set job_index                        = $argv[6]
 
 echo "num_files_to_process             = $num_files_to_process"
 echo "over_write_processed_modis_files = $over_write_processed_modis_files"
 echo "dataset_name                     = $dataset_name"
 echo "processing_type                  = $processing_type"
 echo "run_this_jobs_in_parallel        = $run_this_jobs_in_parallel"
+echo "job_index                        = $job_index"
 
 # Config file
 source /app/config/processor_config
@@ -80,4 +83,4 @@ echo "GAPFARMUSEMULTIPROCESSESEXECUTOR $GAPFARMUSEMULTIPROCESSESEXECUTOR"
 #    over_write_processed_modis_files = {yes,no} over write flag to overwrite if output file already exist.
 #    dataset_name                     = {VIIRS} processing stream
 #    processing_type                  = {QUICKLOOK,REFINED} processing type of stream.
-perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type >> $log_filename
+perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index >> $log_filename

@@ -41,6 +41,7 @@ do "$GHRSST_PERL_LIB_DIRECTORY/clear_staged_modis_datasets.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/email_ops_to_report_error.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/generic_get_registry_filename.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/does_temporary_directory_exist.pl";
+do "$GHRSST_PERL_LIB_DIRECTORY/load_file_list.pl";
 
 do "$GHRSST_PERL_LIB_DIRECTORY/OLock.pm";
 
@@ -68,16 +69,17 @@ sub manage_ghrsst_modis_data_sets {
     # Get input(s).
     #
     
-    my $i_datatype   = lc($_[0]);   # Lowercase the input. {sea_surface_temperature}
-    my $i_datasource = $_[1];       # Instrument: {MODIS_A,MODIS_T}
-    my $i_ftp_push_flag = $_[2];    # To push the MODIS L2P to melia or not: {yes,no}
-    my $i_compress_flag = $_[3];    # To compress the NetCDF file or not after done writing.
+    my $i_datatype          = lc($_[0]);   # Lowercase the input. {sea_surface_temperature}
+    my $i_datasource        = $_[1];       # Instrument: {MODIS_A,MODIS_T}
+    my $i_ftp_push_flag     = $_[2];    # To push the MODIS L2P to melia or not: {yes,no}
+    my $i_compress_flag     = $_[3];    # To compress the NetCDF file or not after done writing.
                                     # Values are {"yes", "no"}.  Default is "no". 
-    my $i_checksum_flag = $_[4];    # To create a checksum or not: {yes,no}
+    my $i_checksum_flag     = $_[4];    # To create a checksum or not: {yes,no}
     my $i_convert_to_kelvin = $_[5];    # To convert from celcius to kelvin: {yes,no}
     my $i_processing_type   = $_[6];    # Processing type: {QUICKLOOK,REFINED}
-    my $i_use_cluster_flag  = uc($_[7]);  # Use the cluster or not: {MAKE_USE_CLUSTER_IF_AVAILABLE,LEAVE_ALONE_CLUSTER_IF_AVAILABLE}
-    my $i_test_parameter    =    $_[8];
+    my $i_job_index         = $_[7];     # Job index to pull input data for.
+    my $i_use_cluster_flag  = uc($_[8]);  # Use the cluster or not: {MAKE_USE_CLUSTER_IF_AVAILABLE,LEAVE_ALONE_CLUSTER_IF_AVAILABLE}
+    my $i_test_parameter    = $_[9];
 
     #
     # Local variables.
@@ -168,15 +170,8 @@ sub manage_ghrsst_modis_data_sets {
 
     #    my $source_name = substr($l_partial_directory_name,0,length($l_partial_directory_name)-2);
     my $source_name = get_actual_source_name($l_partial_directory_name);
-
-    ($l_status,$tmp_filelist) = take_directory_snapshot(
-                                    $modis_search_directory,
-                                    $modis_data_name_prefix,
-                                    $scratch_area,
-                                    $source_name,
-                                    $num_directory_levels,
-                                    $sort_flag,
-                                    $l_current_time);
+    my ($status,$input_list_ref) = load_file_list($modis_search_directory, $i_datasource, $i_processing_type, $modis_data_name_prefix, $i_job_index);
+    my @modis_filelist = @$input_list_ref;
 
 
     if ($debug_mode) {
@@ -190,10 +185,10 @@ sub manage_ghrsst_modis_data_sets {
     }
     #    exit(0);
 
-    if ($i_test_parameter eq "FAILED_TAKE_DIRECTORY_SNAPSHOT") { $l_status = 1; }
+    if ($i_test_parameter eq "FAILED_LOAD_FILE_LIST") { $l_status = 1; }
 
     if ($l_status != 0) {
-        print "manage_ghrsst_modis_data_sets: Failure in take_directory_snapshot() function.\n";
+        print "manage_ghrsst_modis_data_sets: Failure in load_file_list function.\n";
         print "manage_ghrsst_modis_data_sets: Cannot continue.\n";
         $o_status = 1;
 
@@ -216,17 +211,6 @@ sub manage_ghrsst_modis_data_sets {
 
         return ($o_status);
     }
-
-    #
-    # Read the entire file into memory.  Exit if there's a problem.
-    #
-
-    open (FH, "< $tmp_filelist")
-        or die "manage_ghrsst_modis_data_sets:Can't open file for reading $tmp_filelist: $!";
-
-    my @modis_filelist= <FH>;
-    close (FH);
-
 
     # Build the file if it does not exist already.
 

@@ -39,7 +39,7 @@ my $num_args = $#ARGV + 1;
 my $dataset_name = "";
 my $processing_type = "";
 
-if ($num_args >= 4) {
+if ($num_args >= 5) {
     if ($ARGV[0] ne '') {
         $NUM_FILES_TO_PROCESS = $ARGV[0];
     }
@@ -52,13 +52,16 @@ if ($num_args >= 4) {
     if ($ARGV[3] ne '') {
         $processing_type = $ARGV[3];
     }
+    if ($ARGV[4] ne '') {
+        $job_index = $ARGV[4];
+    }
 } else {
     print $debug_module . "ERROR:Example of good runs\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS QUICKLOOK\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS REFINED\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A QUICKLOOK\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A REFINED\n";
-    die($debug_module . "ERROR:You must provide at least 4 required parameters: num_files_to_process over_write_flag dataset_name processing_type");
+    print "perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS QUICKLOOK 0\n";
+    print "perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS REFINED 0\n";
+    print "perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A QUICKLOOK 0\n";
+    print "perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A REFINED 0\n";
+    die($debug_module . "ERROR:You must provide at least 5 required parameters: num_files_to_process over_write_flag dataset_name processing_type job_index");
 }
 
 if ($dataset_name eq "") {
@@ -93,6 +96,7 @@ ghrsst_modis_file_manager("sea_surface_temperature",
                            $ENV{CHECKSUM_FLAG},
                            $ENV{CONVERT_TO_KELVIN},
                            $processing_type,
+                           $job_index,
                            $ENV{USE_CLUSER_FLAG});
 
 # Reset to user's original mask.

@@ -63,15 +63,16 @@ sub ghrsst_modis_file_manager()
   #
   #   "modis"
 
-  my $i_data_type   = lc($_[0]);
-  my $i_datasource  = $_[1];
-  my $i_ftp_push_flag = $_[2];
-  my $i_compress_flag = lc($_[3]);
-  my $i_checksum_flag = lc($_[4]);
+  my $i_data_type         = lc($_[0]);
+  my $i_datasource        = $_[1];
+  my $i_ftp_push_flag     = $_[2];
+  my $i_compress_flag     = lc($_[3]);
+  my $i_checksum_flag     = lc($_[4]);
   my $i_convert_to_kelvin = lc($_[5]);
   my $i_processing_type   = uc($_[6]);   # Either QUICKLOOK or REFINED
-  my $i_use_cluster_flag  = uc($_[7]);
-  my $i_test_parameter    =    $_[8];
+  my $i_job_index         = $_[7];
+  my $i_use_cluster_flag  = uc($_[8]);
+  my $i_test_parameter    = $_[9];
 
   # Reset last parameter if not passed in.
   if ($i_use_cluster_flag eq "") {
@@ -120,8 +121,7 @@ sub ghrsst_modis_file_manager()
       }
       $status = manage_ghrsst_modis_data_sets($i_data_type,$i_datasource,$i_ftp_push_flag,
                     $i_compress_flag,$i_checksum_flag,$i_convert_to_kelvin,$i_processing_type,
-                    $i_use_cluster_flag,
-                    $i_test_parameter);
+                    $i_job_index, $i_use_cluster_flag, $i_test_parameter);
   } else {
       print "ghrsst_modis_file_manager: data source is not supported at this time: $i_datasource.\n";
 
