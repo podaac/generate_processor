@@ -42,8 +42,7 @@ echo "run_this_jobs_in_parallel        = $run_this_jobs_in_parallel"
 echo "job_index                        = $job_index"
 
 # Config file
-# source /app/config/processor_config
-source /home/tebaldi/generate/workspace/generate/processor/config/processor_config
+source /app/config/processor_config
 echo "unique_identifier                = $RANDOM_NUMBER"
 
 # Make sure the machine we will be pushing the L2P to is alive and well.  
