@@ -38,7 +38,7 @@ sub load_file_list {
     }
 
     # JSON data
-    my $json_file = dirname($input_dir) . '/' . $ENV{JSON_FILE} . '_' . $data_source . ".json";
+    my $json_file = dirname($input_dir) . '/' . $ENV{JSON_FILE};
     my $json = do {
         open(my $json_fh, "<:encoding(UTF-8)", $json_file)
             or die("Can't open \"$json_file\": $!\n");

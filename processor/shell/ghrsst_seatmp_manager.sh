@@ -11,19 +11,20 @@
 #    run_this_jobs_in_parallel        = {yes,no} If set to true, each job will run in a sub process.
 
 # Command line arguments
-if ($#argv != 6) then
-   echo "You must give exact 6 arguments."
+if ($#argv != 7) then
+   echo "You must give exact 7 arguments."
    echo "    num_files_to_process             = (int) batch size"
    echo "    over_write_processed_modis_files = {yes,no} overwrite flag to overwrite if output file already exist."
    echo "    dataset_name                     = {VIIRS} processing stream"
    echo "    processing_type                  = {QUICKLOOK,REFINED} processing type of stream."
    echo "    run_this_jobs_in_parallel        = {yes,no} If set to true, each job will run in a sub process."
    echo "    job_index                        = {0,1...i} Index of data to find job input."
+   echo "    job_index                        = {string} String name of JSON File to select input from."
    echo "Example:"
-   echo "source ghrsst_viirs_seatmp_manager.sh 25  yes VIIRS QUICKLOOK yes 0"
-   echo "source ghrsst_viirs_seatmp_manager.sh 100 yes yes VIIRS REFINED yes 0"
-   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS QUICKLOOK yes 1"
-   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS REFINED   yes 3"
+   echo "source ghrsst_viirs_seatmp_manager.sh 25  yes VIIRS QUICKLOOK yes 0 processor_timestamp_list_VIIRS.json"
+   echo "source ghrsst_viirs_seatmp_manager.sh 100 yes yes VIIRS REFINED yes 0 processor_timestamp_list_VIIRS.json"
+   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS QUICKLOOK yes 1 processor_timestamp_list_VIIRS.json"
+   echo "source ghrsst_viirs_seatmp_manager.sh 2   yes VIIRS REFINED   yes 3 processor_timestamp_list_VIIRS.json"
    exit(0)
 endif
 
@@ -33,6 +34,7 @@ set dataset_name                     = $argv[3]
 set processing_type                  = $argv[4]
 set run_this_jobs_in_parallel        = $argv[5]
 set job_index                        = $argv[6]
+set json_file                        = $argv[7]
 
 echo "num_files_to_process             = $num_files_to_process"
 echo "over_write_processed_modis_files = $over_write_processed_modis_files"
@@ -40,6 +42,7 @@ echo "dataset_name                     = $dataset_name"
 echo "processing_type                  = $processing_type"
 echo "run_this_jobs_in_parallel        = $run_this_jobs_in_parallel"
 echo "job_index                        = $job_index"
+echo "json_file                        = $json_file"
 
 # Config file
 source /app/config/processor_config
@@ -78,6 +81,9 @@ else
     setenv GAPFARMUSEMULTIPROCESSESEXECUTOR false 
 endif
 echo "GAPFARMUSEMULTIPROCESSESEXECUTOR $GAPFARMUSEMULTIPROCESSESEXECUTOR"
+
+# Set the input file name as an environment variable
+setenv JSON_FILE $json_file
 
 # The parameters to ghrsst_generic_seatmp_manager.pl Perl script are:
 #    num_files_to_process             = (int) batch size

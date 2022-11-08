@@ -8,9 +8,6 @@
 # Set environment for sigevent manager.
 setenv GHRSST_SIGEVENT_URL http://test.test.com:8080
 
-# Processor JSON file name for job input
-setenv JSON_FILE "processor_timestamp_list"
-
 # Flag to perform a move instead of copy when staging the HDF file to scratch.
 setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE yes    # (OPS.)
 #setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE no    # (DEV.)

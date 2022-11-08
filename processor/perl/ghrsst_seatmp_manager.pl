@@ -88,6 +88,7 @@ if ($debug_mode) {
     print $debug_module . "GAPFARMPROCESSINGLOGFILENAME [" . $ENV{GAPFARMPROCESSINGLOGFILENAME} ."]\n";
     print $debug_module . "job_index [$job_index]\n";
     print $debug_module . "RANDOM_NUMBER [$ENV{RANDOM_NUMBER}]\n";
+    print $debug_module . "JSON_FILE [$ENV{JSON_FILE}]\n";
 }
 
 #  Call subroutine to manage the data files.
