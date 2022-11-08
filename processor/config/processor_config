@@ -27,8 +27,10 @@ setenv GHRSST_CLUSTER_HOST_FILENAME_LIST /app/config/host_list.txt
 
 # Scratch directory to store temporary files, MAFs and registry.
 setenv SCRATCH_AREA         /data/scratch     
-setenv QUICKLOOK_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_quicklook.dat
-setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_refined.dat
+set random_number = `bash -c 'echo $RANDOM'`
+setenv RANDOM_NUMBER $random_number  
+setenv QUICKLOOK_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_quicklook_$random_number.dat
+setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_refined_$random_number.dat
 
 # Empty email content location.
 setenv EMPTY_EMAIL_LOCATION $SCRATCH_AREA/email
