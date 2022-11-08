@@ -17,7 +17,7 @@
 #
 #        The format of the directory and file name is:
 #
-#        $SCRATCH_AREA/current_logs/__$i_current_time.$i_datasource/tmp_$i_partial_name
+#        $SCRATCH_AREA/current_logs/__$ENV{RANDOM_NUMBER}.$i_datasource/tmp_$i_partial_name
 #
 # Assumption:
 #
@@ -38,9 +38,8 @@ sub create_random_filename {
     # Get input(s).
     #
     
-    my $i_current_time      =    $_[0]; 
-    my $i_datasource        = lc($_[1]);
-    my $i_partial_name      =    $_[2];
+    my $i_datasource        = lc($_[0]);
+    my $i_partial_name      =    $_[1];
 
     #
     # Local variables.
@@ -50,7 +49,7 @@ sub create_random_filename {
     my $RUN_LOGS_DIR     = "current_logs";  # Directory sub to scratch_area will be created.
     my $scratch_area     = $ENV{SCRATCH_AREA}; 
     my $log_dir          = $scratch_area . "/" . $RUN_LOGS_DIR;
-    my $processing_directory = $log_dir . "/" . "__" . $i_current_time
+    my $processing_directory = $log_dir . "/" . "__" . $ENV{RANDOM_NUMBER}
                                . "." . $i_datasource;
 
     # The name to return is the processing_directory plus whatever strings provided by the user.

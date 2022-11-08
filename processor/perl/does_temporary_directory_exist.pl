@@ -18,8 +18,7 @@ sub does_temporary_directory_exist {
     # Get input(s).
     #
     
-    my $i_current_time      =    $_[0]; 
-    my $i_datasource        = lc($_[1]);
+    my $i_datasource        = lc($_[0]);
 
     my $o_directory_exist_flag = 0;
 
@@ -33,10 +32,10 @@ sub does_temporary_directory_exist {
     my $RUN_LOGS_DIR     = "current_logs";  # Directory sub to scratch_area.
     my $scratch_area     = $ENV{SCRATCH_AREA}; 
     my $log_dir          = $scratch_area . "/" . $RUN_LOGS_DIR;
-    my $processing_directory = $log_dir . "/" . "__" . $i_current_time . "." . $i_datasource;
+    my $processing_directory = $log_dir . "/" . "__" . $ENV{RANDOM_NUMBER} . "." . $i_datasource;
 
     if ($debug_mode) {
-       print $debug_module . "i_current_time $i_current_time\n";
+       print $debug_module . "random number $ENV{RANDOM_NUMBER}\n";
        print $debug_module . "i_datasource   $i_datasource\n";
        print $debug_module . "processing_directory $processing_directory\n";
     }

@@ -16,7 +16,7 @@
 #
 #   1.  Environment variable SCRATCH_AREA is defined.
 #   2.  Directory is empty.
-#   3.  The directory is name is $SCRATCH_AREA/run_logs/__$i_current_time.$i_datasource
+#   3.  The directory is name is $SCRATCH_AREA/run_logs/__$ENV{RANDOM_NUMBER}.$i_datasource
 #
 #------------------------------------------------------------------------------------------------
 
@@ -26,8 +26,7 @@ sub remove_temporary_log_dir {
     # Get input(s).
     #
     
-    my $i_current_time      =    $_[0]; 
-    my $i_datasource        = lc($_[1]);
+    my $i_datasource        = lc($_[0]);
 
     #
     # Local variables.
@@ -36,7 +35,7 @@ sub remove_temporary_log_dir {
     my $RUN_LOGS_DIR     = "current_logs";  # Directory sub to scratch_area.
     my $scratch_area     = $ENV{SCRATCH_AREA}; 
     my $log_dir          = $scratch_area . "/" . $RUN_LOGS_DIR;
-    my $processing_directory = $log_dir . "/" . "__" . $i_current_time
+    my $processing_directory = $log_dir . "/" . "__" . $ENV{RANDOM_NUMBER}
                                . "." . $i_datasource;
 
 print "remove_temporary_log_dir: rmdir $processing_directory\n";

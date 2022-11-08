@@ -26,7 +26,6 @@
 #------------------------------------------------------------------------------------------------
 
 do "$GHRSST_PERL_LIB_DIRECTORY/get_ghrsst_config.pl";
-do "$GHRSST_PERL_LIB_DIRECTORY/take_directory_snapshot.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/build_modis_dataset_names_for_processing.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/build_L2P_processed_file_registry.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/perform_modis_temporary_files_cleanup.pl";
@@ -109,7 +108,7 @@ sub manage_ghrsst_modis_data_sets {
 
     my $l_partial_directory_name = lc($i_processing_type) . "_" . lc($i_datasource);
     my $tmp_uncompressed_bzip_filelist = create_random_filename(
-                                         $l_current_time,$l_partial_directory_name,"uncompressed_bzip_filelist_modis");
+                                         $l_partial_directory_name,"uncompressed_bzip_filelist_modis");
 
     my $modis_data_directory   = "";
     my $modis_data_name_prefix = "";
@@ -197,7 +196,7 @@ sub manage_ghrsst_modis_data_sets {
         push(@error_message,"You are receiving this message because there was an error in MODIS L2P Processing.\n");
         push(@error_message,"Please do not reply to the email.\n");
         push(@error_message,"\n"); 
-        push(@error_message,"manage_ghrsst_modis_data_sets: Failure in take_directory_snapshot() function.\n");
+        push(@error_message,"manage_ghrsst_modis_data_sets: Failure in load_file_list() function.\n");
         push(@error_message,"manage_ghrsst_modis_data_sets: modis_search_directory = $modis_search_directory\n");
         push(@error_message,"manage_ghrsst_modis_data_sets: modis_data_name_prefix = $modis_data_name_prefix\n");
         push(@error_message,"manage_ghrsst_modis_data_sets: scratch_area           = $scratch_area\n");
@@ -460,11 +459,11 @@ sub manage_ghrsst_modis_data_sets {
 
     # Remove temporary log directory created by script.
 
-    if (does_temporary_directory_exist($l_current_time,$l_partial_directory_name)) {
-         remove_temporary_log_dir($l_current_time,$l_partial_directory_name);
+    if (does_temporary_directory_exist($l_partial_directory_name)) {
+         remove_temporary_log_dir($l_partial_directory_name);
     }
-    if (does_temporary_directory_exist($l_current_time,$l_partial_directory_name . "_" . lc($modis_data_name_prefix))) {
-        remove_temporary_log_dir($l_current_time,$l_partial_directory_name . "_" . lc($modis_data_name_prefix));
+    if (does_temporary_directory_exist($l_partial_directory_name . "_" . lc($modis_data_name_prefix))) {
+        remove_temporary_log_dir($l_partial_directory_name . "_" . lc($modis_data_name_prefix));
     }
 
     # Release the semaphore.  We don't need it anymore.
