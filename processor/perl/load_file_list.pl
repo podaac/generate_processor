@@ -50,6 +50,22 @@ sub load_file_list {
     my $decoded = decode_json($json);
     my $time_stamps = $decoded->[$index];
 
+    # Determine final output extensions
+    my $day_ext;
+    my $night_ext;
+    if ($data_source eq 'MODIS_A' || $data_source eq 'MODIS_T') {
+        $day_ext = '.LAC_GSSTD.nc';
+        $night_ext = '.LAC_GSSTN.nc'
+    } elsif ($data_source eq 'VIIRS') {
+        $day_ext = '.SNPP_GSSTD.nc';
+        $night_ext = '.SNPP_GSSTN.nc';
+    } else {
+        # Not a valid data source
+        $status = 1;
+        my @input_list_ref;
+        return ($status, \@input_list_ref);
+    }
+
     # Locate file based on year, doy, and timestamp and add to list
     my @input_list_ref;
     for my $time ( @$time_stamps ) {
@@ -59,8 +75,8 @@ sub load_file_list {
         my $day = substr $time, 6,2;
         my $doy = Day_of_Year($year, $month, $day);
         # Piece together full path to file name
-        my $input_day = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . '.LAC_GSSTD.nc';
-        my $input_night = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . '.LAC_GSSTN.nc';
+        my $input_day = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . $day_ext;
+        my $input_night = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . $night_ext;
         # Determine if night and/or day file exist and add to list
         if (-f $input_day) {
             push @input_list_ref, "$input_day\n";
