@@ -86,6 +86,8 @@ if ($debug_mode) {
     print $debug_module . "dataset_name    [$dataset_name]\n";
     print $debug_module . "processing_type [$processing_type]\n";
     print $debug_module . "GAPFARMPROCESSINGLOGFILENAME [" . $ENV{GAPFARMPROCESSINGLOGFILENAME} ."]\n";
+    print $debug_module . "job_index [$job_index]\n";
+    print $debug_module . "RANDOM_NUMBER [$ENV{RANDOM_NUMBER}]\n";
 }
 
 #  Call subroutine to manage the data files.
