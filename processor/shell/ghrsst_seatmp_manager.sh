@@ -44,6 +44,14 @@ echo "run_this_jobs_in_parallel        = $run_this_jobs_in_parallel"
 echo "job_index                        = $job_index"
 echo "json_file                        = $json_file"
 
+# Determine index value
+if ($job_index == -235) then
+    setenv INDEX $AWS_BATCH_JOB_ARRAY_INDEX;
+else
+    setenv INDEX $job_index
+endif
+echo "index                            = $INDEX"
+
 # Config file
 source /app/config/processor_config
 echo "unique_identifier                = $RANDOM_NUMBER"

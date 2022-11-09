@@ -29,14 +29,6 @@ sub load_file_list {
     my $prefix = shift;
     my $job_index = shift;
 
-    # Determine if running in cloud
-    my $index;
-    if ($job_index == -235) {
-        $index = $ENV{AWS_BATCH_JOB_ARRAY_INDEX};
-    } else {
-        $index = $job_index
-    }
-
     # JSON data
     my $json_file = dirname($input_dir) . '/' . $ENV{JSON_FILE};
     my $json = do {
@@ -48,6 +40,7 @@ sub load_file_list {
     
     # Retreive time stamps
     my $decoded = decode_json($json);
+    my $index = $ENV{INDEX};
     my $time_stamps = $decoded->[$index];
 
     # Determine final output extensions
