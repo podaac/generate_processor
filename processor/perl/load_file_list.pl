@@ -68,8 +68,16 @@ sub load_file_list {
         my $day = substr $time, 6,2;
         my $doy = Day_of_Year($year, $month, $day);
         # Piece together full path to file name
-        my $input_day = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . $day_ext;
-        my $input_night = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . $night_ext;
+        my $input_day = '';
+        my $input_night = '';
+        if ($processing_type eq "quicklook") {
+            $input_day = $input_dir . $year . '/' . $doy . '/' . $prefix . $time . $day_ext;
+            $input_night = $input_dir . $year . '/' . $doy . '/' . $prefix . $time . $night_ext;
+        } else {
+            $input_day = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . $day_ext;
+            $input_night = $input_dir . $year . '/' . $doy . '/' . $processing_type . '_' . $prefix . $time . $night_ext;
+        }
+        
         # Determine if night and/or day file exist and add to list
         if (-f $input_day) {
             push @input_list_ref, "$input_day\n";
