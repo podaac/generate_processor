@@ -12,13 +12,12 @@ COPY . /app
 # Stage 2 - IDL installation
 # FROM stage1 as stage2
 ARG IDL_INSTALLER
-ARG LICENSE_SERVER
 ARG IDL_VERSION
 RUN /bin/mkdir /root/idl_install \
     && /bin/tar -xf /app/idl/install/$IDL_INSTALLER -C /root/idl_install/ \
     && /bin/cp /app/idl/install/idl_answer_file /root/idl_install/ \
     && /root/idl_install/install.sh -s < /root/idl_install/idl_answer_file \
-    && /bin/echo $LICENSE_SERVER > /usr/local/idl/license/lic_server.dat \
+    && /bin/cp /app/idl/install/lic_server.dat /usr/local/idl/license/ \
     && /bin/ln -s /usr/local/idl/$IDL_VERSION/bin/idl /usr/local/bin \
     && /bin/rm -rf /app/idl/install/$IDL_INSTALLER \
     && /bin/rm -rf /root/idl_install

@@ -9,7 +9,7 @@ The processor processes the files produced from the Processor to create 3 datase
 
 A compressed IDL installer (idlxxx-linux.tar.gz) placed in the `processor/idl/install` directory.
 
-An IDL license for executing IDL within the Docker container. This can be accomplished by pointing a build argument to an IDL license server (see build command section).
+An IDL license for executing IDL within the Docker container. TA license file obtained from the vendor ending in `.dat` should be placed in the `idl/install` directory.
 
 The following IDL files must be compiled to `.sav` files:
 - error_log_writer_helper_pro.sav
@@ -31,7 +31,7 @@ To compile IDL files:
 
 ## build command
 
-`docker build --build-arg LICENSE_SERVER=http://xxx.xx.xx.xxx:4080 --build-arg IDL_INSTALLER=idlxxx-linux.tar.gz --build-arg IDL_VERSION=idlxx --tag processor:0.1 .`
+`docker build --build-arg IDL_INSTALLER=idlxxx-linux.tar.gz --build-arg IDL_VERSION=idlxx --tag processor:0.1 .`
 
 Build arguments:
 - LICENSE_SERVER: The IP address of an IDL license server.
