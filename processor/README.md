@@ -56,3 +56,23 @@ VIIRS:
 - In order for the commands to execute the `/processor/` directories will need to point to actual directories on the system.
 - IDL is installed and configured by the Dockerfile.
 - The Procesor component currently uses postfix and mailutils to send some notifications via email. It may make sense to move the mail functionality out of the container and let the Generate cloud infrastructure handling email notifications.
+
+## aws infrastructure
+
+The processor includes the following AWS services:
+- AWS Batch job definition.
+- CloudWatch log group.
+- Elastic Container Registry repository.
+
+## terraform 
+
+Deploys AWS infrastructure and stores state in an S3 backend using a DynamoDB table for locking.
+
+To deploy:
+1. Edit `terraform.tfvars` for environment to deploy to.
+2. Edit `terraform_conf/backed-{prefix}.conf` for environment deploy.
+3. Initialize terraform: `terraform init -backend-config=terraform_conf/backend-{prefix}.conf`
+4. Plan terraform modifications: `terraform plan -out=tfplan`
+5. Apply terraform modifications: `terraform apply tfplan`
+
+`{prefix}` is the account or environment name.
