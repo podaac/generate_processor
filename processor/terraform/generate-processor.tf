@@ -8,14 +8,12 @@ resource "aws_ecr_repository" "processor" {
   encryption_configuration {
     encryption_type = "AES256"
   }
-  tags = local.default_tags
 }
 
 # CloudWatch Logs
 resource "aws_cloudwatch_log_group" "generate_cw_log_group_processor" {
   name              = "/aws/batch/job/${var.prefix}-processor/"
   retention_in_days = 120
-  tags              = local.default_tags
 }
 
 # Job Definition
