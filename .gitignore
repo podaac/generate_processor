@@ -1,0 +1,6 @@
+__pycache__
+
+idl/install/*.gz
+idl/install/*.dat
+
+tfplan

@@ -5,6 +5,8 @@ The processor processes the files produced from the Processor to create 3 datase
 2. MODIS_A-JPL-L2P-v2019.0;	https://podaac.jpl.nasa.gov/dataset/MODIS_A-JPL-L2P-v2019.0
 3. VIIRS_NPP-JPL-L2P-v2016.2; https://podaac.jpl.nasa.gov/dataset/VIIRS_NPP-JPL-L2P-v2016.2
 
+Top-level Generate repo: https://github.com/podaac/generate
+
 ## pre-requisites to building
 
 A compressed IDL installer (idlxxx-linux.tar.gz) placed in the `processor/idl/install` directory.
