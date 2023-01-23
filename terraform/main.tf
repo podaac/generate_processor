@@ -25,8 +25,8 @@ provider "aws" {
 # Data sources
 data "aws_caller_identity" "current" {}
 
-data "aws_efs_file_system" "aws_efs_processor" {
-  creation_token = "${var.prefix}-processor"
+data "aws_efs_file_system" "aws_efs_generate" {
+  creation_token = var.prefix
 }
 
 data "aws_security_groups" "vpc_default_sg" {
