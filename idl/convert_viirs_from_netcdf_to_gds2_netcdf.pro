@@ -35,7 +35,7 @@ r_status = SUCCESS;
 o_day_or_night = 'Day';  Set default to 'Day'.  It will be set to whatever we fetch from the file.
 
 ; Set our test parameter based on what's being passed in,
-TEST_PARAMETER = "";
+TEST_PARAMETER = STRUPCASE(GETENV('TEST_PARAMETER_STR'))
 if (N_ELEMENTS(i_test_parameter) NE 0) then begin
     TEST_PARAMETER = i_test_parameter;
 endif

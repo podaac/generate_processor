@@ -24,7 +24,7 @@ r_status = SUCCESS;
 routine_name = 'read_float_variables_from_hdf_file';
 
 ; Set our test parameter based on what's being passed in,
-TEST_PARAMETER = "";
+TEST_PARAMETER = STRUPCASE(GETENV('TEST_PARAMETER_STR'))
 if (N_ELEMENTS(i_test_parameter) NE 0) then begin
     TEST_PARAMETER = i_test_parameter;
 endif
