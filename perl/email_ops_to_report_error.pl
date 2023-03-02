@@ -17,27 +17,34 @@
 #
 #------------------------------------------------------------------------------------------------
 
-use File::Basename;  # Use in parsing the full file name.
-
-$GHRSST_PERL_LIB_DIRECTORY = $ENV{GHRSST_PERL_LIB_DIRECTORY};
-do "$GHRSST_PERL_LIB_DIRECTORY/get_error_file_registry_filename.pl";
+# Location of GHRSST PYTHON DIRECTORY
+$GHRSST_PYTHON_LIB_DIRECTORY = $ENV{GHRSST_PYTHON_LIB_DIRECTORY};
 
 sub email_ops_to_report_error {
     
     # Get input.
     my $ref_error_message = shift;
 
-    # Dereference the input.
+    # Required notify input.
     my @l_error_message = @$ref_error_message;
-
-    # Write the message to a file.
     my $message = join(" ",@l_error_message);
-    my $mail_file = "$ENV{'EMPTY_EMAIL_LOCATION'}/email_ops_error_report_$ENV{'RANDOM_NUMBER'}.txt";
-    open(fh, ">", $mail_file);
-    print fh $message;
-    close(fh) or "ERROR: Could not close file to send email error.";
+    my $sigevent_type = "ERROR";
+    my $sigevent_data = "";
 
-    # Send the error email.
-    system("$ENV{'GHRSST_SHELL_LIB_DIRECTORY'}/email_ops_to_report_error.csh");
+    # Create the system call and execute it
+    $python_argument_strings = "-t \"$sigevent_type\" -d \"$message\" -i \"$sigevent_data\"";
+    $call_system_command_str = "$GHRSST_PYTHON_LIB_DIRECTORY/notify.py $python_argument_strings";
+    system("$call_system_command_str")  == 0 or die "ghrsst_notify_operator: $call_system_command_str failed: $?";
 
+    # Check for errors.
+    if ($? == -1) {
+        print "ghrsst_notify_operator: system $args[0] < $args[1] failed to execute: $?\n";
+    } elsif ($? == 256){
+        print "ghrsst_notify_operator: Cannot find file $args[1].\n";
+    } elsif ($? == 0){
+        print "ghrsst_notify_operator: system $args[0] < $args[1] executed with: $?\n";
+        print "ghrsst_notify_operator: Everything is OK.\n";
+    } else {
+        print "ghrsst_notify_operator: system $args[0] < $args[1] executed with: $?\n";
+    }
 }
