@@ -16,6 +16,7 @@ setenv PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE yes    # (OPS.)
 setenv GHRSST_PERL_LIB_DIRECTORY /app/perl
 setenv GHRSST_IDL_LIB_DIRECTORY /app/idl
 setenv GHRSST_SHELL_LIB_DIRECTORY /app/shell
+setenv GHRSST_PYTHON_LIB_DIRECTORY /app/python
 
 # Configuration files
 setenv GHRSST_DATA_CONFIG_FILE /app/config/ghrsst_data_config_file.dat
@@ -45,6 +46,7 @@ setenv GAPFARMUSEMULTIPROCESSESEXECUTOR FALSE   # Set to true if you want to exe
 
 # Test run indicator: Set to true to execute and not intiate SFTP operations.
 setenv TEST_EXECUTION true
+# setenv TEST_PARAMETER_STR ""    # Remove for container usage
 
 # Configuration flags for file manager.
 setenv FTP_PUSH_FLAG "yes"
@@ -121,8 +123,8 @@ setenv GHRSST_IGNORE_WRITE_DT_ANALYSIS_VARIABLE_IN_GDS2_FILE  false
 
 # Environment to show debug printing while running IDL programs/functions.
 # If set to 'false' or not set at all, none of the printing will take place.
-# setenv GHRSST_MODIS_L2P_DEBUG_MODE 'false'
-setenv GHRSST_MODIS_L2P_DEBUG_MODE 'true'
+setenv GHRSST_MODIS_L2P_DEBUG_MODE 'false'    # Set to false for testing as well
+# setenv GHRSST_MODIS_L2P_DEBUG_MODE 'true'
 
 # Will use the new apply_scaling_from_short_to_byte() function to properly scale some
 # variables from short to byte and correct the scale_factor and add_offset values.
