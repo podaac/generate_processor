@@ -98,4 +98,4 @@ setenv JSON_FILE $json_file
 #    over_write_processed_modis_files = {yes,no} over write flag to overwrite if output file already exist.
 #    dataset_name                     = {VIIRS} processing stream
 #    processing_type                  = {QUICKLOOK,REFINED} processing type of stream.
-perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index >> $log_filename
+perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index | tee $log_filename
