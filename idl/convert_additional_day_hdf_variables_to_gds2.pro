@@ -33,7 +33,7 @@ FUNCTION convert_additional_day_hdf_variables_to_gds2,$
 r_status = SUCCESS;
 
 ; Set our test parameter based on what's being passed in.
-TEST_PARAMETER = "";
+TEST_PARAMETER = STRUPCASE(GETENV('TEST_PARAMETER_STR'))
 if (N_ELEMENTS(i_test_parameter) NE 0) then begin
     TEST_PARAMETER = i_test_parameter;
 endif

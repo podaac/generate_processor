@@ -37,7 +37,7 @@ over_all_status = SUCCESS;
 
 ; Set the test parameter based on what's being passed in to test.
 ; For normal operation, the value of i_test_parameter is not set so the N_ELEMENTS() function will return 0.
-TEST_PARAMETER = "";
+TEST_PARAMETER = STRUPCASE(GETENV('TEST_PARAMETER_STR'))
 if (N_ELEMENTS(i_test_parameter) NE 0) then begin
     TEST_PARAMETER = i_test_parameter;
 endif

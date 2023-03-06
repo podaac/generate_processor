@@ -8,6 +8,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libXpm.so.4.11.0 /usr/lib/x86_64-linux-gnu/l
 # FROM stage0 as stage1
 RUN /bin/mkdir /data
 COPY . /app
+RUN /bin/chmod +x /app/python/notify.py
 
 # Stage 2 - IDL installation
 # FROM stage1 as stage2
@@ -36,17 +37,13 @@ RUN /usr/bin/yes | /usr/local/bin/cpan App::cpanminus \
     && /usr/local/bin/cpanm File::NFSLock \
     && /usr/local/bin/cpanm JSON
 
-# Stage 5 - postfix/mailutils setup
+# Stage 5 - Install Python
 # FROM stage4 as stage5
-RUN echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections \
-    && echo "postfix postfix/mailname string reporter.generate" | debconf-set-selections \
-    && echo "postfix postfix/mailname string reporter.generate.com" | debconf-set-selections \
-    && apt install -y postfix \
-    && /usr/sbin/postconf -e "inet_interfaces = loopback-only" \
-    && /usr/sbin/postconf -e "local_transport = error:local delivery is disabled" \
-    && apt install -y mailutils \
-    && /usr/bin/mkfifo /var/spool/postfix/public/pickup \
-    && /usr/sbin/service postfix restart
+RUN apt update && apt install -y software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt install -y python3 python3-pip python3-venv \
+    && /usr/bin/python3 -m venv /app/env \
+    && /app/env/bin/pip install boto3
 
 # Stage 6 - Execute code
 # FROM stage5 as stage6

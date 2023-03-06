@@ -34,7 +34,7 @@ FUNCTION convert_additional_night_viirs_netcdf_variables_to_gds2,i_filename,i_ou
 r_status = SUCCESS;
 
 ; Set our test parameter based on what's being passed in,
-TEST_PARAMETER = "";
+TEST_PARAMETER = STRUPCASE(GETENV('TEST_PARAMETER_STR'))
 if (N_ELEMENTS(i_test_parameter) NE 0) then begin
     TEST_PARAMETER = i_test_parameter;
 endif
