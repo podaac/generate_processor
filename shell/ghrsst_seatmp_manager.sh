@@ -99,3 +99,15 @@ setenv JSON_FILE $json_file
 #    dataset_name                     = {VIIRS} processing stream
 #    processing_type                  = {QUICKLOOK,REFINED} processing type of stream.
 perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index | tee $log_filename
+
+# Check exit code
+
+set exit_code=$status
+echo "EXIT CODE: $exit_code"
+if ( $exit_code == 0 ) then
+    echo "SUCCESSFUL execution: 'startup_level2_combiners.csh' exiting."
+    exit(0)
+else
+    echo "FAILED execution: 'startup_level2_combiners.csh' exiting." 
+    exit(1)
+endif
