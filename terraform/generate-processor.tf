@@ -6,6 +6,12 @@ resource "aws_batch_job_definition" "generate_batch_jd_processor" {
   {
     "image": "${data.aws_ecr_repository.processor.repository_url}:latest",
     "jobRoleArn": "${data.aws_iam_role.batch_job_role.arn}",
+    "environment": [
+        {
+            "name": "AWS_DEFAULT_REGION",
+            "value": "us-west-2"
+        }
+    ],
     "logConfiguration": {
         "logDriver" : "awslogs",
         "options": {
