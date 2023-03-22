@@ -115,7 +115,8 @@ PRO ghrsst_error_logger::write_to_log_file
     log_home = GETENV('ERROR_LOGGER');
     print, log_home
     l_do_not_care_status = actualize_directory(log_home);
-    gela_filename = log_home + '/ghrsst_error_log_archive.txt';
+    random_number = GETENV('RANDOM_NUMBER')
+    gela_filename = log_home + '/ghrsst_error_log_archive_' + random_number + '.txt';
 
     if (SELF.p_structure_is_ready EQ 0) then begin
         print, 'ghrsst_error_logger::write_to_log_file: ERROR, Structure is not ready to be written to log file.'
