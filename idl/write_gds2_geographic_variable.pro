@@ -81,7 +81,9 @@ file_id = NCDF_OPEN(i_filename,/WRITE);
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot set netCDF file into define mode for file ' + i_filename;
+    msg = 'ERROR, Cannot set netCDF file into define mode for file ' + i_filename + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     ; Must return immediately.
     return, o_status
@@ -97,7 +99,9 @@ CATCH, /CANCEL
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot get the ids for lat, lon dimension for file ' + i_filename;
+    msg = 'ERROR, Cannot get the ids for lat, lon dimension for file ' + i_filename + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -115,7 +119,9 @@ help, dataset_zzz_id;
 
 if (dataset_zzz_id EQ -1) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot get the id for zzz dimension for file ' + i_filename;
+    msg = 'ERROR, Cannot get the id for zzz dimension for file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -129,7 +135,9 @@ dataset_lat_id = NCDF_DIMID(file_id,'nj');
 CATCH, /CANCEL
 if (dataset_lat_id EQ -1) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot get the id for nj dimension for file ' + i_filename;
+    msg = 'ERROR, Cannot get the id for nj dimension for file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -141,7 +149,9 @@ dataset_lon_id = NCDF_DIMID(file_id,'ni');
 CATCH, /CANCEL
 if (dataset_lon_id EQ -1) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot get the id for ni dimension for file ' + i_filename;
+    msg = 'ERROR, Cannot get the id for ni dimension for file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -172,7 +182,9 @@ endif
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot create variable for dataset. Variable ' + i_dataset_short_name + " file " + i_filename;
+    msg = 'ERROR, Cannot create variable for dataset. Variable ' + i_dataset_short_name + " file " + i_filename  + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -220,7 +232,9 @@ CATCH, /CANCEL
 ; Because the function NCDF_VARDEF does not throw an exception, we have to check for the validity of the dataset_id.
 ; If it is -1, close the file and return.
 if (dataset_id EQ -1) then begin
-    print, debug_module + 'ERROR, Cannot define variable ' + i_dataset_short_name + ' for file ' + i_filename;
+    msg = 'ERROR, Cannot define variable ' + i_dataset_short_name + ' for file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -235,7 +249,9 @@ endif
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot write attribute ' + write_this_attribute + ' for the dataset for file ' + i_filename;
+    msg = 'ERROR, Cannot write attribute ' + write_this_attribute + ' for the dataset for file ' + i_filename  + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -305,7 +321,9 @@ CATCH, /CANCEL
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot set netCDF file into data mode in anticipation for writing to file ' + i_filename;
+    msg = 'ERROR, Cannot set netCDF file into data mode in anticipation for writing to file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
@@ -323,7 +341,9 @@ CATCH, /CANCEL
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot write dataset ' + i_dataset_short_name + ' to netCDF file ' + i_filename;
+    msg = 'ERROR, Cannot write dataset ' + i_dataset_short_name + ' to netCDF file ' + i_filename + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     NCDF_CLOSE, file_id;
     CATCH, /CANCEL
     o_status = FAILURE;
@@ -340,7 +360,9 @@ CATCH, /CANCEL
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR, Cannot close file ' + i_filename;
+    msg = 'ERROR, Cannot close file ' + i_filename + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     ; Must return immediately.
     return, o_status

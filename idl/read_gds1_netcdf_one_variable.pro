@@ -43,7 +43,9 @@ endif
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, 'read_gds1_netcdf_one_variable: ERROR, Cannot open file for reading ' + i_file_name;
+    msg = 'ERROR, Cannot open file for reading ' + i_file_name + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     r_status = FAILURE;
     ; Must return immediately.
     return, r_status
@@ -63,7 +65,9 @@ CATCH, /CANCEL
 CATCH, error_status 
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, 'read_gds1_netcdf_one_variable: ERROR, Cannot get NCDF_VARID ' + i_variable_short_name + ' from file ' + i_file_name;
+    msg = ERROR, Cannot get NCDF_VARID ' + i_variable_short_name + ' from file ' + i_file_name  + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     r_status = FAILURE;
     ; Must return immediately.
     return, r_status
@@ -77,7 +81,9 @@ CATCH, /CANCEL
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, 'read_gds1_netcdf_one_variable: ERROR, Cannot get NCDF_VARGET for file_id ' + STRING(file_id) + ' varid ' + STRING(varid) + ' from file ' + i_file_name;;
+    msg = 'ERROR, Cannot get NCDF_VARGET for file_id ' + STRING(file_id) + ' varid ' + STRING(varid) + ' from file ' + i_file_name + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     r_status = FAILURE;
     ; Must return immediately.
     return, r_status

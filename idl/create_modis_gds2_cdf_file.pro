@@ -58,7 +58,9 @@ o_status = SUCCESS;
 
 directory_name = FILE_DIRNAME(i_filename);
 if ~FILE_TEST(directory_name,/WRITE) then begin
-    print, debug_module + 'ERROR: User does not have write permission on directory ' + directory_name;
+    msg = 'ERROR: User does not have write permission on directory ' + directory_name
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     return, o_status;
 endif
@@ -203,7 +205,9 @@ endelse
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, 'create_modis_gds2_cdf_file: ERROR, Cannot open file for output ' + i_filename
+    msg = 'ERROR, Cannot open file for output ' + i_filename  + '. Error status: ' + error_status
+    print, debug_module + msg
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     ; Must return immediately.
     return, o_status
@@ -320,7 +324,9 @@ o_status = write_gds2_modis_global_attributes(file_id,$
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, 'create_modis_gds2_cdf_file: ERROR, Cannot close file: ' + i_filename;
+    msg = 'ERROR, Cannot close file: ' + i_filename  + '. Error status: ' + error_status
+    print, debug_module + msg
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     ; Must return immediately.
     return, o_status

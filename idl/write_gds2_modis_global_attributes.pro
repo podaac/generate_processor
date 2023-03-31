@@ -102,7 +102,9 @@ while (array_index LT  N_ELEMENTS(i_global_attributes_array)) do begin
     CATCH, error_status
     if (error_status NE 0) then begin
         CATCH, /CANCEL
-        print, debug_module + 'ERROR: Cannot write attribute ' + attribute_name + ' into file ' + i_filename;
+        msg = 'ERROR: Cannot write attribute ' + attribute_name + ' into file ' + i_filename + '. Error status: ' + error_status
+        print, debug_module + msg;
+        donotcare = error_log_writer(debug_module,msg);
         o_status = FAILURE;
         ; Must return immediately.
         return, o_status
@@ -125,7 +127,9 @@ CATCH, /CANCEL
 
 if (dataset_lat_id LT 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR: Cannot define nj dimension for dataset in file ' + i_filename;
+    msg = 'ERROR: Cannot define nj dimension for dataset in file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CONTROL, i_file_id, /ABORT;  Delete the file
     CATCH, /CANCEL
@@ -139,7 +143,9 @@ CATCH, /CANCEL
 
 if (dataset_lon_id LT 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR: Cannot define ni dimension for dataset in file ' + i_filename;
+    msg = 'ERROR: Cannot define ni dimension for dataset in file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CONTROL, i_file_id, /ABORT;  Delete the file
     CATCH, /CANCEL
@@ -153,7 +159,9 @@ CATCH, /CANCEL
 
 if (time_dim_id LT 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR: Cannot define time dimension for dataset in file ' + i_filename;
+    msg = 'ERROR: Cannot define time dimension for dataset in file ' + i_filename
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     NCDF_CONTROL, i_file_id, /ABORT;  Delete the file
     CATCH, /CANCEL
@@ -168,7 +176,9 @@ endif
 CATCH, error_status
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    print, debug_module + 'ERROR: Cannot put netCDF file out of define mode and into data mode for file ' + i_filename;
+    msg = 'ERROR: Cannot put netCDF file out of define mode and into data mode for file ' + i_filename + '. Error status: ' + error_status
+    print, debug_module + msg;
+    donotcare = error_log_writer(debug_module,msg);
     o_status = FAILURE;
     ; Must return immediately.
     return, o_status
