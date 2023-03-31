@@ -65,7 +65,7 @@ CATCH, /CANCEL
 CATCH, error_status 
 if (error_status NE 0) then begin
     CATCH, /CANCEL
-    msg = ERROR, Cannot get NCDF_VARID ' + i_variable_short_name + ' from file ' + i_file_name  + '. Error status: ' + error_status
+    msg = 'ERROR, Cannot get NCDF_VARID ' + i_variable_short_name + ' from file ' + i_file_name  + '. Error status: ' + error_status
     print, debug_module + msg;
     donotcare = error_log_writer(debug_module,msg);
     r_status = FAILURE;
