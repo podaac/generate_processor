@@ -162,7 +162,7 @@ def publish_event(sigevent_type, sigevent_description, sigevent_data, logger):
             topic_arn = topic["TopicArn"]
             
     # Publish to topic
-    subject = f"Generate Batch Job Failure: {os.getenv('SIGEVENT_SOURCE')}"
+    subject = f"Generate Batch Job Failure: Processor"
     message = f"Generate AWS Batch processor job has encountered an error.\n" \
         + f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}.\n" \
         + f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}.\n" \
