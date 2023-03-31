@@ -19,16 +19,18 @@ PRO idl_one_process_executor, $
 ;
 
     args = COMMAND_LINE_ARGS(COUNT = argCount);
+    i_task_string = i_task_string.Replace('"', '')
+    print, "idl_one_process_executor: task string " + i_task_string
 
-;print, 'argcount ', argCount;
-    IF argCount EQ 0 THEN BEGIN
-;        PRINT, 'idl_one_process_executor:No input arguments specified'
-;        RETURN
-    ENDIF ELSE BEGIN
-;print, 'args ', size(args);
-;help,    args[0];
-        i_task_string = args[0];
-    ENDELSE
+; ;print, 'argcount ', argCount;
+;     IF argCount EQ 0 THEN BEGIN
+; ;        PRINT, 'idl_one_process_executor:No input arguments specified'
+; ;        RETURN
+;     ENDIF ELSE BEGIN
+; ;print, 'args ', size(args);
+; ;help,    args[0];
+;         i_task_string = args[0];
+;     ENDELSE
 
 
 tstart = systime(1)

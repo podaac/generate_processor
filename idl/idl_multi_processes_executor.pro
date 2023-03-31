@@ -1136,9 +1136,9 @@ print, 'idl_multi_processes_executor:i_use_cluster_flag [',i_use_cluster_flag,']
       endif
   endelse
 
-  print, 'OPERATING_SYSTEM_COMMAND [', operating_system_command, ']';
+  ;print, 'OPERATING_SYSTEM_COMMAND [', operating_system_command, ']';
 
-print, "idl -quiet -rt=" + operating_system_command + "]";
+;print, "idl -quiet -rt=" + operating_system_command + "]";
 
   ; Now, execute the IDL program with the strings we've built above..
   ;
@@ -1146,7 +1146,9 @@ print, "idl -quiet -rt=" + operating_system_command + "]";
   ;       so their values are not as reliable to be inspected.
   ;       For now, we assume the SPAWN function works.
 
-  SPAWN, "idl -quiet -rt=" + operating_system_command, spawn_result, spawn_error;
+  ;SPAWN, "idl -quiet -rt=" + operating_system_command, spawn_result, spawn_error;
+  print, "IDL COMMAND STRING: " + '"' + o_idl_command_str + '"'
+  idl_one_process_executor, '"' + o_idl_command_str + '"'
 
 endfor
 
