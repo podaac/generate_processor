@@ -109,6 +109,7 @@ sub manage_ghrsst_modis_data_sets {
     my $l_partial_directory_name = lc($i_processing_type) . "_" . lc($i_datasource);
     my $tmp_uncompressed_bzip_filelist = create_random_filename(
                                          $l_partial_directory_name,"uncompressed_bzip_filelist_modis");
+    print "manage_ghrsst_modis_data_sets, tmp_uncompressed_bzip_filelist: $tmp_uncompressed_bzip_filelist\n";
 
     my $modis_data_directory   = "";
     my $modis_data_name_prefix = "";
@@ -172,6 +173,10 @@ sub manage_ghrsst_modis_data_sets {
     my ($status,$input_list_ref) = load_file_list($modis_search_directory, $i_datasource, $i_processing_type, $modis_data_name_prefix, $i_job_index);
     my @modis_filelist = @$input_list_ref;
 
+    print "manage_ghrsst_modis_data_sets, list of files to process: \n";
+    for(@modis_filelist) {
+        print "manage_ghrsst_modis_data_sets, file to process: $_";
+    }
 
     if ($debug_mode) {
         print $debug_module . "modis_search_directory [$modis_search_directory]\n";
