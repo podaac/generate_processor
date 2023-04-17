@@ -24,8 +24,17 @@ setenv MAF_THRESHOLD_CONFIG_FILE /app/config/maf_threshold_config.dat
 setenv GHRSST_CLUSTER_HOST_FILENAME_LIST /app/config/host_list.txt
 
 # Scratch directory to store temporary files, MAFs and registry.
-setenv SCRATCH_AREA         /data/scratch     
-setenv RANDOM_NUMBER $AWS_BATCH_JOB_ID
+setenv SCRATCH_AREA         /data/scratch
+
+# Create a random number using AWS_BATCH_JOB_ID environment variable
+set job_id_list = ($AWS_BATCH_JOB_ID:as/:/ /)
+if(${#job_id_list} == 2) then
+  setenv RANDOM_NUMBER "$job_id_list[1]-$job_id_list[2]"
+else
+  setenv RANDOM_NUMBER $AWS_BATCH_JOB_ID
+endif
+
+# Set scratch area registries to track processed files
 setenv QUICKLOOK_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_quicklook_$RANDOM_NUMBER.dat
 setenv REFINED_FILE_ERROR_REGISTRY_FILENAME $SCRATCH_AREA/ghrsst_master_error_file_registry_refined_$RANDOM_NUMBER.dat
 
