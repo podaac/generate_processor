@@ -68,30 +68,30 @@ jobs:
        - name: IDL Clean Up
          run: deploy/deploy-clean.sh
 
-      # # Set up Terraform
-      # - name: Setup Terraform
-      #   uses: hashicorp/setup-terraform@v2.0.3
-      #   with:
-      #     terraform_version: 1.3.7
+      # Set up Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+        with:
+          terraform_version: 1.3.7
       
-      # - name: Define TF_VAR values
-      #   run: |
-      #     echo "TF_VAR_environment=$TARGET_ENV" >> $GITHUB_ENV
-      #     echo "TF_VAR_prefix=$PREFIX_ENV" >> $GITHUB_ENV
+      - name: Define TF_VAR values
+        run: |
+          echo "TF_VAR_environment=$TARGET_ENV" >> $GITHUB_ENV
+          echo "TF_VAR_prefix=$PREFIX_ENV" >> $GITHUB_ENV
 
-      # - name: Initialize Terraform
-      #   working-directory: terraform/
-      #   run: |
-      #     terraform init -reconfigure \
-      #         -backend-config="bucket=${PREFIX_ENV}-tf-state" \
-      #         -backend-config="key=${APP_NAME_ENV}.tfstate" \
-      #         -backend-config="region=${AWS_DEFAULT_REGION}"
+      - name: Initialize Terraform
+        working-directory: terraform/
+        run: |
+          terraform init -reconfigure \
+              -backend-config="bucket=${PREFIX_ENV}-tf-state" \
+              -backend-config="key=${APP_NAME_ENV}.tfstate" \
+              -backend-config="region=${AWS_DEFAULT_REGION}"
 
-      # - name: Validate Terraform
-      #   working-directory: terraform/
-      #   run: terraform validate -no-color
+      - name: Validate Terraform
+        working-directory: terraform/
+        run: terraform validate -no-color
 
-      # # Deploy AWS infrastructure
-      # - name: Deploy Terraform
-      #   working-directory: terraform/
-      #   run: terraform apply -auto-approve
+      # Deploy AWS infrastructure
+      - name: Deploy Terraform
+        working-directory: terraform/
+        run: terraform apply -auto-approve
