@@ -64,9 +64,9 @@ jobs:
             -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-       # Clean up IDL files
-       - name: IDL Clean Up
-         run: deploy/deploy-clean.sh
+      # Clean up IDL files
+      - name: IDL Clean Up
+        run: deploy/deploy-clean.sh
 
       # Set up Terraform
       - name: Setup Terraform
