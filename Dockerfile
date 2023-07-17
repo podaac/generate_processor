@@ -43,7 +43,7 @@ RUN apt update && apt install -y software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt install -y python3 python3-pip python3-venv \
     && /usr/bin/python3 -m venv /app/env \
-    && /app/env/bin/pip install boto3
+    && /app/env/bin/pip install boto3 requests
 
 # Stage 6 - Execute code
 # FROM stage5 as stage6
