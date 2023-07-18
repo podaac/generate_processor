@@ -157,7 +157,7 @@ def get_ecs_task_metadata(logger):
         response_json = response.json()
         log_group = response_json["LogOptions"]["awslogs-group"]
         log_stream = response_json["LogOptions"]["awslogs-stream"]
-        log = f"Log Group: {log_group}\nLog Stream: {log_stream}"
+        log = f"Log Group: {log_group}\nLog Stream: {log_stream}\n\n"
     else:
         log = ""
     return log
@@ -179,15 +179,17 @@ def publish_event(sigevent_type, sigevent_description, sigevent_data, logger, lo
             topic_arn = topic["TopicArn"]
             
     # Publish to topic
-    subject = f"Generate Batch Job Failure: Processor"
-    message = f"Generate AWS Batch processor job has encountered an error.\n" \
+    subject = f"Generate workflow error: Processor component error"
+    message = f"Generate AWS Batch processor job has encountered an error.\n\n" \
+        + "JOB INFORMATION:\n" \
         + f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}.\n" \
         + f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}.\n"
     
     if log_metadata:
         message += log_metadata
         
-    message += f"\nError type: {sigevent_type}.\n" \
+    message += "ERROR INFORMATION:\n" \
+        + f"Error type: {sigevent_type}.\n" \
         + f"Error description: {sigevent_description}\n\n" \
         + "Please note that the combiner result NetCDF file associated with the error may have been quarantined and the error checker will attempt to resubmit them to the Generate workflow.\n\n" \
         + "Please follow these steps to diagnose the error: https://wiki.jpl.nasa.gov/pages/viewpage.action?pageId=771470900#GenerateCloudOperationsErrorDetection&Recovery-Combiner&ProcessorErrors\n\n\n"
