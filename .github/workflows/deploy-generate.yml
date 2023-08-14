@@ -51,6 +51,18 @@ jobs:
       # Check out GitHub repo
       - uses: actions/checkout@v3
 
+      # SNYK IAC scan and report
+      - name: Run Snyk IAC to test and report
+        uses: snyk/actions/iac@master
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: >
+              --org=${{ secrets.SNYK_ORG_ID }}
+              --severity-threshold=high
+              --report
+
       # Configure credentials 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

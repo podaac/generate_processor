@@ -1,6 +1,6 @@
 # Stage 0 - Create from Perl 5.34.1-slim-buster image and install dependencies
-# FROM perl:5.34.1-slim-buster AS stage0
-FROM perl:5.34.1-slim-buster
+# FROM perl:5.39-slim-bullseye as stage0
+FROM perl:5.39-slim-bullseye
 RUN apt update && apt install -y tcsh libfreetype6 libxpm4 libxmu6 libidn11 procps build-essential iputils-ping curl libxinerama-dev
 RUN ln -s /usr/lib/x86_64-linux-gnu/libXpm.so.4.11.0 /usr/lib/x86_64-linux-gnu/libXp.so.6
 
