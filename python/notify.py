@@ -16,6 +16,7 @@ import sys
 # Third-party imports
 import boto3
 import botocore
+import requests
 
 # Constants
 TOPIC_STRING = "batch-job-failure"
@@ -25,7 +26,8 @@ def notify(sigevent_type, sigevent_description, sigevent_data):
     
     logger = get_logger()
     log_event(sigevent_type, sigevent_description, sigevent_data, logger)
-    if sigevent_type == "ERROR": publish_event(sigevent_type, sigevent_description, sigevent_data, logger)
+    log_metadata = get_ecs_task_metadata(logger)
+    if sigevent_type == "ERROR": publish_event(sigevent_type, sigevent_description, sigevent_data, logger, log_metadata)
     sys.exit(0)
     
 def get_logger():
@@ -144,8 +146,23 @@ def log_to_job_stream(sigevent_type, sigevent_description, sigevent_data, logger
         logger.error(f"Error type: {sigevent_type}")
         logger.error(f"Error description: {sigevent_description}")
         if sigevent_data != "": logger.error(f"Error data: {sigevent_data}")
+        
+def get_ecs_task_metadata(logger):
+    """Return log group and log stream if available from ECS task endpoint."""
     
-def publish_event(sigevent_type, sigevent_description, sigevent_data, logger):
+    ecs_endpoint = os.getenv("ECS_CONTAINER_METADATA_URI_V4")
+    if ecs_endpoint:
+        response = requests.get(ecs_endpoint)
+        logger.info(f"ECS endpoint response: {response}.")
+        response_json = response.json()
+        log_group = response_json["LogOptions"]["awslogs-group"]
+        log_stream = response_json["LogOptions"]["awslogs-stream"]
+        log = f"Log Group: {log_group}\nLog Stream: {log_stream}\n\n"
+    else:
+        log = ""
+    return log
+    
+def publish_event(sigevent_type, sigevent_description, sigevent_data, logger, log_metadata):
     """Publish event to SNS Topic."""
     
     sns = boto3.client("sns")
@@ -162,12 +179,20 @@ def publish_event(sigevent_type, sigevent_description, sigevent_data, logger):
             topic_arn = topic["TopicArn"]
             
     # Publish to topic
-    subject = f"Generate Batch Job Failure: Processor"
-    message = f"Generate AWS Batch processor job has encountered an error.\n" \
+    subject = f"Generate workflow error: Processor component error"
+    message = f"Generate AWS Batch processor job has encountered an error.\n\n" \
+        + "JOB INFORMATION:\n" \
         + f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}.\n" \
-        + f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}.\n" \
+        + f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}.\n"
+    
+    if log_metadata:
+        message += log_metadata
+        
+    message += "ERROR INFORMATION:\n" \
         + f"Error type: {sigevent_type}.\n" \
-        + f"Error description: {sigevent_description}\n"
+        + f"Error description: {sigevent_description}\n\n" \
+        + "Please note that the combiner result NetCDF file associated with the error may have been quarantined and the error checker will attempt to resubmit them to the Generate workflow.\n\n" \
+        + "Please follow these steps to diagnose the error: https://wiki.jpl.nasa.gov/pages/viewpage.action?pageId=771470900#GenerateCloudOperationsErrorDetection&Recovery-Combiner&ProcessorErrors\n\n\n"
     if sigevent_data != "": message += f"Error data: {sigevent_data}"
     try:
         response = sns.publish(

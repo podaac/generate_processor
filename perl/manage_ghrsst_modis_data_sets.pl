@@ -451,6 +451,8 @@ sub manage_ghrsst_modis_data_sets {
         push(@error_message,"Please do not reply to the email.\n");
         push(@error_message,"\n");
         push(@error_message,"manage_ghrsst_modis_data_sets: System command failed [$call_system_command_str]\n");
+        push(@error_message,"\n");
+        push(@error_message,"Files associated with processing have been quarantined.\n");
 
         email_ops_to_report_error(\@error_message);
     }

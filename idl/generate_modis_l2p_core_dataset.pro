@@ -205,7 +205,7 @@ if (l_convert_status NE SUCCESS) then begin
                'GHRSST_PROCESSING_ERROR ' + ' Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename);
 
     msg_type = "error";
-    msg = 'Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename;
+    msg = 'Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename + ". Files associated with processing have been quarantined.";
     print, debug_module + msg;
     donotcare = wrapper_ghrsst_notify_operator($
                         routine_name,$
@@ -280,7 +280,7 @@ endif
                       'GHRSST_PROCESSING_ERROR ' + ' Function compress_and_ftp_push_modis_L2P_core_datasets failed for file ' + i_l2p_core_filename);
 
             msg_type = "error";
-            msg = 'Function compress_and_ftp_push_modis_L2P_core_datasets failed for file ' + i_l2p_core_filename;
+            msg = 'Function compress_and_ftp_push_modis_L2P_core_datasets failed for file ' + i_l2p_core_filename + ". Files associated with processing have been quarantined.";
             donotcare = wrapper_ghrsst_notify_operator($
                         routine_name,$
                         msg_type,$
