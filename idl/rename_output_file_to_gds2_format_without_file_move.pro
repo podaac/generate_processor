@@ -68,7 +68,7 @@ endif
 ; dash_name_tokens[4] = "A2012298001000";
 ;                        01234567890123
 
-time_portion = STRMID(dash_name_tokens[4],8);
+time_portion = STRMID(dash_name_tokens[4],10);
 
 ; Rename the 'Day' output file to the GDS2 format.
 
