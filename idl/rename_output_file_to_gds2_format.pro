@@ -32,8 +32,8 @@ FUNCTION rename_output_file_to_gds2_format,$
 
 @modis_data_config.cfg
 
-routine_name = 'rename_output_file_to_gds2_format:';
-debug_module = 'rename_output_file_to_gds2_format:';
+routine_name = 'rename_output_file_to_gds2_format.pro';
+debug_module = 'rename_output_file_to_gds2_format.pro';
 debug_flag = 0;
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_flag = 1;
@@ -53,7 +53,7 @@ dot_name_tokens  = STRSPLIT(name_only,".",/EXTRACT);
 dash_name_tokens = STRSPLIT(dot_name_tokens[0],"-",/EXTRACT);
 
 if (SIZE(dash_name_tokens,/N_ELEMENTS) NE 5) then begin
-    print, debug_module + 'ERROR, Expecting exactly 5 tokens, received ' + STRING(SIZE(dash_name_tokens,/N_ELEMENTS)) + ' tokens from ' + i_out_filename;
+    print, debug_module + ' - ERROR: Expecting exactly 5 tokens, received ' + STRING(SIZE(dash_name_tokens,/N_ELEMENTS)) + ' tokens from ' + i_out_filename;
     o_status = FAILURE;
     return, o_status;
 endif
@@ -70,7 +70,7 @@ nominal_time_length = 6;   001000
 ;print, debug_module + 'time_portion ', time_portion
 ;print, debug_module + 'STRLEN(time_portion) ', STRLEN(time_portion)
 IF STRLEN(time_portion) GT nominal_time_length THEN BEGIN
-    print, debug_module + 'WARN: Original time_portion ' + time_portion
+    print, debug_module + ' - WARN: Original time_portion ' + time_portion
     ; Look for the T and extract after as in T001000.
     letter_T_pos = STRPOS(time_portion,'T');
     if (letter_T_pos GE 0) then begin

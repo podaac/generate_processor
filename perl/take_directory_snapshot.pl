@@ -246,7 +246,7 @@ if (index($0,$module_name) >= 0)
     print "cat -n $r_tmp_filelist\n";
     system("cat -n $r_tmp_filelist");
 
-    print "\n";
+    ;
     print "unlink('/home/qchau/scratch/current_logs/__1474997057.refined_viirs_v/tmp_scratch_filelist')\n";
     unlink("/home/qchau/scratch/current_logs/__1474997057.refined_viirs_v/tmp_scratch_filelist");
     print "unlink('/home/qchau/scratch/current_logs/__1474997057.refined_modis_a/tmp_scratch_filelist')\n";

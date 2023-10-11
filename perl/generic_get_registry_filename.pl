@@ -72,7 +72,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     $data_source      = "MODIS_A";
     $processing_type = "REFINED";
@@ -80,7 +80,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     $data_source      = "MODIS_T";
     $processing_type = "QUICKLOOK";
@@ -88,7 +88,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     $data_source      = "MODIS_T";
     $processing_type = "REFINED";
@@ -96,7 +96,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     $data_source      = "VIIRS";
     $processing_type = "QUICKLOOK";
@@ -104,7 +104,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     $data_source      = "VIIRS";
     $processing_type = "REFINED";
@@ -112,7 +112,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     $data_source      = "THIS_DATA_SOURCE_IS_NOT_SUPPORTED_YET";
     $processing_type = "REFINED";
@@ -120,7 +120,7 @@ if (index($0,$module_name) >= 0)
                                                     $data_source,
                                                     $processing_type);
     print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
-    print "\n";
+    ;
 
     exit(0);
 }

@@ -71,7 +71,7 @@ endelse
 ; If that is the case, we will merely perform a copy/move of the uncompressed file from
 ; its original location to our scratch area.
 if (FILE_TEST(i_uncompress_bzip_filename)) then begin
-    print, "uncompress_one_modis_dataset: INFO, file has been uncompressed already " + i_uncompress_bzip_filename;
+    print, "uncompress_one_modis_dataset.pro  - INFO: file has been uncompressed already " + i_uncompress_bzip_filename;
     RETURN, over_all_status
 endif
 
@@ -79,7 +79,7 @@ endif
 ; to do.  
 
 if (FILE_TEST(result_uncompressed_filename)) then begin
-    print, "uncompress_one_modis_dataset: INFO, file has been uncompressed already " + result_uncompressed_filename;
+    print, "uncompress_one_modis_dataset.pro  - INFO: file has been uncompressed already " + result_uncompressed_filename;
     RETURN, over_all_status
 endif 
 
@@ -92,18 +92,18 @@ if (FILE_TEST(l_compressed_filename)) then begin
 
     call_shell_command_str = "bunzip2 "  + l_compressed_filename;
 
-;print,  "bunzip2 " + l_compressed_filename 
-;print,  "call_shell_command_str = [" + call_shell_command_str+ "]";
+    ;print,  "bunzip2 " + l_compressed_filename 
+    ;print,  "call_shell_command_str = [" + call_shell_command_str+ "]";
 
     SPAWN, call_shell_command_str, compress_run_result, compress_run_error;
 
-;help, compress_run_result, compress_run_error;
+    ;help, compress_run_result, compress_run_error;
 
     run_result_string_size = STRLEN(compress_run_result[0]);
     run_error_string_size = STRLEN(compress_run_error[0])
 
-;print,  "uncompress_one_modis_dataset: run_result_string_size = ", run_result_string_size 
-;print,  "uncompress_one_modis_dataset: run_error_string_size  = ", run_error_string_size 
+    ;print,  "uncompress_one_modis_dataset: run_result_string_size = ", run_result_string_size 
+    ;print,  "uncompress_one_modis_dataset: run_error_string_size  = ", run_error_string_size 
 
     ;
     ; Check for the string length of both parameters returned from SPAWN program.
@@ -111,13 +111,13 @@ if (FILE_TEST(l_compressed_filename)) then begin
     ;
 
     if (run_result_string_size NE 0 || run_error_string_size NE 0) then begin
-        print, "uncompress_one_modis_dataset: Failed in uncompressing file: " + i_uncompress_bzip_filename;
-        print, "uncompress_one_modis_dataset: compress_run_result[0] = " + compress_run_result[0]
-        print, "uncompress_one_modis_dataset: compress_run_error[0]  = " + compress_run_error[0]
+        print, "uncompress_one_modis_dataset.pro  - INFO: Failed in uncompressing file: " + i_uncompress_bzip_filename;
+        print, "uncompress_one_modis_dataset.pro  - INFO: compress_run_result[0] = " + compress_run_result[0]
+        print, "uncompress_one_modis_dataset.pro  - ERROR: compress_run_error[0]  = " + compress_run_error[0]
         over_all_status = FAILURE;
     endif
 endif else begin
-print, "uncompress_one_modis_dataset: INFO, file does not exist " + l_compressed_filename 
+print, "uncompress_one_modis_dataset.pro  - INFO: file does not exist " + l_compressed_filename 
 endelse
 
 RETURN, over_all_status

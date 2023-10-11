@@ -70,8 +70,7 @@ sub iterate_stage_commands {
     # Repeat 5 times or until able to copy and uncompressed.
     do {
 
-print "--------------------------------------------------------------------------------\n";
-print "iterate_stage_commands:INFO, attempt_index = $attempt_index\n";
+print "iterate_stage_commands.pl - INFO: attempt_index = $attempt_index\n";
         #
         # Only copy the file if it does not exist already at the destination.
         #
@@ -79,11 +78,11 @@ print "iterate_stage_commands:INFO, attempt_index = $attempt_index\n";
 #print "  cp $i_uncompressed_data_filename $i_scratch_area/\n";
 #print "  destination_name = $destination_name\n";
         if (-e $destination_name) {
-            print "  INFO, File $destination_name exist.  Will not be copied.\n";
+            print "iterate_stage_commands.pl - INFO, File $destination_name exist.  Will not be copied.\n";
             $copied_success = 1; # Eventhough this code did not copy the file, it is found so we considered it copied. 
             # Uncompress the file also if flag is set.
             if (lc($i_uncompress_flag) eq 'yes') {
-                print "  INFO, Performing uncompressing on $destination_name\n";
+                print "iterate_stage_commands.pl - INFO, Performing uncompressing on $destination_name\n";
                 my $l_status = uncompress_one_modis_dataset($destination_name);
                 # If the file was copied and uncompressed, we keep track of how many.
                 if ($l_status == 0) {
@@ -91,20 +90,20 @@ print "iterate_stage_commands:INFO, attempt_index = $attempt_index\n";
                     $attempts_exhausted = 1;
                 }
             } else {
-                print "iterate_stage_commands:INFO, i_uncompress_flag = [$i_uncompress_flag]\n";
+                print "iterate_stage_commands.pl - INFO: i_uncompress_flag = [$i_uncompress_flag]\n";
                 $attempts_exhausted = 1;
             }
         } else {
             if ($ENV{PERFORM_MOVE_INSTEAD_OF_COPY_WHEN_STAGING_HDF_FILE} eq "yes") {
                 # Note, since the mv command preserve the last modified time, we perform an additional touch command to update the time to now.
                 system("mv  $i_uncompressed_data_filename $i_scratch_area/");
-print "  INFO, Moving $i_uncompressed_data_filename to $destination_name\n";
+                print "iterate_stage_commands.pl - INFO, Moving $i_uncompressed_data_filename to $destination_name\n";
                 if (-e $destination_name) {
                     system("touch $destination_name");
                 }
             } else {
                 system("cp $i_uncompressed_data_filename $i_scratch_area/");
-print "  INFO, Copying $i_uncompressed_data_filename to $destination_name\n";
+                print "iterate_stage_commands.pl - INFO, Copying $i_uncompressed_data_filename to $destination_name\n";
             }
 
             #
@@ -113,24 +112,24 @@ print "  INFO, Copying $i_uncompressed_data_filename to $destination_name\n";
             my $l_proceed_to_uncompress_flag = 0;
 
             if ($? == -1) {
-                print "iterate_stage_commands:ERROR, system cp $i_uncompressed_data_filename $i_scratch_area/ failed to execute: $?\n";
+                print "iterate_stage_commands.pl - INFO: system cp $i_uncompressed_data_filename $i_scratch_area/ failed to execute: $?\n";
                 $o_status = 1;
             } elsif ($? == 256){
-                print "iterate_stage_commands:ERROR, Cannot find file  $i_uncompressed_data_filename\n";
-                print "iterate_stage_commands:attempt_index $attempt_index failed\n";
+                print "iterate_stage_commands.pl - INFO: Cannot find file  $i_uncompressed_data_filename\n";
+                print "iterate_stage_commands.pl - INFO: attempt_index $attempt_index failed\n";
                 $o_status = 1;
             } elsif ($? == 0){
                 $l_proceed_to_uncompress_flag = 1;  # We set this so the file will get uncompress later. 
                 $copied_success               = 1;
             } else {
-                print "iterate_stage_commands:ERROR, system cp $i_uncompressed_data_filename $i_scratch_area/ executed with: $?\n";
+                print "iterate_stage_commands.pl - INFO: system cp $i_uncompressed_data_filename $i_scratch_area/ executed with: $?\n";
                 $o_status = 1;
             }
 
             if ($l_proceed_to_uncompress_flag == 1) {
                 # Uncompress the file also if flag is set.
                 if (lc($i_uncompress_flag) eq 'yes') {
-print "  INFO, Performing uncompressing on $destination_name\n";
+                   print "iterate_stage_commands.pl - INFO: Performing uncompressing on $destination_name\n";
 
                    my $l_status = uncompress_one_modis_dataset($destination_name);
                    # If the file was copied and uncompressed, we keep track of how many.
@@ -139,7 +138,7 @@ print "  INFO, Performing uncompressing on $destination_name\n";
                       $attempts_exhausted = 1;
                    }
                 } else {
-                    print "iterate_stage_commands:INFO, i_uncompress_flag = [$i_uncompress_flag]\n";
+                    print "iterate_stage_commands.pl - INFO: i_uncompress_flag = [$i_uncompress_flag]\n";
                     $attempts_exhausted = 1;
                 }
             } # end if ($l_proceed_to_uncompress_flag == 1)

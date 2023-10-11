@@ -46,7 +46,7 @@ if FILE_TEST(i_master_processed_filelist) then begin
     system_command_string = 'echo ' + '"' +  i_l2p_core_filename $
                                     + ',' + l_current_time_in_seconds_as_ascii + ',' + l_current_time_in_ascii + '"' + '>> ' + i_master_processed_filelist;
 
-    print, 'append_to_L2P_processed_file_registry: system_command_string = [' $
+    print, 'append_to_L2P_processed_file_registry.pro - INFO: system_command_string = [' $
           + system_command_string + ']';
 
     SPAWN, system_command_string
@@ -56,8 +56,8 @@ if FILE_TEST(i_master_processed_filelist) then begin
    release_processed_file_registry;
  
 endif else begin 
-    print, "append_to_L2P_processed_file_registry: ERROR, File not found ", i_master_processed_filelist;
-    print, "append_to_L2P_processed_file_registry: Cannot append ", i_l2p_core_filename;
+    print, "append_to_L2P_processed_file_registry.pro - ERROR: File not found ", i_master_processed_filelist;
+    print, "append_to_L2P_processed_file_registry.pro - INFO: Cannot append ", i_l2p_core_filename;
     r_status = 1;
 endelse
 

@@ -50,7 +50,7 @@ sub ghrsst_modis_file_manager()
 {
 
   my $begin_processing_time = localtime;
-  print "ghrsst_modis_file_manager: begin_processing_time = $begin_processing_time\n";
+  # print "ghrsst_modis_file_manager.pl - INFO: Begin_processing_time = $begin_processing_time\n";
 
   #
   # Get input parameters.
@@ -76,12 +76,6 @@ sub ghrsst_modis_file_manager()
 
   # Reset last parameter if not passed in.
   if ($i_use_cluster_flag eq "") {
-      $i_use_cluster_flag  = "LEAVE_ALONE_CLUSTER_IF_AVAILABLE";
-  }
-
-  # Reset if TaskDL environment is not set up correctly.
-  if (verify_taskdl_environment_setup() != 1) {
-      print "ghrsst_modis_file_manager: WARNING, Cannot use slave nodes.  Will be using head node for processing.\n";
       $i_use_cluster_flag  = "LEAVE_ALONE_CLUSTER_IF_AVAILABLE";
   }
 
@@ -123,7 +117,7 @@ sub ghrsst_modis_file_manager()
                     $i_compress_flag,$i_checksum_flag,$i_convert_to_kelvin,$i_processing_type,
                     $i_job_index, $i_use_cluster_flag, $i_test_parameter);
   } else {
-      print "ghrsst_modis_file_manager: data source is not supported at this time: $i_datasource.\n";
+      print "ghrsst_modis_file_manager.pl - INFO: Data source is not supported at this time: $i_datasource.\n";
 
       my @error_message = ();
       push(@error_message,"\n");
@@ -139,13 +133,13 @@ sub ghrsst_modis_file_manager()
 
 #  print "ghrsst_modis_file_manager: status = [$status]\n";
   if ($status != 0) {
-    print "ghrsst_modis_file_manager: Function manage_ghrsst_modis_data_sets() failed.  No need to continue\n";
-    print "ghrsst_modis_file_manager: status = $status\n";
+    print "ghrsst_modis_file_manager.pl - INFO: Function manage_ghrsst_modis_data_sets() failed.  No need to continue\n";
+    print "ghrsst_modis_file_manager - INFO: status = $status\n";
   }
 
   my $end_processing_time = localtime;
-  print "ghrsst_modis_file_manager: begin_processing_time = $begin_processing_time\n";
-  print "ghrsst_modis_file_manager: end_processing_time   = $end_processing_time\n";
+  print "ghrsst_modis_file_manager.pl - INFO: begin_processing_time = $begin_processing_time\n";
+  print "ghrsst_modis_file_manager.pl - INFO: end_processing_time   = $end_processing_time\n";
 }
 # ---------- Close up shop ----------
 end

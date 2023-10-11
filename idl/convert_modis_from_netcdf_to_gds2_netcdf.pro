@@ -51,7 +51,7 @@ i_data = "";
 
 ; Get the DEBUG_MODE if it is set.
 
-debug_module = 'convert_modis_from_netcdf_to_gds2_netcdf:';
+debug_module = 'convert_modis_from_netcdf_to_gds2_netcdf.pro - INFO:';
 debug_mode = 0
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_mode = 1;
@@ -196,7 +196,7 @@ if (r_status NE SUCCESS) then begin
     status = FAILURE;
     msg_type = "error";
     msg = "Cannot read string global attribute " + attribute_name + " from file " + i_filename;
-    print, msg;
+    print, debug_module + msg;
     l_status = error_log_writer(routine_name,msg);
     ; Must return immediately.
     return, status
@@ -658,7 +658,7 @@ endif
 if (r_num_bad_scan_lines GT 0) then begin
     msg_type = "warning";
     msg = 'File ' + i_filename + ' contains bad latitudes.';
-    print, msg;
+    print, debug_module + msg;
     if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_THROW_WARNING_FOR_BAD_GEOGRAPHIC_COORDINATES')) EQ 'TRUE') then begin
         donotcare = wrapper_ghrsst_notify_operator(routine_name,msg_type,msg,i_data);
     endif
@@ -940,8 +940,8 @@ r_status = find_netcdf_variable_attribute_info('valid_max',    o_data_variable_s
 data_type_as_int = SIZE(r_dataset_array,/TYPE);
 r_data_type = convert_int_type_to_char_type(data_type_as_int);
 
-print, "r_slope",r_slope;
-print, "r_intercept",r_intercept;
+print, debug_module + "r_slope: " + STRTRIM(r_slope,2);
+print, debug_module + "r_intercept" + STRTRIM(r_intercept,2);
 ;stop;
 
 ;
@@ -966,7 +966,7 @@ endif else begin
     ; If the fill value is not provided, we use a constant, which is hard-coded.
     r_sst_fill_value = MISSING_VALUE_SST;
     msg = routine_name + ':' + 'Fill value missing for variable ' + i_dataset_name + '.  Setting to default value ' + STRTRIM(STRING(MISSING_VALUE_SST),2);
-    print, msg;
+    print, debug_module + msg;
 endelse
 
 ; If the valid_min value is provided from NetCDF file, we attempt to use it

@@ -19,7 +19,7 @@ $GHRSST_PERL_LIB_DIRECTORY = $ENV{GHRSST_PERL_LIB_DIRECTORY};
 do "$GHRSST_PERL_LIB_DIRECTORY/ghrsst_modis_file_manager.pl";
 
 # Debug Flag
-my $debug_module = "ghrsst_generic_seatmp_manager:";
+my $debug_module = "ghrsst_generic_seatmp_manager.pl";
 my $debug_mode   = 1;
 
 # Set global number of files to process each time. Useful in coding and debugging and in controlling how long the script should run for.
@@ -56,12 +56,12 @@ if ($num_args >= 5) {
         $job_index = $ARGV[4];
     }
 } else {
-    print $debug_module . "ERROR:Example of good runs\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS QUICKLOOK 0\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS REFINED 0\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A QUICKLOOK 0\n";
-    print "perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A REFINED 0\n";
-    die($debug_module . "ERROR:You must provide at least 5 required parameters: num_files_to_process over_write_flag dataset_name processing_type job_index");
+    print $debug_module . " - ERROR: Example of good runs\n";
+    print $debug_module . " - INFO: perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS QUICKLOOK 0\n";
+    print $debug_module . " - INFO: perl ghrsst_generic_seatmp_manager.pl 1 yes VIIRS REFINED 0\n";
+    print $debug_module . " - INFO: perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A QUICKLOOK 0\n";
+    print $debug_module . " - INFO: perl ghrsst_generic_seatmp_manager.pl 1 yes MODIS_A REFINED 0\n";
+    die($debug_module . " - ERROR: You must provide at least 5 required parameters: num_files_to_process over_write_flag dataset_name processing_type job_index");
 }
 
 if ($dataset_name eq "") {
@@ -79,17 +79,7 @@ if ($processing_type eq "") {
 #
 # When the L2P Processing module is running, the logging will go to these files.
 $ENV{GAPFARMPROCESSINGLOGFILENAME} = "ghrsst_" . lc($dataset_name) . "_processing_log_archive_" . $ENV{'RANDOM_NUMBER'} . ".txt";
-
-if ($debug_mode) {
-    print $debug_module . "NUM_FILES_TO_PROCESS [$NUM_FILES_TO_PROCESS]\n";
-    print $debug_module . "over_write_processed_modis_files [$over_write_processed_modis_files]\n";
-    print $debug_module . "dataset_name    [$dataset_name]\n";
-    print $debug_module . "processing_type [$processing_type]\n";
-    print $debug_module . "GAPFARMPROCESSINGLOGFILENAME [" . $ENV{GAPFARMPROCESSINGLOGFILENAME} ."]\n";
-    print $debug_module . "job_index [$job_index]\n";
-    print $debug_module . "RANDOM_NUMBER [$ENV{RANDOM_NUMBER}]\n";
-    print $debug_module . "JSON_FILE [$ENV{JSON_FILE}]\n";
-}
+print $debug_module . " - INFO: Processing log: " . $ENV{GAPFARMPROCESSINGLOGFILENAME} . "\n";
 
 #  Call subroutine to manage the data files.
 ghrsst_modis_file_manager("sea_surface_temperature",

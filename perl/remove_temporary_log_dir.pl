@@ -38,7 +38,7 @@ sub remove_temporary_log_dir {
     my $processing_directory = $log_dir . "/" . "__" . $ENV{RANDOM_NUMBER}
                                . "." . $i_datasource;
 
-print "remove_temporary_log_dir: rmdir $processing_directory\n";
+print "remove_temporary_log_dir.pl - INFO: rmdir $processing_directory\n";
     rmdir $processing_directory;
 
     # ---------- Close up shop ----------

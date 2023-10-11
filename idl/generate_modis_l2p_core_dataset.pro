@@ -42,12 +42,12 @@ if (N_ELEMENTS(i_test_parameter) NE 0) then begin
     TEST_PARAMETER = i_test_parameter;
 endif
 
-routine_name = 'generate_modis_l2p_core_dataset';
+routine_name = 'generate_modis_l2p_core_dataset.pro';
 i_data       = '';
 
 ; Get the DEBUG_MODE if it is set.
 
-debug_module = 'generate_modis_l2p_core_dataset:';
+debug_module = 'generate_modis_l2p_core_dataset.pro';
 debug_mode = 0
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_mode = 1;
@@ -130,8 +130,8 @@ endelse
 do_not_care = verify_returned_status(in_filename_only,l_uncompress_status,SUCCESS,'Cannot uncompress data file');
 
 if (l_uncompress_status NE SUCCESS) then begin
-    print, 'generate_modis_l2p_core_dataset: ERROR, Cannot uncompress data file: ', in_filename_only;
-    print, 'Will return without doing any further work.';
+    print, routine_name + ' - ERROR: Cannot uncompress data file: ' + in_filename_only;
+    print, routine_name + ' - INFO: Will return without doing any further work.';
 
     l_status = error_log_writer($
               'generate_modis_l2p_core_dataset',$
@@ -206,7 +206,7 @@ if (l_convert_status NE SUCCESS) then begin
 
     msg_type = "error";
     msg = 'Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename + ". Files associated with processing have been quarantined.";
-    print, debug_module + msg;
+    print, routine_name + ' - INFO: ' + msg;
     donotcare = wrapper_ghrsst_notify_operator($
                         routine_name,$
                         msg_type,$
@@ -218,8 +218,8 @@ if (l_convert_status NE SUCCESS) then begin
 endif
 
 if (debug_mode) then begin
-    print, routine_name + 'i_compress_flag = ' + i_compress_flag;
-    print, routine_name + 'FORCE_COMPRESS_GDS2_FORMAT_FLAG = ' + GETENV('FORCE_COMPRESS_GDS2_FORMAT_FLAG');
+    print, routine_name + ' - INFO: i_compress_flag = ' + i_compress_flag;
+    print, routine_name + ' - INFO: FORCE_COMPRESS_GDS2_FORMAT_FLAG = ' + GETENV('FORCE_COMPRESS_GDS2_FORMAT_FLAG');
 endif
 
 ;
@@ -240,12 +240,12 @@ if ((i_compress_flag EQ "yes") OR (GETENV('FORCE_COMPRESS_GDS2_FORMAT_FLAG') EQ 
         endif
 
 if (debug_mode) then begin
-    print, debug_module, 'i_meta_data_filename           ',i_meta_data_filename
-    print, debug_module, 'i_l2p_core_filename            ',i_l2p_core_filename
-    print, debug_module, 'i_L2P_registry                 ',i_L2P_registry
-    print, debug_module, 'i_processing_type              ',i_processing_type
-    print, debug_module, 'i_compress_flag                ',i_compress_flag
-    print, debug_module, 'a_push_for_dmas_ingestion_flag ',a_push_for_dmas_ingestion_flag
+    print, routine_name + 'i_meta_data_filename           ' + i_meta_data_filename
+    print, routine_name + 'i_l2p_core_filename            ' + i_l2p_core_filename
+    print, routine_name + 'i_L2P_registry                 ' + i_L2P_registry
+    print, routine_name + 'i_processing_type              ' + i_processing_type
+    print, routine_name + 'i_compress_flag                ' + i_compress_flag
+    print, routine_name + 'a_push_for_dmas_ingestion_flag ' + a_push_for_dmas_ingestion_flag
 endif
 
         l_compress_status = compress_and_ftp_push_modis_L2P_core_datasets( $
@@ -330,10 +330,12 @@ l_remove_status = erase_current_job(GETENV('MODIS_CURRENT_JOBS_DIR'), $
                       original_out_filename + ".bz2");
 
 program_elapsed_time = SYSTIME(/SECONDS) - program_start_time; 
-print, "generate_modis_l2p_core_dataset: program_elapsed_time (in seconds) = " + STRING(program_elapsed_time);
+print, routine_name + " - INFO: program_elapsed_time (in seconds) = " + STRING(program_elapsed_time);
 
 do_not_care = write_to_processing_log(FILE_BASENAME(i_l2p_core_filename),$
                                       (i_processing_type + "," + "OVERALL_TOTAL_TIME: " + $
                                        STRING(program_elapsed_time,FORMAT='(f0.2)')))
+
+print, routine_name + " - INFO: Processed: " + FILE_BASENAME(i_l2p_core_filename)
 
 end
