@@ -134,7 +134,7 @@ sub ghrsst_modis_file_manager()
 #  print "ghrsst_modis_file_manager: status = [$status]\n";
   if ($status != 0) {
     print "ghrsst_modis_file_manager.pl - INFO: Function manage_ghrsst_modis_data_sets() failed.  No need to continue\n";
-    print "ghrsst_modis_file_manager - INFO: status = $status\n";
+    print "ghrsst_modis_file_manager.pl - INFO: status = $status\n";
   }
 
   my $end_processing_time = localtime;

@@ -161,10 +161,10 @@ if (status_convert NE SUCCESS) then begin
 ;        donotcare = build_output_file_name_in_gds2_format(o_day_or_night,i_out_filename,o_out_filename);
 ;        i_out_filename = o_out_filename;
 ;    endif 
-    print, 'convert_modis_and_make_meta: Failed in ' + conversion_module_used + ' function.  status_convert is ', status_convert
-    print, 'convert_modis_and_make_meta: i_data_filename       = ', i_data_filename;
-    print, 'convert_modis_and_make_meta: i_out_filename        = ', i_out_filename;
-    print, 'convert_modis_and_make_meta: start_time_array_element = ', i_start_time_array_element;
+    print, 'convert_modis_and_make_meta.pro - INFO: Failed in ' + conversion_module_used + ' function.  status_convert is ' + status_convert
+    print, 'convert_modis_and_make_meta.pro - INFO: i_data_filename = ' + i_data_filename;
+    print, 'convert_modis_and_make_meta.pro - INFO: i_out_filename = ' + i_out_filename;
+    print, 'convert_modis_and_make_meta.pro - INFO: start_time_array_element = ' + i_start_time_array_element;
     over_all_status = FAILURE;
 
     ; If the file was not found, we only remove the staged data set but do not append
@@ -210,10 +210,10 @@ endif else begin
     status_make_meta = make_modisl2p_meta(i_out_filename,i_meta_filename);
 
     if (status_make_meta NE SUCCESS) then begin
-        print, 'convert_modis_and_make_meta: Failed in make_modisl2p_meta().  status is ', status_make_meta
-        print, 'convert_modis_and_make_meta: data_filename       = ', i_data_filename;
-        print, 'convert_modis_and_make_meta: out_filename        = ', i_out_filename;
-        print, 'convert_modis_and_make_meta: start_time_array_element = ', i_start_time_array_element;
+        print, 'convert_modis_and_make_meta.pro - INFO: Failed in make_modisl2p_meta().  status is ' + status_make_meta
+        print, 'convert_modis_and_make_meta.pro - INFO: data_filename = ' + i_data_filename;
+        print, 'convert_modis_and_make_meta.pro - INFO: out_filename = ' + i_out_filename;
+        print, 'convert_modis_and_make_meta.pro - INFO: start_time_array_element = ' + i_start_time_array_element;
         over_all_status = FAILURE;
 
         ; Since the data file exist on disk may be the only file, we must quarantine it before the normal file removal.

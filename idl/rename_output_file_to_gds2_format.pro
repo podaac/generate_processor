@@ -62,7 +62,7 @@ endif
 ; dash_name_tokens[4] = "A2012298001000";
 ;                        01234567890123
 
-time_portion = STRMID(dash_name_tokens[4],8);
+time_portion = STRMID(dash_name_tokens[4],10);
 
 ; This is a bad output name: 201910277T145000-JPL-L2P_GHRSST-SSTskin-MODIS_A-D-v02.0-fv01.0.nc
 ; If the time portion is too long, we shrink it down to 6 after the T.

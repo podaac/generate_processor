@@ -25,9 +25,9 @@ o_status = SUCCESS;
 
 ; Remove the data file.
 
-print, 'erase_one_staged_dataset:INFO, removing [' + i_data_filename + ']';
+print, 'erase_one_staged_dataset.pro  - INFO: removing [' + i_data_filename + ']';
 FILE_DELETE, i_data_filename, /QUIET;
-print, 'erase_one_staged_dataset:INFO, removing [' + i_data_filename + '.bz2' + ']';
+print, 'erase_one_staged_dataset.pro - INFO: removing [' + i_data_filename + '.bz2' + ']';
 FILE_DELETE, i_data_filename + '.bz2' , /QUIET;
 
 ; Remove the Filled Quicklook MODIS L2P file if processing type is REFINED.
@@ -46,9 +46,9 @@ if (i_processing_type EQ "REFINED") then begin
     filled_quicklook_filename = scratch_directory + "/" + filled_quick_name_only;
 
     ; Delete the staged Filled Quicklook file.
-print, 'erase_one_staged_dataset:INFO, removing [' + filled_quicklook_filename + ']';
+print, 'erase_one_staged_dataset.pro - INFO: removing [' + filled_quicklook_filename + ']';
     FILE_DELETE, filled_quicklook_filename, /QUIET;
-print, 'erase_one_staged_dataset:INFO, removing [' + filled_quicklook_filename + '.bz2' + ']';
+print, 'erase_one_staged_dataset.pro - INFO: removing [' + filled_quicklook_filename + '.bz2' + ']';
     FILE_DELETE, filled_quicklook_filename + '.bz2', /QUIET;
 endif
 

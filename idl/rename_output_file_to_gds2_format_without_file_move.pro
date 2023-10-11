@@ -39,7 +39,7 @@ FUNCTION rename_output_file_to_gds2_format_without_file_move,$
 
 @modis_data_config.cfg
 
-debug_module = 'rename_output_file_to_gds2_format_without_file_move:';
+debug_module = 'rename_output_file_to_gds2_format_without_file_move.pro';
 debug_mode = 0
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_mode = 1;
@@ -59,7 +59,7 @@ dot_name_tokens  = STRSPLIT(name_only,".",/EXTRACT);
 dash_name_tokens = STRSPLIT(dot_name_tokens[0],"-",/EXTRACT);
 
 if (SIZE(dash_name_tokens,/N_ELEMENTS) NE 5) then begin
-    print, debug_module + 'ERROR: Expecting exactly 5 tokens, received ' + STRING(SIZE(dash_name_tokens,/N_ELEMENTS)) + ' tokens from ' + i_out_filename;
+    print, debug_module + ' - WARN: Expecting exactly 5 tokens, received ' + STRING(SIZE(dash_name_tokens,/N_ELEMENTS)) + ' tokens from ' + i_out_filename;
     o_status = FAILURE;
     return, o_status;
 endif

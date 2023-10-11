@@ -35,7 +35,7 @@ openr, file_unit, i_datasets_list, ERROR = err, /GET_LUN;
 ; Note: Changed later to print to log if desire.
 
 if (err NE 0) then begin
-    print, 'erase_staged_datasets: ERROR, Cannot open file for input:' + i_datasets_list
+    print, 'erase_staged_datasets.pro - ERROR: Cannot open file for input:' + i_datasets_list
     o_status = FAILURE;
     return, o_status
 end
@@ -47,7 +47,7 @@ end
 files_removed = 0L;
 a_line = ''; Must let IDL know that this is a string so it knows how to read in the readf().
 
-print, 'erase_staged_datasets: INFO, Removing staged datasets...';
+print, 'erase_staged_datasets.pro - INFO: Removing staged datasets...';
 
 while (~eof(file_unit)) do begin
     ;
@@ -74,10 +74,10 @@ while (~eof(file_unit)) do begin
         ; Remove this file and the possible .bz2 extension.
         ;
 
-print, 'erase_staged_datasets: INFO, Removing [' + data_filename+ ']';
-;        FILE_DELETE, data_filename         , /QUIET;
-print, 'erase_staged_datasets: INFO, Removing [' + data_filename + '.bz2' + ']';
-;        FILE_DELETE, data_filename + '.bz2', /QUIET;
+        print, 'erase_staged_datasets.PRO - INFO: Removing [' + data_filename+ ']';
+        ;        FILE_DELETE, data_filename         , /QUIET;
+        print, 'erase_staged_datasets - INFO: Removing [' + data_filename + '.bz2' + ']';
+        ;        FILE_DELETE, data_filename + '.bz2', /QUIET;
 
         ; Quarantine (make a copy) the staged data file so we can inspect it later.
 
@@ -91,10 +91,10 @@ print, 'erase_staged_datasets: INFO, Removing [' + data_filename + '.bz2' + ']';
         filled_quick_name_only = FILE_BASENAME(out_filename);
         filled_quicklook_filename = scratch_directory + "/" + filled_quick_name_only;
 
-print, 'erase_staged_datasets: INFO, Removing [' + filled_quicklook_filename + ']';
-;        FILE_DELETE, filled_quicklook_filename         , /QUIET;
-print, 'erase_staged_datasets: INFO, Removing [' + filled_quicklook_filename + '.bz2' + ']';
-;        FILE_DELETE, filled_quicklook_filename + '.bz2', /QUIET;
+        print, 'erase_staged_datasets - INFO: Removing [' + filled_quicklook_filename + ']';
+        ;        FILE_DELETE, filled_quicklook_filename         , /QUIET;
+        print, 'erase_staged_datasets - INFO: Removing [' + filled_quicklook_filename + '.bz2' + ']';
+        ;        FILE_DELETE, filled_quicklook_filename + '.bz2', /QUIET;
 
         ;
         ;  Keep track of how many files removed.
@@ -105,7 +105,7 @@ print, 'erase_staged_datasets: INFO, Removing [' + filled_quicklook_filename + '
 
 endwhile    ; while ~eof(file_unit) do 
 
-print, 'erase_staged_datasets: INFO, Number of staged datasets removed = ', files_removed;
+print, 'erase_staged_datasets - INFO: Number of staged datasets removed = ', files_removed;
 
 ; ---------- Close up shop ----------
 free_lun, file_unit;

@@ -28,19 +28,21 @@ destination_of_quarantine = GETENV('SCRATCH_AREA') + "/quarantine";
 ; Create the directory if it does exist yet.
 
 if (~FILE_TEST(destination_of_quarantine)) then begin
-    print, 'quarantine_one_staged_dataset:INFO, Creating directory ' + destination_of_quarantine 
+    print, 'quarantine_one_staged_dataset.pro  - INFO: Creating directory ' + destination_of_quarantine 
     FILE_MKDIR, destination_of_quarantine;
 endif
 
 if (FILE_TEST(i_data_filename)) then begin
-    print, 'quarantine_one_staged_dataset:INFO, Copying [' + i_data_filename + '] to ' + destination_of_quarantine;
+    print, 'quarantine_one_staged_dataset.pro - INFO: Copying [' + i_data_filename + '] to ' + destination_of_quarantine;
     FILE_COPY, i_data_filename, destination_of_quarantine, /OVERWRITE;
+    print, 'quarantine_one_staged_dataset.pro - INFO: Quarantined ' + i_data_filename
 endif
 
 
 if (FILE_TEST(i_data_filename + ".bz2")) then begin
-    print, 'quarantine_one_staged_dataset:INFO, Copying [' + i_data_filename + '.bz2' + '] to ' + destination_of_quarantine;
+    print, 'quarantine_one_staged_dataset.pro - INFO: Copying [' + i_data_filename + '.bz2' + '] to ' + destination_of_quarantine;
     FILE_COPY, i_data_filename + '.bz2' , destination_of_quarantine, /OVERWRITE;
+    print, 'quarantine_one_staged_dataset.pro - INFO: Quarantined ' + i_data_filename
 endif
 
 RETURN, o_status;

@@ -401,7 +401,7 @@ sub manage_ghrsst_modis_data_sets {
                 $o_status = 1;
         } elsif ($? == 0){
                 # print "manage_ghrsst_modis_data_sets.pl: system $args[0] < $args[1] executed with: $?\n";
-                # print "manage_ghrsst_modis_data_sets.pl: Everything is OK.\n";
+                print "manage_ghrsst_modis_data_sets.pl - INFO: Everything is OK.\n";
                 $o_status = 0;
         } else {
                 print "manage_ghrsst_modis_data_sets.pl - INFO: system [$call_system_command_str] executed with: $?\n";
