@@ -82,13 +82,6 @@ if ($TEST_EXECUTION == false) then
     endif
 endif
 
-# Logging.
-# The touch command is to create a log file if one does not exist already.
-# The >> re-direction of the perl script below requires that the file exist.
-set log_filename = "$SEATMP_LOGGING/my_crontab_log_from_ghrsst_${processing_type}_${dataset_name}_{$RANDOM_NUMBER}_seatmp_manager";
-echo "$module - INFO: Log filename: $log_filename"
-touch $log_filename
-
 # Reset GAPFARMUSEMULTIPROCESSESEXECUTOR to true if desired to process the jobs in parallel.
 # The IDL code will figure out how to spawn the jobs based on this variable either sequential
 # as a sub processes.
@@ -107,7 +100,7 @@ setenv JSON_FILE $json_file
 #    over_write_processed_modis_files = {yes,no} over write flag to overwrite if output file already exist.
 #    dataset_name                     = {VIIRS} processing stream
 #    processing_type                  = {QUICKLOOK,REFINED} processing type of stream.
-perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index | tee $log_filename
+perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index
 
 # Check exit code
 
