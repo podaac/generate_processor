@@ -43,7 +43,7 @@ def get_logger():
         console_handler = logging.StreamHandler(sys.stdout)    # Log to standard out to support IDL SPAWN
 
         # Create a formatter and add it to the handler
-        console_format = logging.Formatter("%(asctime)s - %(module)s - %(levelname)s : %(message)s")
+        console_format = logging.Formatter("%(module)s - %(levelname)s : %(message)s")
         console_handler.setFormatter(console_format)
 
         # Add handlers to logger
@@ -119,33 +119,18 @@ def log_event(sigevent_type, sigevent_description, sigevent_data, logger):
         )
         logger.info(f"Logged error message to: {log_group_name}{log_stream_name}")    
     except botocore.exceptions.ClientError as e:
-        logger.error("Failed to log to CloudWatch.")
+        logger.info("Failed to log to CloudWatch.")
         logger.error(f"Error - {e}")
         sys.exit(1)
         
 def log_to_job_stream(sigevent_type, sigevent_description, sigevent_data, logger):
     """Log event details to current Batch job log stream."""
-    
-    if sigevent_type == "INFO":
-        logger.info(f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}")
-        logger.info(f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}")
-        logger.info(f"Error type: {sigevent_type}")
-        logger.info(f"Error description: {sigevent_description}")
-        if sigevent_data != "": logger.info(f"Error data: {sigevent_data}")
-        
-    if sigevent_type == "WARN":
-        logger.warning(f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}")
-        logger.warning(f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}")
-        logger.warning(f"Error type: {sigevent_type}")
-        logger.warning(f"Error description: {sigevent_description}")
-        if sigevent_data != "": logger.warning(f"Error data: {sigevent_data}")
-    
-    if sigevent_type == "ERROR":    
-        logger.error(f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}")
-        logger.error(f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}")
-        logger.error(f"Error type: {sigevent_type}")
-        logger.error(f"Error description: {sigevent_description}")
-        if sigevent_data != "": logger.error(f"Error data: {sigevent_data}")
+
+    logger.info(f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}")
+    logger.info(f"Job Queue: {os.getenv('AWS_BATCH_JQ_NAME')}")
+    logger.info(f"Error type: {sigevent_type.capitalize()}")
+    logger.info(f"Error description: {sigevent_description}")
+    if sigevent_data != "": logger.info(f"Error data: {sigevent_data}")
         
 def get_ecs_task_metadata(logger):
     """Return log group and log stream if available from ECS task endpoint."""
@@ -171,7 +156,7 @@ def publish_event(sigevent_type, sigevent_description, sigevent_data, logger, lo
     try:
         topics = sns.list_topics()
     except botocore.exceptions.ClientError as e:
-        logger.error("Failed to list SNS Topics.")
+        logger.info("Failed to list SNS Topics.")
         logger.error(f"Error - {e}")
         sys.exit(1)
     for topic in topics["Topics"]:
@@ -179,7 +164,7 @@ def publish_event(sigevent_type, sigevent_description, sigevent_data, logger, lo
             topic_arn = topic["TopicArn"]
             
     # Publish to topic
-    subject = f"Generate workflow error: Processor component error"
+    subject = f"Generate workflow error: PROCESSOR error"
     message = f"Generate AWS Batch processor job has encountered an error.\n\n" \
         + "JOB INFORMATION:\n" \
         + f"Job Identifier: {os.getenv('AWS_BATCH_JOB_ID')}.\n" \
@@ -201,7 +186,7 @@ def publish_event(sigevent_type, sigevent_description, sigevent_data, logger, lo
             Subject = subject
         )
     except botocore.exceptions.ClientError as e:
-        logger.error(f"Failed to publish to SNS Topic: {topic_arn}.")
+        logger.info(f"Failed to publish to SNS Topic: {topic_arn}.")
         logger.error(f"Error - {e}")
         sys.exit(1)
     

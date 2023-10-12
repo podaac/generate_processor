@@ -30,7 +30,7 @@ o_status = SUCCESS;
 
 if ((i_l2p_core_filename EQ '' OR i_l2p_core_filename EQ '/') OR $
     (i_l2p_core_filename EQ '/*' OR i_l2p_core_filename EQ '/*.*'))  then begin
-  print, 'erase_current_job: ERROR, i_l2p_core_filename [' + i_l2p_core_filename + '] is not allowed';
+  print, 'erase_current_job.pro - ERROR:, i_l2p_core_filename [' + i_l2p_core_filename + '] is not allowed';
   o_status = FAILURE;
   RETURN, o_status;
 endif
@@ -39,7 +39,7 @@ endif
 
 if ((i_directory_name EQ '' OR i_directory_name EQ '/') OR $
     (i_directory_name EQ '/*' OR i_directory_name EQ '/*.*')) then begin
-  print, 'erase_current_job: ERROR, i_directory_name [' + i_directory_name + '] is not allowed';
+  print, 'erase_current_job.pro - ERROR: i_directory_name [' + i_directory_name + '] is not allowed';
   o_status = FAILURE;
   RETURN, o_status;
 endif

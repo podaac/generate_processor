@@ -130,12 +130,13 @@ endelse
 do_not_care = verify_returned_status(in_filename_only,l_uncompress_status,SUCCESS,'Cannot uncompress data file');
 
 if (l_uncompress_status NE SUCCESS) then begin
-    print, routine_name + ' - ERROR: Cannot uncompress data file: ' + in_filename_only;
+    print, routine_name + ' - INFO: Cannot uncompress data file: ' + in_filename_only;
     print, routine_name + ' - INFO: Will return without doing any further work.';
 
     l_status = error_log_writer($
               'generate_modis_l2p_core_dataset',$
-              'Cannot uncompress data file:' + in_filename_only);
+              'Cannot uncompress data file:' + in_filename_only, $
+              /DO_NOT_PRINT);
 
     l_do_not_care = clean_up_modis_processing(i_l2p_core_filename);
     FILE_DELETE, i_data_filename, /QUIET;
@@ -202,7 +203,8 @@ if (l_convert_status NE SUCCESS) then begin
     endelse
     l_status = error_log_writer($
                'generate_modis_l2p_core_dataset',$
-               'GHRSST_PROCESSING_ERROR ' + ' Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename);
+               'GHRSST_PROCESSING_ERROR ' + ' Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename,$
+               /DO_NOT_PRINT);
 
     msg_type = "error";
     msg = 'Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename + ". Files associated with processing have been quarantined.";
@@ -277,7 +279,8 @@ endif
 
             l_status = error_log_writer($
                       'generate_modis_l2p_core_dataset',$
-                      'GHRSST_PROCESSING_ERROR ' + ' Function compress_and_ftp_push_modis_L2P_core_datasets failed for file ' + i_l2p_core_filename);
+                      'GHRSST_PROCESSING_ERROR ' + ' Function compress_and_ftp_push_modis_L2P_core_datasets failed for file ' + i_l2p_core_filename,$
+                      /DO_NOT_PRINT);
 
             msg_type = "error";
             msg = 'Function compress_and_ftp_push_modis_L2P_core_datasets failed for file ' + i_l2p_core_filename + ". Files associated with processing have been quarantined.";

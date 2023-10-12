@@ -37,7 +37,8 @@ routine_name = 'read_long_variables_from_netcdf_file';
 
 ; Get the DEBUG_MODE if it is set.
 
-debug_module = 'read_long_variables_from_netcdf_file::';
+debug_module = 'read_long_variables_from_netcdf_file.pro - INFO: ';
+error_module = 'read_long_variables_from_netcdf_file.pro - ERROR: ';
 debug_mode = 0
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_mode = 1;
@@ -120,7 +121,7 @@ for attribute_index = 0, (size(o_long_attributes_values,/N_ELEMENTS) - 1) do beg
     if (value_is_ok_to_convert_to_long) then begin
         o_long_attributes_values[attribute_index] = LONG(attribute_value_as_a_number);
     endif else begin
-        print, debug_module + 'Failed to confirm attribute_name ' + attribute_name + ' with o_read_long_attribute_value ', o_read_long_attribute_value, ' as a number from file ' + i_filename;
+        print, error_module + 'Failed to confirm attribute_name ' + attribute_name + ' with o_read_long_attribute_value ', o_read_long_attribute_value, ' as a number from file ' + i_filename;
         r_status = FAILURE;
         ; Must return immediately.
         return, r_status

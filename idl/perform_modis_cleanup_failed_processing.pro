@@ -45,7 +45,7 @@ l_erase_status = erase_one_staged_dataset($
 l_remove_status = erase_current_job(GETENV('MODIS_CURRENT_JOBS_DIR'), $
                       FILE_BASENAME(i_out_filename) + ".bz2");
 
-l_status = error_log_writer(i_error_in_function,i_error_reason);
+l_status = error_log_writer(i_error_in_function,i_error_reason,/DO_NOT_PRINT);
 
 ; Get the L2P core filename only without the directory.
 

@@ -41,7 +41,7 @@ sub report_error_to_error_file_registry {
     my $l_error_file_registry_filename = get_error_file_registry_filename($i_processing_type);
  
     if ($l_error_file_registry_filename eq "") {
-        print "report_error_to_error_file_registry:ERROR, File name is empty string.";
+        print "report_error_to_error_file_registry.pro - ERROR: File name is empty string.";
         $r_status = 1;
         return($r_status);
     }
@@ -49,7 +49,7 @@ sub report_error_to_error_file_registry {
     # Create an empty file if it does not exist already.
 
     if (!(-e $l_error_file_registry_filename)) {
-        print "report_error_to_error_file_registry:INFO, No file error registry exist yet.  Creating an empty one [$l_error_file_registry_filename]\n";
+        print "report_error_to_error_file_registry.pro - INFO: No file error registry exist yet.  Creating an empty one [$l_error_file_registry_filename]\n";
         system("touch $l_error_file_registry_filename");
     }
 
@@ -60,10 +60,10 @@ sub report_error_to_error_file_registry {
     # Build the entry line.
     my $entry_line = "$i_l2p_core_filename,$seconds_since_1970,$ascii_date,$i_reason";
 
-#print "command line = [echo \"$entry_line\" >> $l_error_file_registry_filename\n";
+    #print "command line = [echo \"$entry_line\" >> $l_error_file_registry_filename\n";
 
     # Perform the append.
-    print "Adding entry [$entry_line] to EFR file [$l_error_file_registry_filename]\n";
+    print "report_error_to_error_file_registry.pro - ERROR: Adding entry [$entry_line] to EFR file [$l_error_file_registry_filename]\n";
     system("echo \"$entry_line\" >> $l_error_file_registry_filename");
 
     #

@@ -113,14 +113,13 @@ PRO ghrsst_error_logger::write_to_log_file
     endif
 
     log_home = GETENV('ERROR_LOGGER');
-    print, log_home
     l_do_not_care_status = actualize_directory(log_home);
     random_number = GETENV('RANDOM_NUMBER')
     gela_filename = log_home + '/ghrsst_error_log_archive_' + random_number + '.txt';
 
     if (SELF.p_structure_is_ready EQ 0) then begin
-        print, 'ghrsst_error_logger::write_to_log_file: ERROR, Structure is not ready to be written to log file.'
-        print, 'ghrsst_error_logger::write_to_log_file: Some or all of fields are not set.'
+        print, 'ghrsst_error_logger::write_to_log_file.pro - ERROR: Structure is not ready to be written to log file.'
+        print, 'ghrsst_error_logger::write_to_log_file.pro - INFO: Some or all of fields are not set.'
     endif else begin
 
         ;
@@ -175,7 +174,7 @@ PRO ghrsst_error_logger::write_to_log_file
 ;WAIT, 5;
 
         if (l_grab_status EQ 0) then begin
-            print, 'ghrsst_error_logger::write_to_log_file: WARNING, Cannot lock the semaphore with name: ', MY_LOCK_NAME;
+            print, 'ghrsst_error_logger::write_to_log_file. pro - WARN: Cannot lock the semaphore with name: ', MY_LOCK_NAME;
             ;print, 'Will exit IDL';
             ;EXIT
             return;
@@ -186,9 +185,9 @@ PRO ghrsst_error_logger::write_to_log_file
         SPAWN, system_command_string, run_result, error_status;
 
         if (STRLEN(error_status) GT 0) then begin
-            print, "ghrsst_error_logger::write_to_log_file: ERROR, Cannot append error entry to " + gela_filename;
-            print, "system_command_string = [" + system_command_string + "]";
-        endif
+            print, "ghrsst_error_logger::write_to_log_file.pro - ERROR: Cannot append error entry to " + gela_filename;
+        ENDIF
+        print, "ghrsst_error_logger::write_to_log_file.pro - INFO: system_command_string = [" + system_command_string + "]";
 
         ; Release the named resource.
 

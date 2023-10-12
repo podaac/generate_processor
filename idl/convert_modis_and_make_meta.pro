@@ -33,7 +33,7 @@ FUNCTION convert_modis_and_make_meta,$
 over_all_status = SUCCESS;
 
 debug_module = 'convert_modis_and_make_meta:';
-routine_name = 'convert_modis_and_make_meta:';
+routine_name = 'convert_modis_and_make_meta.pro';
 debug_flag = 0;
 
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
@@ -233,7 +233,8 @@ endif else begin
     
         l_status = error_log_writer($
                   'convert_modis_and_make_meta',$
-                  'Failed in make_modisl2p_meta:' + i_data_filename);
+                  'Failed in make_modisl2p_meta:' + i_data_filename,$
+                  /DO_NOT_PRINT);
     endif
   endif
 
