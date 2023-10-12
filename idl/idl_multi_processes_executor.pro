@@ -1087,7 +1087,6 @@ SYSTEM_COMMAND_PARTIAL_STRING = GETENV('GHRSST_IDL_LIB_DIRECTORY') + "/" + "idl_
 
 idl_command_str = ""; 
 operating_system_command = "";
-num_process = "";
 
 for task_num = 0, num_tasks - 1 do begin
 
@@ -1151,11 +1150,8 @@ for task_num = 0, num_tasks - 1 do begin
     print, "idl_multi_processes_executor.pro - INFO: IDL command: " + '"' + o_idl_command_str + '"'
     idl_one_process_executor, '"' + o_idl_command_str + '"'
 
-    num_process = num_process + 1
-
 endfor
 
-print, 'idl_multi_processes_executor.pro - INFO: Number of L2P granules created: ' + strtrim(num_process,2)
 print, 'idl_multi_processes_executor.pro - INFO: Overall execution time: ' + strtrim(systime(1) - tstart,2)
 ;help,/heap
 
