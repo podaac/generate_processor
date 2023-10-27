@@ -45,6 +45,7 @@ do "$GHRSST_PERL_LIB_DIRECTORY/load_ghrsst_run_config.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/get_ghrsst_config.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/verify_taskdl_environment_setup.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/email_ops_to_report_error.pl";
+do "$GHRSST_PERL_LIB_DIRECTORY/write_final_log.pl";
 
 sub ghrsst_modis_file_manager()
 {
@@ -143,6 +144,7 @@ sub ghrsst_modis_file_manager()
   my @file_list_processed_on_this_day = readpipe($system_command_string);
   my $num_files_processed = @file_list_processed_on_this_day;
   print "ghrsst_modis_file_manager.pl - INFO: Number of L2P granules created: $num_files_processed\n";
+  write_final_log("total_granules_created: $num_files_processed");
 
   # processing time
   my $end_processing_time = localtime;

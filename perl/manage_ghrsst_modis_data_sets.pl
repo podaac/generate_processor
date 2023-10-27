@@ -41,8 +41,10 @@ do "$GHRSST_PERL_LIB_DIRECTORY/email_ops_to_report_error.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/generic_get_registry_filename.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/does_temporary_directory_exist.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/load_file_list.pl";
-
+do "$GHRSST_PERL_LIB_DIRECTORY/write_final_log.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/OLock.pm";
+
+use File::Basename;
 
 sub get_actual_source_name {
     # Given the combination of 'quicklook_viirs" or "quicklook_modis_a" or "quicklook_modis_t" and return without the _a or _b.
@@ -173,8 +175,12 @@ sub manage_ghrsst_modis_data_sets {
     my ($status,$input_list_ref) = load_file_list($modis_search_directory, $i_datasource, $i_processing_type, $modis_data_name_prefix, $i_job_index);
     my @modis_filelist = @$input_list_ref;
     print "manage_ghrsst_modis_data_sets.pl - INFO: Number of combined files to process: " . scalar(@modis_filelist) . "\n";
+    write_final_log("number_to_process: " . scalar(@modis_filelist));
     for(@modis_filelist) {
-        print "manage_ghrsst_modis_data_sets.pl - INFO: File to process: $_";
+        my $pfilename = basename($_);
+        $pfilename =~ s/^\s+|\s+$//g;    # Trim whitespace
+        print "manage_ghrsst_modis_data_sets.pl - INFO: File to process: $pfilename";
+        write_final_log("file_to_process: $pfilename");
     }
 
     if ($debug_mode) {

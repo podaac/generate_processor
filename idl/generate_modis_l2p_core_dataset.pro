@@ -340,5 +340,6 @@ do_not_care = write_to_processing_log(FILE_BASENAME(i_l2p_core_filename),$
                                        STRING(program_elapsed_time,FORMAT='(f0.2)')))
 
 print, routine_name + " - INFO: Processed: " + FILE_BASENAME(i_l2p_core_filename)
+write_final_log, "processed: " + FILE_BASENAME(i_l2p_core_filename)
 
 end

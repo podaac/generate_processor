@@ -17,6 +17,8 @@
 #
 #------------------------------------------------------------------------------------------------
 
+do "$GHRSST_PERL_LIB_DIRECTORY/write_final_log.pl";
+
 use File::Basename;  # Use in parsing the full file name.
 
 sub clear_staged_modis_datasets {
@@ -93,6 +95,7 @@ sub clear_staged_modis_datasets {
             }
             copy($destination_name,$quarantine_directory);
             print "clear_staged_modis_datasets.pro - INFO: Quarantined: $name_only\n";
+            write_final_log("quarantined: $name_only");
             if ($debug_flag) {
                 print "clear_staged_modis_datasets.pro - INFO: Copy file $destination_name to [$quarantine_directory]\n";
             }

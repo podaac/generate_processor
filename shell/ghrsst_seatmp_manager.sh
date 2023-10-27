@@ -47,6 +47,9 @@ else
     setenv INDEX $job_index
 endif
 
+# Set final log message file as an environment variable
+setenv FINAL_LOG_MESSAGE $SCRATCH_AREA/final_log_message_$RANDOM_NUMBER.txt
+
 # Log data about execution of component
 echo "$module - INFO: Job identifier: $AWS_BATCH_JOB_ID"
 echo "$module - INFO: Job index: $INDEX"
@@ -64,6 +67,7 @@ echo "$module - INFO: num_files_to_process[arg] = $num_files_to_process"
 echo "$module - INFO: over_write_processed_modis_files[arg] = $over_write_processed_modis_files"
 echo "$module - INFO: run_this_jobs_in_parallel[arg] = $run_this_jobs_in_parallel"
 echo "$module - INFO: unique_identifier = $RANDOM_NUMBER"
+echo "execution_data: job_id: $AWS_BATCH_JOB_ID - job_index: $INDEX - json_file: $json_file - dataset: $dataset - processing_type: $processing_type" > $FINAL_LOG_MESSAGE
 
 # Make sure the machine we will be pushing the L2P to is alive and well.  
 # Ignore if running a test execution and Exit if machine is down.
@@ -102,8 +106,10 @@ setenv JSON_FILE $json_file
 #    processing_type                  = {QUICKLOOK,REFINED} processing type of stream.
 perl $GHRSST_PERL_LIB_DIRECTORY/ghrsst_seatmp_manager.pl $num_files_to_process $over_write_processed_modis_files $dataset_name $processing_type $job_index
 
-# Check exit code
+# Print final log message
+$GHRSST_PYTHON_LIB_DIRECTORY/print_final_log.py
 
+# Check exit code
 set exit_code=$status
 echo "$module - INFO: Exit code: $exit_code"
 if ( $exit_code == 0 ) then
