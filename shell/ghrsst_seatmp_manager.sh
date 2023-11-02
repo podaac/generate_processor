@@ -67,7 +67,7 @@ echo "$module - INFO: num_files_to_process[arg] = $num_files_to_process"
 echo "$module - INFO: over_write_processed_modis_files[arg] = $over_write_processed_modis_files"
 echo "$module - INFO: run_this_jobs_in_parallel[arg] = $run_this_jobs_in_parallel"
 echo "$module - INFO: unique_identifier = $RANDOM_NUMBER"
-echo "execution_data: job_id: $AWS_BATCH_JOB_ID - job_index: $INDEX - json_file: $json_file - dataset: $dataset - processing_type: $processing_type" > $FINAL_LOG_MESSAGE
+echo "execution_data: dataset: $dataset - processing_type: $processing_type - job_id: $AWS_BATCH_JOB_ID - job_index: $INDEX - json_file: $json_file" > $FINAL_LOG_MESSAGE
 
 # Make sure the machine we will be pushing the L2P to is alive and well.  
 # Ignore if running a test execution and Exit if machine is down.
