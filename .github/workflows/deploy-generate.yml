@@ -73,7 +73,7 @@ jobs:
 
       # Download IDL installer and license file
       - name: IDL Installation Prep
-        run: deploy/deploy-idl.sh ${TARGET_ENV} s3://${PREFIX_ENV}-idl-client
+        run: deploy/deploy-idl.sh ${TARGET_ENV} s3://${PREFIX_ENV}-idl-client ${{ secrets.IDL_INSTALLER }}
 
       # Login and define registry, repository, and tag names
       - name: Login to AWS ECR
