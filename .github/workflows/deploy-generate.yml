@@ -102,7 +102,7 @@ jobs:
             -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }} .
 
       # Scan the docker container with Snyk
-      - name: Run Snyk as a blocking step for Docker Containers
+      - name: Run Snyk for Docker Containers
         uses: snyk/actions/docker@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
