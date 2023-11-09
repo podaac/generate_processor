@@ -21,15 +21,12 @@ RUN /bin/mkdir /root/idl_install \
     && /bin/cp /app/idl/install/lic_server.dat /usr/local/idl/license/ \
     && /bin/ln -s /usr/local/idl/$IDL_VERSION/bin/idl /usr/local/bin \
     && /bin/rm -rf /app/idl/install/$IDL_INSTALLER \
-    && /bin/rm -rf /root/idl_install
+    && /bin/rm -rf /root/idl_install \
+    && /bin/rm -rf /app/idl/install \
+    && /bin/rm -rf /usr/local/idl/$IDL_VERSION/bin/bin.linux.x86_64/idlde/plugins/org.eclipse.jgit*
 
-# Stage 3 - Clean up
-# FROM stage2 AS stage3
-RUN /bin/rm -rf /app/idl/install \
-    && /bin/rm -rf /root/idl_install
-
-# Stage 4 - Local Perl Library
-# FROM stage3 as stage4
+# Stage 3 - Local Perl Library
+# FROM stage2 as stage3
 RUN /usr/bin/yes | /usr/local/bin/cpan App::cpanminus \
     && /usr/local/bin/cpanm Bit::Vector \
     && /usr/local/bin/cpanm Date::Calc \
@@ -37,16 +34,16 @@ RUN /usr/bin/yes | /usr/local/bin/cpan App::cpanminus \
     && /usr/local/bin/cpanm File::NFSLock \
     && /usr/local/bin/cpanm JSON
 
-# Stage 5 - Install Python
-# FROM stage4 as stage5
+# Stage 4 - Install Python
+# FROM stage3 as stage4
 RUN apt update && apt install -y software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa \
     && apt install -y python3 python3-pip python3-venv \
     && /usr/bin/python3 -m venv /app/env \
     && /app/env/bin/pip install boto3 requests
 
-# Stage 6 - Execute code
-# FROM stage5 as stage6
+# Stage 5 - Execute code
+# FROM stage4 as stage5
 LABEL version="0.1" \
     description="Containerized Generate: Processor"
 ENTRYPOINT [ "/bin/tcsh", "/app/shell/ghrsst_seatmp_manager.sh" ]
