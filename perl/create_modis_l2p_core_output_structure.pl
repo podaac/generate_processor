@@ -40,7 +40,7 @@ sub create_modis_l2p_core_output_structure {
 #print "create_modis_l2p_core_output_structure: sub to          : $i_l2p_core_output_directory\n";
 #print "create_modis_l2p_core_output_structure: Do nothing.\n";
     } else {
-print "create_modis_l2p_core_output_structure: Creating directory: $directory_with_year\n";
+        print "create_modis_l2p_core_output_structure.pl - INFO: Creating directory: $directory_with_year\n";
         mkdir($directory_with_year,$mode_mask);
     }
 
@@ -53,7 +53,7 @@ print "create_modis_l2p_core_output_structure: Creating directory: $directory_wi
 #print "create_modis_l2p_core_output_structure: sub to          : $directory_with_year\n";
 #print "create_modis_l2p_core_output_structure: Do nothing.\n";
     } else {
-print "create_modis_l2p_core_output_structure: Creating directory: $directory_with_doy\n";
+        print "create_modis_l2p_core_output_structure.pl - INFO: Creating directory: $directory_with_doy\n";
         mkdir($directory_with_doy,$mode_mask);
     }
 

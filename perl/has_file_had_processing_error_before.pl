@@ -33,16 +33,16 @@ sub has_file_had_processing_error_before {
     my $l_error_file_registry_filename = get_error_file_registry_filename($i_processing_type);
 
     if ($l_error_file_registry_filename eq "") {
-        print "has_file_had_processing_error_before:ERROR, Registry file name is empty string.\n";
-	print "has_file_had_processing_error_before:i_processing_type = [$i_processing_type]\n";
+        print "has_file_had_processing_error_before.pl - ERROR: Registry file name is empty string.\n";
+	    print "has_file_had_processing_error_before.pl - INFO: i_processing_type = [$i_processing_type]\n";
         return($r_file_processed);
     }
 
     # Return immediately if the name to check is empty.
 
     if ($i_filename_to_check eq "") {
-        print "has_file_had_processing_error_before:ERROR, File name to check is empty string.\n";
-	print "has_file_had_processing_error_before:i_processing_type = [$i_processing_type]\n";
+        print "has_file_had_processing_error_before.pl - ERROR: File name to check is empty string.\n";
+	    print "has_file_had_processing_error_before.pl - INFO: i_processing_type = [$i_processing_type]\n";
         return($r_file_processed);
     }
 
@@ -52,7 +52,7 @@ sub has_file_had_processing_error_before {
 #print "has_file_had_processing_error_before: l_error_file_registry_filename = [$l_error_file_registry_filename]\n";
 
     if (!(-e $l_error_file_registry_filename)) {
-        print "has_file_had_processing_error_before:INFO, No file error registry exist yet.  Creating an empty one [$l_error_file_registry_filename]\n";
+        print "has_file_had_processing_error_before.pl - INFO: No file error registry exist yet.  Creating an empty one [$l_error_file_registry_filename]\n";
         system("touch $l_error_file_registry_filename");
     }
 

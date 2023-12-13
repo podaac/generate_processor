@@ -252,15 +252,12 @@ sub  build_modis_dataset_names_for_processing {
     } # end for ($count = 0; ($count < $num_modis_files && $r_num_uncompressed < $NUM_FILES_TO_PROCESS); $count++)
 
     close (FH);
-my $end_processing_time = localtime;
-print "------------------------------------------------------------\n";
-print "build_modis_dataset_names_for_processing: Processing stats:\n\n";
-print "build_modis_dataset_names_for_processing: " . $end_processing_time . " num_modis_files      = $num_modis_files\n";
-print "build_modis_dataset_names_for_processing: " . $end_processing_time . " num_skipped          = $num_skipped\n";
-print "build_modis_dataset_names_for_processing: " . $end_processing_time . " NUM_FILES_TO_PROCESS = $NUM_FILES_TO_PROCESS\n";
-print "build_modis_dataset_names_for_processing: " . $end_processing_time . " r_num_uncompressed   = $r_num_uncompressed\n";
-print "------------------------------------------------------------\n";
-print "\n\n";
+    my $end_processing_time = localtime;
+    print "build_modis_dataset_names_for_processing.pl - INFO: Processing stats:\n";
+    print "build_modis_dataset_names_for_processing.pl - INFO: " . $end_processing_time . " num_modis_files      = $num_modis_files\n";
+    print "build_modis_dataset_names_for_processing.pl - INFO: " . $end_processing_time . " num_skipped          = $num_skipped\n";
+    print "build_modis_dataset_names_for_processing.pl - INFO: " . $end_processing_time . " NUM_FILES_TO_PROCESS = $NUM_FILES_TO_PROCESS\n";
+    print "build_modis_dataset_names_for_processing.pl - INFO: " . $end_processing_time . " r_num_uncompressed   = $r_num_uncompressed\n";
 
     return ($o_status,$r_num_uncompressed,
            \@r_original_uncompressed_filelist,

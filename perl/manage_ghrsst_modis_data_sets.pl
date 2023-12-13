@@ -41,8 +41,10 @@ do "$GHRSST_PERL_LIB_DIRECTORY/email_ops_to_report_error.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/generic_get_registry_filename.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/does_temporary_directory_exist.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/load_file_list.pl";
-
+do "$GHRSST_PERL_LIB_DIRECTORY/write_final_log.pl";
 do "$GHRSST_PERL_LIB_DIRECTORY/OLock.pm";
+
+use File::Basename;
 
 sub get_actual_source_name {
     # Given the combination of 'quicklook_viirs" or "quicklook_modis_a" or "quicklook_modis_t" and return without the _a or _b.
@@ -87,7 +89,7 @@ sub manage_ghrsst_modis_data_sets {
     my $debug_module = "manage_ghrsst_modis_data_sets:";
     my $debug_mode   = 0;
 
-    print "manage_ghrsst_modis_data_sets: i_test_parameter [$i_test_parameter]\n";
+    print "manage_ghrsst_modis_data_sets.pl.pl - INFO: i_test_parameter [$i_test_parameter]\n";
 
     my $file_search_directory = "DUMMY";
     my $modis_search_directory = "DUMMY";
@@ -109,7 +111,7 @@ sub manage_ghrsst_modis_data_sets {
     my $l_partial_directory_name = lc($i_processing_type) . "_" . lc($i_datasource);
     my $tmp_uncompressed_bzip_filelist = create_random_filename(
                                          $l_partial_directory_name,"uncompressed_bzip_filelist_modis");
-    print "manage_ghrsst_modis_data_sets, tmp_uncompressed_bzip_filelist: $tmp_uncompressed_bzip_filelist\n";
+    print "manage_ghrsst_modis_data_sets.pl - INFO: tmp_uncompressed_bzip_filelist: $tmp_uncompressed_bzip_filelist\n";
 
     my $modis_data_directory   = "";
     my $modis_data_name_prefix = "";
@@ -172,10 +174,13 @@ sub manage_ghrsst_modis_data_sets {
     my $source_name = get_actual_source_name($l_partial_directory_name);
     my ($status,$input_list_ref) = load_file_list($modis_search_directory, $i_datasource, $i_processing_type, $modis_data_name_prefix, $i_job_index);
     my @modis_filelist = @$input_list_ref;
-
-    print "manage_ghrsst_modis_data_sets, list of files to process: \n";
+    print "manage_ghrsst_modis_data_sets.pl - INFO: Number of combined files to process: " . scalar(@modis_filelist) . "\n";
+    write_final_log("number_to_process: " . scalar(@modis_filelist));
     for(@modis_filelist) {
-        print "manage_ghrsst_modis_data_sets, file to process: $_";
+        my $pfilename = basename($_);
+        $pfilename =~ s/^\s+|\s+$//g;    # Trim whitespace
+        print "manage_ghrsst_modis_data_sets.pl - INFO: File to process: $pfilename";
+        write_final_log("file_to_process: $pfilename");
     }
 
     if ($debug_mode) {
@@ -192,8 +197,8 @@ sub manage_ghrsst_modis_data_sets {
     if ($i_test_parameter eq "FAILED_LOAD_FILE_LIST") { $l_status = 1; }
 
     if ($l_status != 0) {
-        print "manage_ghrsst_modis_data_sets: Failure in load_file_list function.\n";
-        print "manage_ghrsst_modis_data_sets: Cannot continue.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Failure in load_file_list function.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Cannot continue.\n";
         $o_status = 1;
 
         my @error_message = ();
@@ -223,8 +228,8 @@ sub manage_ghrsst_modis_data_sets {
     if ($i_test_parameter eq "FAILED_BUILD_L2P_PROCESSED_FILE_REGISTRY") { $l_status = 1; }
 
     if ($l_status != 0) {
-        print "manage_ghrsst_modis_data_sets: Failure in build_L2P_processed_file_registry() function.\n";
-        print "manage_ghrsst_modis_data_sets: Cannot continue.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Failure in build_L2P_processed_file_registry() function.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Cannot continue.\n";
         $o_status = 1;
 
         my @error_message = ();
@@ -265,8 +270,8 @@ sub manage_ghrsst_modis_data_sets {
                                                           $i_processing_type);
 
     if ($l_build_name_status != 0) {
-        print "manage_ghrsst_modis_data_sets: Failure in build_modis_dataset_names_for_processing() function.\n";
-        print "manage_ghrsst_modis_data_sets: Cannot continue.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Failure in build_modis_dataset_names_for_processing() function.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Cannot continue.\n";
         $o_status = 1;
         return ($o_status);
     }
@@ -285,8 +290,8 @@ sub manage_ghrsst_modis_data_sets {
     if ($i_test_parameter eq "FAILED_STAGE_MODIS_DATASETS_FOR_PROCESSING") { $l_stage_status = 1; }
 
     if ($l_stage_status != 0) {
-        print "manage_ghrsst_modis_data_sets: Failure in stage_modis_datasets_for_processing() function.\n";
-        print "manage_ghrsst_modis_data_sets: Cannot continue.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Failure in stage_modis_datasets_for_processing() function.\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Cannot continue.\n";
         $o_status = 1;
 
         my @error_message = ();
@@ -363,7 +368,7 @@ sub manage_ghrsst_modis_data_sets {
 
         #print "calling process_modis_datasets.pro with modis_filelist\n";
 
-        print "manage_ghrsst_modis_data_sets: Running process_modis_datasets IDL script...\n\n";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: Running process_modis_datasets IDL script...\n";
 
         @args = ("/usr/local/bin/idl");
 
@@ -376,9 +381,9 @@ sub manage_ghrsst_modis_data_sets {
         #    my $sys_stat = $? >> 8;
         #
         #    if ($sys_stat != 1) {
-        #        print "manage_ghrsst_modis_data_sets: sys_stat is not equal to 1.  sys_stat = $sys_stat\n";
+        #        print "manage_ghrsst_modis_data_sets.pl: sys_stat is not equal to 1.  sys_stat = $sys_stat\n";
         #    } else {
-        #        print "manage_ghrsst_modis_data_sets: sys_stat is equal to 1\n";
+        #        print "manage_ghrsst_modis_data_sets.pl: sys_stat is equal to 1\n";
         #    }
 
 
@@ -395,17 +400,17 @@ sub manage_ghrsst_modis_data_sets {
         #
 
         if ($? == -1) {
-                print "manage_ghrsst_modis_data_sets: system [$call_system_command_str] failed to execute: $?\n";
+                print "manage_ghrsst_modis_data_sets.pl - INFO: system [$call_system_command_str] failed to execute: $?\n";
                 $o_status = 1;
         } elsif ($? == 256){
-                print "manage_ghrsst_modis_data_sets: Cannot find file in system [$call_system_command_str].\n";
+                print "manage_ghrsst_modis_data_sets.pl - INFO: Cannot find file in system [$call_system_command_str].\n";
                 $o_status = 1;
         } elsif ($? == 0){
-                # print "manage_ghrsst_modis_data_sets: system $args[0] < $args[1] executed with: $?\n";
-                # print "manage_ghrsst_modis_data_sets: Everything is OK.\n";
+                # print "manage_ghrsst_modis_data_sets.pl: system $args[0] < $args[1] executed with: $?\n";
+                print "manage_ghrsst_modis_data_sets.pl - INFO: Everything is OK.\n";
                 $o_status = 0;
         } else {
-                print "manage_ghrsst_modis_data_sets: system [$call_system_command_str] executed with: $?\n";
+                print "manage_ghrsst_modis_data_sets.pl - INFO: system [$call_system_command_str] executed with: $?\n";
                 $o_status = 1;
         }
 

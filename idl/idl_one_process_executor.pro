@@ -20,7 +20,7 @@ PRO idl_one_process_executor, $
 
     args = COMMAND_LINE_ARGS(COUNT = argCount);
     i_task_string = i_task_string.Replace('"', '')
-    print, "idl_one_process_executor: task string " + i_task_string
+    print, "idl_one_process_executor.pro - INFO: task string " + i_task_string
 
 ; ;print, 'argcount ', argCount;
 ;     IF argCount EQ 0 THEN BEGIN
@@ -49,11 +49,11 @@ run_status = 0;
 time_slept = 0;  Keep track of how long we have slept.
 
 while ((loop_count LT MAX_LOOP_RUNS) AND (run_status NE 1)) do begin
-;print, 'do_busy_work_test: pre  EXECUTE[' + i_task_string + ']';
+    ;print, 'do_busy_work_test: pre  EXECUTE[' + i_task_string + ']';
     ; Run it.
     run_status = EXECUTE(i_task_string);
-;print, 'do_busy_work_test: post EXECUTE[' + i_task_string + ']';
-;run_status = 0;
+    ;print, 'do_busy_work_test: post EXECUTE[' + i_task_string + ']';
+    ;run_status = 0;
     ; If the user entered the i_force_fail_status as 'true' or 'yes', then we set run_status to 0 to simulate a bad execution.
     if (N_ELEMENTS(i_force_fail_status) EQ 1) then begin
         if ((i_force_fail_status EQ "yes")  OR (i_force_fail_status EQ "true")) then begin
@@ -64,7 +64,7 @@ while ((loop_count LT MAX_LOOP_RUNS) AND (run_status NE 1)) do begin
     ; Sleep for minute if not successful.
     if (run_status NE 1) then begin
         sleep_time = 60 * (loop_count + 1);
-        print, "idl_one_process_executor: ERROR, LOOP_COUNT " + STRTRIM(STRING(loop_count+1),2) + " OUT_OF " + STRTRIM(STRING(MAX_LOOP_RUNS),2) + ":The EXECUTE call on [" + i_task_string + "] failed.  Will sleep for " + STRTRIM(STRING(sleep_time),2) + " seconds to call again.";
+        print, "idl_one_process_executor.pro - INFO: LOOP_COUNT " + STRTRIM(STRING(loop_count+1),2) + " OUT_OF " + STRTRIM(STRING(MAX_LOOP_RUNS),2) + ". The EXECUTE call on [" + i_task_string + "] failed.  Will sleep for " + STRTRIM(STRING(sleep_time),2) + " seconds to call again.";
         WAIT, sleep_time;
         time_slept = time_slept + sleep_time;
     endif
@@ -74,8 +74,8 @@ end
 ; Make sure the status is good.  If not, report it. 
 
 if (run_status NE 1) then begin
-    print, "idl_one_process_executor: ERROR, The below procedure failed:";
-    print, i_task_string
+    print, "idl_one_process_executor.pro - INFO: The below procedure failed:";
+    print, "idl_one_process_executor.pro - INFO: " + i_task_string
 
     l_status = error_log_writer($
                'idl_one_process_executor',$

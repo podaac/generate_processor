@@ -70,7 +70,7 @@ sub  build_auxiliary_dataset_names_for_processing {
     # Remove .bz2 file if it exists.
 
     if (-e "$i_scratch_area/$l_modis_data_filename") {
-print "Removing file $i_scratch_area/$l_modis_data_filename\n";
+        print "build_auxiliary_dataset_names_for_processing.pro - INFO: Removing file $i_scratch_area/$l_modis_data_filename\n";
         unlink("$i_scratch_area" . "/" . $l_modis_data_filename);
     }
 

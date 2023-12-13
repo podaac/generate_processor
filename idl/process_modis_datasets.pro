@@ -81,7 +81,7 @@ l_execute_status = execute_idl_processing_jobs($
 
 if (l_execute_status NE SUCCESS) then begin
 
-    print, 'process_modis_datasets: Removing current_jobs...';
+    print, 'process_modis_datasets.pro - INFO: Removing current_jobs...';
     ; Get location of current_jobs directory from environment.
 
     job_directory = GETENV('MODIS_CURRENT_JOBS_DIR');
@@ -89,7 +89,7 @@ if (l_execute_status NE SUCCESS) then begin
     ; Do the removal of the "empty" files. 
 
     for job_num = 0, (SIZE(lo_current_jobs_array,/N_ELEMENTS) - 1) do begin
-print, 'process_modis_datasets: Removing job:' + lo_current_jobs_array[job_num];
+        print, 'process_modis_datasets.pro - INFO: Removing job:' + lo_current_jobs_array[job_num];
         l_remove_status = erase_current_job(job_directory, $
                                lo_current_jobs_array[job_num]);
     endfor

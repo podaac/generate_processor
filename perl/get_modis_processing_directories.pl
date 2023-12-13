@@ -162,7 +162,7 @@ if (index($0,$module_name) >= 0)
     print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
     print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
     print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
-    print "\n";
+    ;
 
     #
     # Test the VIIRS QUICKLOOK
@@ -179,7 +179,7 @@ if (index($0,$module_name) >= 0)
     print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
     print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
     print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
-    print "\n";
+    ;
 
     #
     # Test the AQUA QUICKLOOK
@@ -196,7 +196,7 @@ if (index($0,$module_name) >= 0)
     print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
     print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
     print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
-    print "\n";
+    ;
 
     #
     # Test the AQUA REFINED
@@ -213,7 +213,7 @@ if (index($0,$module_name) >= 0)
     print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
     print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
     print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
-    print "\n";
+    ;
 
     #
     # Test the TERRA QUICKLOOK
@@ -230,7 +230,7 @@ if (index($0,$module_name) >= 0)
     print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
     print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
     print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
-    print "\n";
+    ;
 
     #
     # Test the TERRA REFINED
@@ -247,5 +247,5 @@ if (index($0,$module_name) >= 0)
     print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
     print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
     print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
-    print "\n";
+    ;
 }

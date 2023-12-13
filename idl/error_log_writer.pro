@@ -9,7 +9,16 @@
 
 FUNCTION error_log_writer,$
          i_calle_name,$
-         i_error_reason
+         i_error_reason,$
+         DO_NOT_PRINT = FALSE
+
+; Print the error
+
+if keyword_set(FALSE) then begin
+     print, i_calle_name + " - INFO: " + i_error_reason
+endif else begin
+    print, i_calle_name + " - ERROR: " + i_error_reason
+endelse
 
 ; Set the fields.
 

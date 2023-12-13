@@ -73,7 +73,7 @@ jobs:
 
       # Download IDL installer and license file
       - name: IDL Installation Prep
-        run: deploy/deploy-idl.sh ${TARGET_ENV} s3://${PREFIX_ENV}-idl-client
+        run: deploy/deploy-idl.sh ${TARGET_ENV} s3://${PREFIX_ENV}-idl-client ${{ secrets.IDL_INSTALLER }}
 
       # Login and define registry, repository, and tag names
       - name: Login to AWS ECR
@@ -91,16 +91,38 @@ jobs:
       - name: Create AWS ECR Repository
         run: deploy/deploy-ecr.sh $REGISTRY $REPOSITORY
 
-      # Build and push AWS Batch job container
-      - name: Build and Push to AWS ECR
+      # Build Docker Image to prep for scanning
+      - name: Build and Tag Docker image
         env:
           IDL_INSTALLER_ENV: ${{ secrets.IDL_INSTALLER }}
           IDL_VERSION_ENV: ${{ secrets.IDL_VERSION }}
         run: |
           docker build --build-arg IDL_INSTALLER=$IDL_INSTALLER_ENV \
             --build-arg IDL_VERSION=$IDL_VERSION_ENV \
-            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+            -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }} .
+
+      # Monitor the docker container with Snyk
+      - name: Run Snyk for Docker Containers
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
+          command: monitor
+
+      # # Scan the docker container with Snyk
+      # - name: Run Snyk as a blocking step for Docker Containers
+      #   uses: snyk/actions/docker@master
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      #   with:
+      #     image: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
+      #     args: --org=${{ secrets.SNYK_ORG_ID }} --project-name=${{ github.repository }} --severity-threshold=high --fail-on=all
+
+      # Push AWS Batch job container
+      - name: Push to AWS ECR
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}:${{ env.IMAGE_TAG }}
 
       # Clean up IDL files
       - name: IDL Clean Up

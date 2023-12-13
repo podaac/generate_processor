@@ -174,7 +174,7 @@ if (index($0,$module_name) >= 0)
     system("cat -n $filename_to_return");
     print $debug_module . "file_search_directory $file_search_directory\n";
 
-    print "\n";
+    ;
 
     # Call take_filenames_from_directory_snapshot() again with source_name to not include viirs.
     print $debug_module . "unlink($filename_to_return)\n";
@@ -202,7 +202,7 @@ if (index($0,$module_name) >= 0)
     print  $debug_module ."rmdir($log_directory)\n";
     rmdir($log_directory);
 
-    print "\n";
+    ;
 
     # Call take_filenames_from_directory_snapshot() again with source_name to include modis and different directory.
     print $debug_module . "unlink($filename_to_return)\n";

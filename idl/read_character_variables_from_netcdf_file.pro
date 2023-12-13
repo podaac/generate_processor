@@ -64,7 +64,7 @@ endif
 
 if (r_status NE SUCCESS) then begin
     msg_type = "error";
-    msg = 'Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
+    msg = 'read_character_variables_from_netcdf_file.pro - ERROR: Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
     print, msg;
     donotcare = error_log_writer(routine_name,msg);
     return, r_status;
@@ -73,18 +73,18 @@ endif
 ; Do sanity check on the value.
 
 if (STRMATCH(o_sensor_name,'*VIIRS*',/FOLD_CASE) NE 1) then begin
-msg = "read_character_variables_from_netcdf_file: o_sensor_name[" + o_sensor_name + "] does not contain VIIRS";
-print, msg;
-if (STRMATCH(o_sensor_name,'*MODIS*',/FOLD_CASE) NE 1) then begin
-    msg_type = "error";
-    msg = "Cannot read string global attribute " + attribute_name + " due to invalid value in file " + i_filename + ".  Current value " + o_sensor_name;
+    msg = "read_character_variables_from_netcdf_file.pro - INFO: o_sensor_name[" + o_sensor_name + "] does not contain VIIRS";
     print, msg;
-    donotcare = echo_message_to_screen(routine_name,msg,msg_type);
-    donotcare = error_log_writer(routine_name,msg);
-    status = FAILURE;
-    ; Must return immediately.
-    return, status;
-endif
+    if (STRMATCH(o_sensor_name,'*MODIS*',/FOLD_CASE) NE 1) then begin
+        msg_type = "error";
+        msg = "read_character_variables_from_netcdf_file.pro - ERROR: Cannot read string global attribute " + attribute_name + " due to invalid value in file " + i_filename + ".  Current value " + o_sensor_name;
+        print, msg;
+        donotcare = echo_message_to_screen(routine_name,msg,msg_type);
+        donotcare = error_log_writer(routine_name,msg);
+        status = FAILURE;
+        ; Must return immediately.
+        return, status;
+    endif
 endif
 
 attribute_name = 'Start_Node';
@@ -94,7 +94,7 @@ if (TEST_PARAMETER EQ "BAD_START_NODE_GLOBAL_ATTRIBUTE_READ") then begin
 endif
 if (r_status NE SUCCESS) then begin
     msg_type = "error";
-    msg = 'Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
+    msg = 'read_character_variables_from_netcdf_file.pro - ERROR: Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
     print, msg;
     donotcare = error_log_writer(routine_name,msg);
     return, r_status;
@@ -120,7 +120,7 @@ if (TEST_PARAMETER EQ "BAD_END_NODE_GLOBAL_ATTRIBUTE_READ") then begin
 endif
 if (r_status NE SUCCESS) then begin
     msg_type = "error";
-    msg = 'Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
+    msg = 'read_character_variables_from_netcdf_file.pro - ERROR: Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
     print, msg;
     donotcare = error_log_writer(routine_name,msg);
     return, r_status;
@@ -147,7 +147,7 @@ if (TEST_PARAMETER EQ "BAD_DAY_OR_NIGHT_GLOBAL_ATTRIBUTE_READ") then begin
 endif
 if (r_status NE SUCCESS) then begin
     msg_type = "error";
-    msg = 'Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
+    msg = 'read_character_variables_from_netcdf_file.pro - ERROR: Cannot read string global attribute ' + attribute_name + ' from file ' + i_filename;
     print, msg;
     donotcare = error_log_writer(routine_name,msg);
     return, r_status;

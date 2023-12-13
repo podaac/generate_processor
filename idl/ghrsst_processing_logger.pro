@@ -103,11 +103,10 @@ PRO ghrsst_processing_logger::write_to_log_file
 ;
 
     log_home = GETENV('PROCESSING_LOGGER');
-    print, log_home
     l_do_not_care_status = actualize_directory(log_home);
     log_filename = GETENV('GAPFARMPROCESSINGLOGFILENAME');
     if (log_filename EQ '') then begin
-        print, 'ghrsst_processing_logger::write_to_log_file: ERROR, Environment variable LOG_FILENAME must be defined to a file name without a directory.'
+        print, 'ghrsst_processing_logger__write_to_log_file.pro - ERROR: Environment variable LOG_FILENAME must be defined to a file name without a directory.'
         return;
     endif
 
@@ -115,8 +114,8 @@ PRO ghrsst_processing_logger::write_to_log_file
 ;    processing_filename = log_home + '/ghrsst_processing_log_archive.txt';
 
     if (SELF.p_structure_is_ready EQ 0) then begin
-        print, 'ghrsst_processing_logger::write_to_log_file: ERROR, Structure is not ready to be written to log file.'
-        print, 'ghrsst_processing_logger::write_to_log_file: Some or all of fields are not set.'
+        print, 'ghrsst_processing_logger__write_to_log_file.pro - ERROR: Structure is not ready to be written to log file.'
+        print, 'ghrsst_processing_logger__write_to_log_file.pro - INFO: Some or all of fields are not set.'
     endif else begin
 
         ;
@@ -164,7 +163,7 @@ PRO ghrsst_processing_logger::write_to_log_file
 ;WAIT, 5;
 
         if (l_grab_status EQ 0) then begin
-            print, 'ghrsst_processing_logger::write_to_log_file: WARNING, Cannot lock the semaphore with name: ', MY_LOCK_NAME;
+            print, 'ghrsst_processing_logger__write_to_log_file.pro - WARNING: Cannot lock the semaphore with name: ', MY_LOCK_NAME;
             ;print, 'Will exit IDL';
             ;EXIT
             return;
@@ -175,9 +174,11 @@ PRO ghrsst_processing_logger::write_to_log_file
         SPAWN, system_command_string, run_result, error_status;
 
         if (STRLEN(error_status) GT 0) then begin
-            print, "ghrsst_processing_logger::write_to_log_file: ERROR, Cannot append error entry to " + processing_filename;
-            print, "system_command_string = [" + system_command_string + "]";
-        endif
+            print, "ghrsst_processing_logger__write_to_log_file.pro - ERROR: Cannot append error entry to " + processing_filename;
+            print, "ghrsst_processing_logger__write_to_log_file.pro - INFO: system_command_string = [" + system_command_string + "]";
+        endif else begin
+            print, "ghrsst_processing_logger__write_to_log_file.pro - INFO: " + system_command_string
+        endelse
 
         ; Release the named resource.
 

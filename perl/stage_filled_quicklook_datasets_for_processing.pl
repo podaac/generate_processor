@@ -47,7 +47,7 @@ sub stage_filled_quicklook_datasets_for_processing {
 
     # For every file in the list, perform the copying to the stage area.
 
-print "\n";
+;
 print ">>> stage_filled_quicklook_datasets_for_processing: num_uncompressed_data_files = $num_uncompressed_data_files\n";
 
     my $num_datasets_staged_success = 0;

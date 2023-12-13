@@ -17,6 +17,8 @@
 #
 #------------------------------------------------------------------------------------------------
 
+do "$GHRSST_PERL_LIB_DIRECTORY/write_final_log.pl";
+
 use File::Basename;  # Use in parsing the full file name.
 
 sub clear_staged_modis_datasets {
@@ -54,13 +56,13 @@ sub clear_staged_modis_datasets {
     my $num_datasets_successfully_cleared = 0;
 
     if ($debug_flag) {
-        print "clear_staged_modis_datasets: l_uncompressed_hdf_filelist[";
+        print "clear_staged_modis_datasets.pro - INFO: l_uncompressed_hdf_filelist[";
         print @l_uncompressed_hdf_filelist; 
         print "]\n";
-        print "clear_staged_modis_datasets: l_l2p_core_name_only_filelist[";
+        print "clear_staged_modis_datasets.pro - INFO: l_l2p_core_name_only_filelist[";
         print @l_l2p_core_name_only_filelist; 
         print "]\n";
-        print "clear_staged_modis_datasets: num_files_to_clear [$num_files_to_clear]\n";
+        print "clear_staged_modis_datasets.pro - INFO: num_files_to_clear [$num_files_to_clear]\n";
     }
 
     for ($count = 0; $count < $num_files_to_clear; $count++) {
@@ -76,9 +78,9 @@ sub clear_staged_modis_datasets {
         $current_job_filename = $i_scratch_area ."/current_jobs/" . $l_l2p_core_name_only_filelist[$count] . ".bz2";
  
         if ($debug_flag) {
-            print "clear_staged_modis_datasets: name_only            [$name_only]\n";
-            print "clear_staged_modis_datasets: destination_name     [$destination_name]\n";
-            print "clear_staged_modis_datasets: current_job_filename [$current_job_filename]\n";
+            print "clear_staged_modis_datasets.pro - INFO: name_only [$name_only]\n";
+            print "clear_staged_modis_datasets.pro - INFO: destination_name [$destination_name]\n";
+            print "clear_staged_modis_datasets.pro - INFO: current_job_filename [$current_job_filename]\n";
         }
         #
         # Remove the staged files.
@@ -92,17 +94,19 @@ sub clear_staged_modis_datasets {
                 mkdir($quarantine_directory); 
             }
             copy($destination_name,$quarantine_directory);
+            print "clear_staged_modis_datasets.pro - INFO: Quarantined: $name_only\n";
+            write_final_log("quarantined: $name_only");
             if ($debug_flag) {
-                print "clear_staged_modis_datasets:INFO, Copy file $destination_name to [$quarantine_directory]\n";
+                print "clear_staged_modis_datasets.pro - INFO: Copy file $destination_name to [$quarantine_directory]\n";
             }
 
             if ($debug_flag) {
-                print "clear_staged_modis_datasets:INFO, Removing staged [$destination_name]\n";
+                print "clear_staged_modis_datasets.pro - INFO: Removing staged [$destination_name]\n";
             }
             unlink($destination_name);
 
             if ($debug_flag) {
-                print "clear_staged_modis_datasets:INFO, Removing current_job [$current_job_filename].\n";
+                print "clear_staged_modis_datasets.pro - INFO: Removing current_job [$current_job_filename].\n";
             }
             unlink($current_job_filename);
 
@@ -111,7 +115,7 @@ sub clear_staged_modis_datasets {
             if ($i_processing_type eq REFINED) {
                 my $staged_filled_quicklook_filename = $i_scratch_area . "/" . $l_l2p_core_name_only_filelist[$count]; 
                 if ($debug_flag) {
-                    print "clear_staged_modis_datasets:INFO, Removing filled quicklook [$staged_filled_quicklook_filename]\n";
+                    print "clear_staged_modis_datasets.pro - INFO: Removing filled quicklook [$staged_filled_quicklook_filename]\n";
                 }
                 unlink($staged_filled_quicklook_filename);
             }
@@ -123,7 +127,7 @@ sub clear_staged_modis_datasets {
     #
     # Report status of staging.
     #
-    print "clear_staged_modis_datasets: num_datasets_successfully_cleared = $num_datasets_successfully_cleared\n";
+    print "clear_staged_modis_datasets.pro - INFO: num_datasets_successfully_cleared = $num_datasets_successfully_cleared\n";
 
     # ---------- Close up shop ----------
     return ($o_status);

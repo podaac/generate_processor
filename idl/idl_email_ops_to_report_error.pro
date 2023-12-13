@@ -26,9 +26,9 @@ FUNCTION  idl_email_ops_to_report_error, $
         log_error = i_error_message[4] + ": " + i_error_message[7]
     ENDELSE
 
-    print, "Email error: " + email_error
-    print, "Log error: " + log_error
-    donotcare = error_log_writer(routine_name,log_error);
+    print, "idl_email_ops_to_report_error.pro - INFO: Email error: " + email_error
+    print, "idl_email_ops_to_report_error.pro - INFO: Log error: " + log_error
+    donotcare = error_log_writer(routine_name,log_error,/DO_NOT_PRINT);
 
     ; Email error message
     msg_type = "error"

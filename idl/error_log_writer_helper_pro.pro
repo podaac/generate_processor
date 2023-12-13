@@ -25,7 +25,7 @@ args = COMMAND_LINE_ARGS(COUNT = argCount);
 ;print, argCount;
 
 IF argCount EQ 0 THEN BEGIN
-    PRINT, 'error_log_writer_helper_pro:No input arguments specified'
+    PRINT, 'error_log_writer_helper_pro - INFO: No input arguments specified'
     RETURN
 ENDIF ELSE BEGIN
     i_calle_name   = args[0];

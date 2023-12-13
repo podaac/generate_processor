@@ -48,7 +48,7 @@ if (2 EQ 2) then begin
 if ((PROCESSING_SWITCH EQ 'USE_NEW_IDL_MULTI_PROCESSES_EXECUTOR') OR (N_ELEMENTS(i_use_cluster_flag) GT 0 )) then begin
 
     if (N_ELEMENTS(i_use_cluster_flag) GT 0 ) then begin
-    print, 'execute_idl_processing_jobs: i_use_cluster_flag = [', i_use_cluster_flag, ']';
+        print, 'execute_idl_processing_jobs.pro - INFO: i_use_cluster_flag = ' + i_use_cluster_flag;
     endif
 ;exit;
     over_all_status = idl_multi_processes_executor(i_processing_jobs_array,i_use_cluster_flag);
@@ -62,7 +62,7 @@ endif
 ; which is defined in cluster_management.cfg file.
 ;
 
-print, "execute_idl_processing_jobs: start_time = " + SYSTIME(/UTC); 
+print, "execute_idl_processing_jobs.pro - INFO: start_time = " + SYSTIME(/UTC); 
 ;print, "execute_idl_processing_jobs:checking for host name";
 SPAWN, "printenv | grep HOST= | grep -v REMOTE", spawn_result;
 num_lines = SIZE(spawn_result,/N_ELEMENTS);
@@ -79,7 +79,7 @@ my_host = splitted_array[1];  The host name is the 2nd token.
 
 if (N_ELEMENTS(i_use_cluster_flag) EQ 0) then begin
     i_use_cluster_flag = 'MAKE_USE_CLUSTER_IF_AVAILABLE';
-    print, 'execute_idl_processing_jobs: INFO, Reset i_use_cluster_flag to ', i_use_cluster_flag; 
+    print, 'execute_idl_processing_jobs.pro - INFO: Reset i_use_cluster_flag to ', i_use_cluster_flag; 
 endif
 
 ;print, 'i_use_cluster_flag = [',i_use_cluster_flag,']';
@@ -113,7 +113,7 @@ endif else begin
         ; the execution was successful, 0 if otherwise.
         ;
 
-;print, 'execute_idl_processing_jobs: job_number_index = ', job_number_index, ' num_jobs = ', num_jobs 
+        ;print, 'execute_idl_processing_jobs: job_number_index = ', job_number_index, ' num_jobs = ', num_jobs 
         ; Get the token on the left of ":" if it exists.  It's OK if the ":" is not there, the
         ; STRSPLIT() function will return only one element.
 
@@ -126,10 +126,10 @@ endif else begin
         ; Make sure the status is good.  If not the loop ends.
 
         if (run_status NE 1) then begin
-           print, "execute_idl_processing_jobs: ERROR, The below procedure failed:";
-           print, i_processing_jobs_array[job_number_index];
-           print, "job_number_index = ", job_number_index
-           print, "num_jobs         = ", num_jobs 
+           print, "execute_idl_processing_jobs.pro - ERROR: The below procedure failed:";
+           print, "execute_idl_processing_jobs.pro - INFO: " + i_processing_jobs_array[job_number_index];
+           print, "execute_idl_processing_jobs.pro - INFO: job_number_index = ", job_number_index
+           print, "execute_idl_processing_jobs.pro - INFO: num_jobs = ", num_jobs 
 
           l_status = error_log_writer($
              'execute_idl_processing_jobs',$
@@ -144,7 +144,7 @@ endif else begin
     endwhile
 endelse
 
-print, "execute_idl_processing_jobs: end_time = " + SYSTIME(/UTC); 
+print, "execute_idl_processing_jobs.pro - INFO: end_time = " + SYSTIME(/UTC); 
 return, over_all_status;
 
 end

@@ -50,8 +50,7 @@ sub stage_modis_datasets_for_processing {
 
     # For every file in the list, perform the copying to the stage area.
 
-print "\n";
-print ">>> stage_modis_datasets_for_processing: num_uncompressed_data_files = $num_uncompressed_data_files\n";
+    print "stage_modis_datasets_for_processing.pl - INFO: num_uncompressed_data_files = $num_uncompressed_data_files\n";
 
     my $num_datasets_staged_success = 0;
     my $num_datasets_staged_failed  = 0;
@@ -77,8 +76,8 @@ print ">>> stage_modis_datasets_for_processing: num_uncompressed_data_files = $n
     #
     # Report status of staging.
     #
-    print "stage_modis_datasets_for_processing: num_datasets_staged_success = $num_datasets_staged_success\n";
-    print "stage_modis_datasets_for_processing: num_datasets_staged_failed  = $num_datasets_staged_failed\n";
+    print "stage_modis_datasets_for_processing.pl - INFO: num_datasets_staged_success = $num_datasets_staged_success\n";
+    print "stage_modis_datasets_for_processing.pl - INFO: num_datasets_staged_failed  = $num_datasets_staged_failed\n";
 
     # ---------- Close up shop ----------
     return ($o_status);

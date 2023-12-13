@@ -20,10 +20,10 @@ FUNCTION julday_to_seconds_since_1981,$
 
     o_seconds_since_1981 = jultime * 24 * 60 * 60;
 
-    print, "julday_to_seconds_since_1981:",i_year,i_mon,i_day,i_hour,i_minute,i_second; 
-    print, "julday_to_seconds_since_1981:o_seconds_since_1981";
-    print, "julday_to_seconds_since_1981:TYPENAME(o_seconds_since_1981)",TYPENAME(o_seconds_since_1981);
-    print, o_seconds_since_1981, FORMAT='(F0.3)'
+    print, "julday_to_seconds_since_1981.pro - INFO: Year, month, day, hour, minute, second: " + STRTRIM(i_year,2) + ", " + STRTRIM(i_mon) + ", " + STRTRIM(i_day) + ", " + STRTRIM(i_hour) + ", " + STRTRIM(i_minute) + ", " + STRTRIM(i_second); 
+    print, "julday_to_seconds_since_1981.pro - INFO: " + STRTRIM(o_seconds_since_1981,2);
+    print, "julday_to_seconds_since_1981.pro - INFO: TYPENAME(o_seconds_since_1981): " + TYPENAME(o_seconds_since_1981);
+    ; print, "julday_to_seconds_since_1981.pro - INFO: " + o_seconds_since_1981, FORMAT='(F0.3)'
 
     ; Note: If the LONG() is applied to o_seconds_since_1981, the output is 1140410520.000
     ;       Without the LONG(), the output is 1140410521.000

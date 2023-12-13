@@ -571,7 +571,7 @@ FUNCTION idl_check_processing_strings_for_stages, $
 ;
 
 tstart = systime(1)
-print, 'idl_check_processing_strings_for_stages: execution start time:', systime()
+; print, 'idl_check_processing_strings_for_stages.pro - INFO: execution start time:', systime()
 
 @load_maf_constants
 
@@ -629,8 +629,8 @@ for task_num = 0, num_tasks - 1 do begin
       ;
       idl_command_str = splitted_array[0];
       stage_number    = DEFAULT_STAGE;
-;print, 'idl_check_processing_strings_for_stages:idl_command_str = [',idl_command_str,']'
-;print, 'idl_check_processing_strings_for_stages:stage_number    = [',stage_number,']'
+      ;print, 'idl_check_processing_strings_for_stages:idl_command_str = [',idl_command_str,']'
+      ;print, 'idl_check_processing_strings_for_stages:stage_number    = [',stage_number,']'
   endif else begin
 
       ;
@@ -649,8 +649,8 @@ for task_num = 0, num_tasks - 1 do begin
           ;
           ; More than 2 tokens is an error.
           ;
-          print, 'idl_check_processing_strings_for_stages: ERROR, Only expecting ', EXPECTED_MAX_TOKENS, ' tokens from the task array.';
-          print, 'idl_check_processing_strings_for_stages: num_tokens = ', num_tokens; 
+          print, 'idl_check_processing_strings_for_stages.pro - ERROR: Only expecting ' + EXPECTED_MAX_TOKENS, ' tokens from the task array.';
+          print, 'idl_check_processing_strings_for_stages.pro - INFO: num_tokens = '+ num_tokens; 
 
           l_status = error_log_writer($
                'idl_check_processing_strings_for_stages',$
@@ -664,12 +664,12 @@ for task_num = 0, num_tasks - 1 do begin
 
 endfor
 
-print, 'idl_check_processing_strings_for_stages: largest_stage = ', largest_stage; 
+print, 'idl_check_processing_strings_for_stages.pro - INFO: largest_stage = ', largest_stage; 
 if (largest_stage GT 1) then begin
     r_tasks_array_depends_on_stage = 1;
 endif
-print, 'Overall execution time:', systime(1) - tstart
-help,/heap
+; print, 'Overall execution time:', systime(1) - tstart
+; help,/heap
 
 ;
 ; Close up shop.
@@ -996,7 +996,7 @@ FUNCTION idl_multi_processes_executor, $
 ; 2.  If the environment GAPFARMUSEMULTIPROCESSESEXECUTOR is set to TRUE, we farm out the jobs to sub processes.
 
 tstart = systime(1)
-print, 'idl_multi_processes_executor: execution start time:', systime()
+print, 'idl_multi_processes_executor.pro - INFO: Execution start time:' + systime()
 
 @load_maf_constants
 
@@ -1064,9 +1064,9 @@ EXPECTED_DIMENSIONS = 1;     The string array being passed in is only one dimens
 ;
 
 if (num_dimensions NE EXPECTED_DIMENSIONS) then begin
-    print, 'idl_multi_processes_executor: ERROR, The input string is of incorrect dimension.';
-    print, 'idl_multi_processes_executor: num_dimensions      = ', num_dimensions; 
-    print, 'idl_multi_processes_executor: EXPECTED_DIMENSIONS = ', EXPECTED_DIMENSIONS;
+    print, 'idl_multi_processes_executor.pro: ERROR, The input string is of incorrect dimension.';
+    print, 'idl_multi_processes_executor.pro: num_dimensions      = ', num_dimensions; 
+    print, 'idl_multi_processes_executor.pro: EXPECTED_DIMENSIONS = ', EXPECTED_DIMENSIONS;
 
     help, i_tasks_array;
 
@@ -1095,64 +1095,64 @@ for task_num = 0, num_tasks - 1 do begin
 
   o_idl_command_str =  build_command_string(i_tasks_array[task_num]);
  
-;  operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING;
+    ;  operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING;
 
-;print, 'POST replace_double_with_single_quotes o_idl_command_str [' + o_idl_command_str + ']';
+    ;print, 'POST replace_double_with_single_quotes o_idl_command_str [' + o_idl_command_str + ']';
 
-  ; For now, set to MAKE_USE_CLUSTER_IF_AVAILABLE if user has not pass in the parameter,
-  ; as in the case of the Ancillary Filling processing.
+    ; For now, set to MAKE_USE_CLUSTER_IF_AVAILABLE if user has not pass in the parameter,
+    ; as in the case of the Ancillary Filling processing.
 
-  if (N_ELEMENTS(i_use_cluster_flag) EQ 0) then begin
-      i_use_cluster_flag = 'MAKE_USE_CLUSTER_IF_AVAILABLE';
-;      print, 'idl_multi_processes_executor: INFO, Reset i_use_cluster_flag to ', i_use_cluster_flag; 
-  endif
+    if (N_ELEMENTS(i_use_cluster_flag) EQ 0) then begin
+        i_use_cluster_flag = 'MAKE_USE_CLUSTER_IF_AVAILABLE';
+        ;print, 'idl_multi_processes_executor: INFO, Reset i_use_cluster_flag to ', i_use_cluster_flag; 
+    endif
 
-;print, 'i_use_cluster_flag = [',i_use_cluster_flag,']';
+    ;print, 'i_use_cluster_flag = [',i_use_cluster_flag,']';
 
-  ; If the user uses ":n" where n is greater than 1, we must SPAWN the jobs but in sequential.
-print, 'idl_multi_processes_executor:o_tasks_array_depends_on_stage [',o_tasks_array_depends_on_stage,']';
-print, 'idl_multi_processes_executor:i_use_cluster_flag [',i_use_cluster_flag,']';
+    ; If the user uses ":n" where n is greater than 1, we must SPAWN the jobs but in sequential.
+    print, 'idl_multi_processes_executor.pro - INFO: o_tasks_array_depends_on_stage [' + STRTRIM(o_tasks_array_depends_on_stage,2) + ']';
+    print, 'idl_multi_processes_executor.pro - INFO: i_use_cluster_flag [' + i_use_cluster_flag + ']';
 
-  if ((o_tasks_array_depends_on_stage EQ 1) OR (i_use_cluster_flag NE 'MAKE_USE_CLUSTER_IF_AVAILABLE')) then begin
-      ;operating_system_command = operating_system_command + '"' + o_idl_command_str + '"';
-      if (o_tasks_array_depends_on_stage EQ 1) then begin
-          operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"';
-      endif else begin
-          ; We check to see if the environment GAPFARMUSEMULTIPROCESSESEXECUTOR is set.  If it is not set, we
-          ; just execute the jobs sequentially.  If it is set, we have a 2nd opportunity to run the jobs
-          ; as sub processes.
-          if (STRUPCASE(GETENV('GAPFARMUSEMULTIPROCESSESEXECUTOR')) EQ 'TRUE') then begin
-              operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"' + " & ";
-          endif else begin
-              operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"';
-          endelse
-      endelse
-  endif else begin
-      ; If the user does NOT use ":n" where n is greater than 1, we can SPAWN the jobs as detached sub processes.
-      if (i_use_cluster_flag EQ 'MAKE_USE_CLUSTER_IF_AVAILABLE') then begin
-          ;operating_system_command = operating_system_command + '"' + idl_command_str + '"' + " & "; 
-          operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"' + " & "; 
-;print, 'idl_multi_processes_executor:CALLING SPAWN DETACHED PROCESSES';
-      endif
-  endelse
+    if ((o_tasks_array_depends_on_stage EQ 1) OR (i_use_cluster_flag NE 'MAKE_USE_CLUSTER_IF_AVAILABLE')) then begin
+        ;operating_system_command = operating_system_command + '"' + o_idl_command_str + '"';
+        if (o_tasks_array_depends_on_stage EQ 1) then begin
+            operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"';
+        endif else begin
+            ; We check to see if the environment GAPFARMUSEMULTIPROCESSESEXECUTOR is set.  If it is not set, we
+            ; just execute the jobs sequentially.  If it is set, we have a 2nd opportunity to run the jobs
+            ; as sub processes.
+            if (STRUPCASE(GETENV('GAPFARMUSEMULTIPROCESSESEXECUTOR')) EQ 'TRUE') then begin
+                operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"' + " & ";
+            endif else begin
+                operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"';
+            endelse
+        endelse
+    endif else begin
+        ; If the user does NOT use ":n" where n is greater than 1, we can SPAWN the jobs as detached sub processes.
+        if (i_use_cluster_flag EQ 'MAKE_USE_CLUSTER_IF_AVAILABLE') then begin
+            ;operating_system_command = operating_system_command + '"' + idl_command_str + '"' + " & "; 
+            operating_system_command = SYSTEM_COMMAND_PARTIAL_STRING + '"' + o_idl_command_str + '"' + " & "; 
+            ;print, 'idl_multi_processes_executor:CALLING SPAWN DETACHED PROCESSES';
+        endif
+    endelse
 
-  ;print, 'OPERATING_SYSTEM_COMMAND [', operating_system_command, ']';
+    ;print, 'OPERATING_SYSTEM_COMMAND [', operating_system_command, ']';
 
-;print, "idl -quiet -rt=" + operating_system_command + "]";
+    ;print, "idl -quiet -rt=" + operating_system_command + "]";
 
-  ; Now, execute the IDL program with the strings we've built above..
-  ;
-  ; Note: If the system command has the ampersand '&' at the end, the spawn_result and spawn_error may not have the correct result
-  ;       so their values are not as reliable to be inspected.
-  ;       For now, we assume the SPAWN function works.
+    ; Now, execute the IDL program with the strings we've built above..
+    ;
+    ; Note: If the system command has the ampersand '&' at the end, the spawn_result and spawn_error may not have the correct result
+    ;       so their values are not as reliable to be inspected.
+    ;       For now, we assume the SPAWN function works.
 
-  ;SPAWN, "idl -quiet -rt=" + operating_system_command, spawn_result, spawn_error;
-  print, "IDL COMMAND STRING: " + '"' + o_idl_command_str + '"'
-  idl_one_process_executor, '"' + o_idl_command_str + '"'
+    ;SPAWN, "idl -quiet -rt=" + operating_system_command, spawn_result, spawn_error;
+    print, "idl_multi_processes_executor.pro - INFO: IDL command: " + '"' + o_idl_command_str + '"'
+    idl_one_process_executor, '"' + o_idl_command_str + '"'
 
 endfor
 
-;print, 'Overall execution time:', systime(1) - tstart
+print, 'idl_multi_processes_executor.pro - INFO: Overall execution time: ' + strtrim(systime(1) - tstart,2)
 ;help,/heap
 
 ;
