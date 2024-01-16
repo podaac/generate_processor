@@ -34,11 +34,11 @@ def print_final_log():
         if "number_to_process" in line: execution_data += f" - {line}"
         if "total_granules_created" in line: execution_data += f" - {line}"
     
-    final_log_message = ""
-    if execution_data: final_log_message += f"- {execution_data}"
-    if len(to_process) > 0: final_log_message += f" - file_to_process: {', '.join(to_process)}"
-    if len(processed) > 0: final_log_message += f" - processed: {', '.join(processed)}"
-    if len(quarantined) > 0: final_log_message += f" - quarantined: {', '.join(quarantined)}"
+    final_log_message = "final_log: "
+    if execution_data: final_log_message += f"{execution_data} - "
+    if len(to_process) > 0: final_log_message += f"file_to_process: {', '.join(to_process)} - "
+    if len(processed) > 0: final_log_message += f"processed: {', '.join(processed)} - "
+    if len(quarantined) > 0: final_log_message += f"quarantined: {', '.join(quarantined)} - "
     
     # Print final log message and remove temp log file
     logger.info(final_log_message)
