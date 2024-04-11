@@ -333,13 +333,13 @@ l_remove_status = erase_current_job(GETENV('MODIS_CURRENT_JOBS_DIR'), $
                       original_out_filename + ".bz2");
 
 program_elapsed_time = SYSTIME(/SECONDS) - program_start_time; 
-print, routine_name + " - INFO: program_elapsed_time (in seconds) = " + STRING(program_elapsed_time);
+print, routine_name + " - INFO : program_elapsed_time (in seconds) = " + STRING(program_elapsed_time);
 
 do_not_care = write_to_processing_log(FILE_BASENAME(i_l2p_core_filename),$
                                       (i_processing_type + "," + "OVERALL_TOTAL_TIME: " + $
                                        STRING(program_elapsed_time,FORMAT='(f0.2)')))
 
-print, routine_name + " - INFO: Processed: " + FILE_BASENAME(i_l2p_core_filename)
+print, routine_name + " - INFO : Processed: " + FILE_BASENAME(i_l2p_core_filename)
 write_final_log, "processed: " + FILE_BASENAME(i_l2p_core_filename)
 
 end
