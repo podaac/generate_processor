@@ -94,7 +94,7 @@ sub clear_staged_modis_datasets {
                 mkdir($quarantine_directory); 
             }
             copy($destination_name,$quarantine_directory);
-            print "clear_staged_modis_datasets.pro - INFO: Quarantined: $name_only\n";
+            print "clear_staged_modis_datasets.pro - INFO : Quarantined: $name_only\n";
             write_final_log("quarantined: $name_only");
             if ($debug_flag) {
                 print "clear_staged_modis_datasets.pro - INFO: Copy file $destination_name to [$quarantine_directory]\n";
