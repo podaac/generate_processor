@@ -75,7 +75,7 @@ in_filename_only = splitted_string[num_substrings-1];
 ;       So we comment out the code that deletes it. 
 ;; Check to see if the output file exist.  Delete if found.
 ;if FILE_TEST(i_data_filename) then begin
-;    print, 'generate_modis_l2p_core_dataset: INFO: File ', i_data_filename, ' exists.  Will be deleted';
+;    print, 'generate_modis_l2p_core_dataset: INFO : File ', i_data_filename, ' exists.  Will be deleted';
 ;    FILE_DELETE, i_data_filename, /QUIET;
 ;endif
 
@@ -130,8 +130,8 @@ endelse
 do_not_care = verify_returned_status(in_filename_only,l_uncompress_status,SUCCESS,'Cannot uncompress data file');
 
 if (l_uncompress_status NE SUCCESS) then begin
-    print, routine_name + ' - INFO: Cannot uncompress data file: ' + in_filename_only;
-    print, routine_name + ' - INFO: Will return without doing any further work.';
+    print, routine_name + ' - INFO : Cannot uncompress data file: ' + in_filename_only;
+    print, routine_name + ' - INFO : Will return without doing any further work.';
 
     l_status = error_log_writer($
               'generate_modis_l2p_core_dataset',$
@@ -208,7 +208,7 @@ if (l_convert_status NE SUCCESS) then begin
 
     msg_type = "error";
     msg = 'Function convert_modis_and_make_meta failed to convert file ' + l2p_output_name_used_in_reporting + ' from file ' + i_data_filename + ". Files associated with processing have been quarantined.";
-    print, routine_name + ' - INFO: ' + msg;
+    print, routine_name + ' - INFO : ' + msg;
     donotcare = wrapper_ghrsst_notify_operator($
                         routine_name,$
                         msg_type,$
@@ -220,8 +220,8 @@ if (l_convert_status NE SUCCESS) then begin
 endif
 
 if (debug_mode) then begin
-    print, routine_name + ' - INFO: i_compress_flag = ' + i_compress_flag;
-    print, routine_name + ' - INFO: FORCE_COMPRESS_GDS2_FORMAT_FLAG = ' + GETENV('FORCE_COMPRESS_GDS2_FORMAT_FLAG');
+    print, routine_name + ' - INFO : i_compress_flag = ' + i_compress_flag;
+    print, routine_name + ' - INFO : FORCE_COMPRESS_GDS2_FORMAT_FLAG = ' + GETENV('FORCE_COMPRESS_GDS2_FORMAT_FLAG');
 endif
 
 ;
