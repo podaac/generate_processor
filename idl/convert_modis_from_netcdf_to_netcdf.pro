@@ -25,6 +25,8 @@ FUNCTION convert_modis_from_netcdf_to_netcdf,$
 
 @modis_data_config.cfg
 
+print, "RANDY_DEBUGGING: convert_modis_from_netcdf_to_netcdf STARTING\n";
+
 ; Define local variables.
 
 r_status = SUCCESS;
@@ -476,7 +478,7 @@ endif
 ; END_BLOCK_0
 endif
 
-print "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK BEGIN (netCDF 2 netCDF)\n";
+print, "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK BEGIN (netCDF 2 netCDF)\n";
 
 ;--------------------------------------------------------------------------------
 ; Read cntl_pt_cols & cntl_pt_rows file and write to NetCDF file.
@@ -535,7 +537,7 @@ r_controlled_point_cols = INDGEN(num_lons, START=1)
 
 r_controlled_point_rows = INDGEN(num_lats, START=1)
 
-print "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK END (netCDF 2 netCDF)\n";
+print, "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK END (netCDF 2 netCDF)\n";
 
 i_variable_short_name = 'l2_flags';
 
