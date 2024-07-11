@@ -480,54 +480,58 @@ endif
 ; Read cntl_pt_cols & cntl_pt_rows file and write to NetCDF file.
 ;--------------------------------------------------------------------------------
 
-i_variable_short_name = 'cntl_pt_cols';
+; i_variable_short_name = 'cntl_pt_cols';
 
-r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
-               o_data_variable_structure);
+; r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
+;                o_data_variable_structure);
 
-if (TEST_PARAMETER EQ "BAD_CNTL_PT_COLS_VARIABLE_READ") then begin
-    r_status = FAILURE;
-endif
+; if (TEST_PARAMETER EQ "BAD_CNTL_PT_COLS_VARIABLE_READ") then begin
+;     r_status = FAILURE;
+; endif
 
-if (r_status NE SUCCESS) then begin
-    msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
-    print, debug_module + msg;
-    donotcare = error_log_writer(routine_name,msg);
-    FILE_DELETE, i_out_filename, /QUIET;
-    ; Must return immediately.
-    return, r_status
-endif
+; if (r_status NE SUCCESS) then begin
+;     msg = "Cannot read variab le " + i_variable_short_name + " from file " + i_filename;
+;     print, debug_module + msg;
+;     donotcare = error_log_writer(routine_name,msg);
+;     FILE_DELETE, i_out_filename, /QUIET;
+;     ; Must return immediately.
+;     return, r_status
+; endif
 
-r_controlled_point_cols =  *(o_data_variable_structure.s_variable_array);
-r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
-r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
-data_type_as_int = SIZE(r_controlled_point_cols,/TYPE);
-r_data_type = convert_int_type_to_char_type(data_type_as_int);
+; r_controlled_point_cols =  *(o_data_variable_structure.s_variable_array);
+; r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
+; r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
+; data_type_as_int = SIZE(r_controlled_point_cols,/TYPE);
+; r_data_type = convert_int_type_to_char_type(data_type_as_int);
 
-i_variable_short_name = 'cntl_pt_rows'; Should be 2030
+r_controlled_point_cols = INDGEN(num_lons, START=1)
 
-r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
-               o_data_variable_structure);
-r_data_type = convert_int_type_to_char_type(data_type_as_int);
+; i_variable_short_name = 'cntl_pt_rows'; Should be 2030
+
+; r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
+;                o_data_variable_structure);
+; r_data_type = convert_int_type_to_char_type(data_type_as_int);
 
 
-if (TEST_PARAMETER EQ "BAD_CNTL_PT_ROWS_VARIABLE_READ") then begin
-    r_status = FAILURE;
-endif
+; if (TEST_PARAMETER EQ "BAD_CNTL_PT_ROWS_VARIABLE_READ") then begin
+;     r_status = FAILURE;
+; endif
 
-if (r_status NE SUCCESS) then begin
-    msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
-    print, debug_module + msg;
-    donotcare = error_log_writer(routine_name,msg);
-    FILE_DELETE, i_out_filename, /QUIET;
-    ; Must return immediately.
-    return, r_status
-endif
+; if (r_status NE SUCCESS) then begin
+;     msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
+;     print, debug_module + msg;
+;     donotcare = error_log_writer(routine_name,msg);
+;     FILE_DELETE, i_out_filename, /QUIET;
+;     ; Must return immediately.
+;     return, r_status
+; endif
 
-r_controlled_point_rows =  *(o_data_variable_structure.s_variable_array);
-r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
-r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
-data_type_as_int = SIZE(r_controlled_point_rows,/TYPE);
+; r_controlled_point_rows =  *(o_data_variable_structure.s_variable_array);
+; r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
+; r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
+; data_type_as_int = SIZE(r_controlled_point_rows,/TYPE);
+
+r_controlled_point_rows = INDGEN(num_lats, START=1)
 
 i_variable_short_name = 'l2_flags';
 
