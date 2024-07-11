@@ -26,6 +26,8 @@ FUNCTION convert_modis_from_netcdf_to_gds2_netcdf,$
 
 @modis_data_config.cfg
 
+print "RANDY_DEBUGGING: convert_modis_from_netcdf_to_gds2_netcdf STARTING\n";
+
 ; Define local variables.
 
 r_status = SUCCESS;
