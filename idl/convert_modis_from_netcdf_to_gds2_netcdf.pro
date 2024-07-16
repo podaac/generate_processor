@@ -447,7 +447,7 @@ print, "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK BEGIN (netCDF 2 gds2 
 ; data_type_as_int = SIZE(r_controlled_point_cols,/TYPE);
 ; r_data_type = convert_int_type_to_char_type(data_type_as_int);
 
-r_controlled_point_cols = INDGEN(num_lons, START=1)
+r_controlled_point_cols = INDGEN(num_lats, START=1)
 
 ; i_variable_short_name = 'cntl_pt_rows';
 
@@ -476,7 +476,7 @@ r_controlled_point_cols = INDGEN(num_lons, START=1)
 ; r_data_type = convert_int_type_to_char_type(data_type_as_int);
 ; tempvar = SIZE(TEMPORARY(r_controlled_point_rows)); Clear memory
 
-r_controlled_point_rows = INDGEN(num_lats, START=1)
+r_controlled_point_rows = INDGEN(num_lons, START=1)
 
 print, "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK END (netCDF 2 gds2 netCDF)\n";
 
