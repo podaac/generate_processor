@@ -48,7 +48,7 @@ i_data       = '';
 ; Get the DEBUG_MODE if it is set.
 
 debug_module = 'generate_modis_l2p_core_dataset.pro';
-debug_mode = 1
+debug_mode = 0
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_mode = 1;
 endif
