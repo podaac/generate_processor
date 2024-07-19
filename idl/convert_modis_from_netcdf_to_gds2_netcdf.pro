@@ -26,8 +26,6 @@ FUNCTION convert_modis_from_netcdf_to_gds2_netcdf,$
 
 @modis_data_config.cfg
 
-print, "RANDY_DEBUGGING: convert_modis_from_netcdf_to_gds2_netcdf STARTING\n";
-
 ; Define local variables.
 
 r_status = SUCCESS;
@@ -54,7 +52,7 @@ i_data = "";
 ; Get the DEBUG_MODE if it is set.
 
 debug_module = 'convert_modis_from_netcdf_to_gds2_netcdf.pro - INFO:';
-debug_mode = 1
+debug_mode = 0
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_mode = 1;
 endif
@@ -415,8 +413,6 @@ if (r_status NE SUCCESS) then begin
     return, status
 endif
 
-print, "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK BEGIN (netCDF 2 gds2 netCDF)\n";
-
 ;--------------------------------------------------------------------------------
 ; Read cntl_pt_cols & cntl_pt_rows variables.
 ;--------------------------------------------------------------------------------
@@ -477,8 +473,6 @@ r_controlled_point_cols = INDGEN(num_lats, START=1)
 ; tempvar = SIZE(TEMPORARY(r_controlled_point_rows)); Clear memory
 
 r_controlled_point_rows = INDGEN(num_lons, START=1)
-
-print, "RANDY_DEBUGGING: cntl_pt_cols & cntl_pt_rows BLOCK END (netCDF 2 gds2 netCDF)\n";
 
 i_variable_short_name = 'l2_flags';
 r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$

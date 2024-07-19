@@ -34,7 +34,7 @@ over_all_status = SUCCESS;
 
 debug_module = 'convert_modis_and_make_meta:';
 routine_name = 'convert_modis_and_make_meta.pro';
-debug_flag = 1;
+debug_flag = 0;
 
 if (STRUPCASE(GETENV('GHRSST_MODIS_L2P_DEBUG_MODE')) EQ 'TRUE') then begin
     debug_flag = 1;
