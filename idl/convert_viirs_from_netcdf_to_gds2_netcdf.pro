@@ -443,70 +443,74 @@ endif
 ; Read cntl_pt_cols & cntl_pt_rows variables.
 ;--------------------------------------------------------------------------------
 
-i_variable_short_name = 'cntl_pt_cols';
+; i_variable_short_name = 'cntl_pt_cols';
 
-dataset_name = i_variable_short_name;
-variable_read_start = SYSTIME(/SECONDS);
-r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
-               o_data_variable_structure);
-variable_read_end =  SYSTIME(/SECONDS);
-variable_read_duration = variable_read_end - variable_read_start;
-variable_read_duration_array[variable_read_index++] = dataset_name + " " + STRING(variable_read_duration);
-variables_read_duration_total = variables_read_duration_total + variable_read_duration;
+; dataset_name = i_variable_short_name;
+; variable_read_start = SYSTIME(/SECONDS);
+; r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
+;                o_data_variable_structure);
+; variable_read_end =  SYSTIME(/SECONDS);
+; variable_read_duration = variable_read_end - variable_read_start;
+; variable_read_duration_array[variable_read_index++] = dataset_name + " " + STRING(variable_read_duration);
+; variables_read_duration_total = variables_read_duration_total + variable_read_duration;
 
-if (TEST_PARAMETER EQ "BAD_CNTL_PT_COLS_VARIABLE_READ") then begin
-    r_status = FAILURE;
-endif
+; if (TEST_PARAMETER EQ "BAD_CNTL_PT_COLS_VARIABLE_READ") then begin
+;     r_status = FAILURE;
+; endif
 
-if (r_status NE SUCCESS) then begin
-    msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
-    print, debug_module + msg;
-    donotcare = error_log_writer(routine_name,msg);
-    FILE_DELETE, i_out_filename, /QUIET;
-    ; Must return immediately.
-    return, r_status
-endif
+; if (r_status NE SUCCESS) then begin
+;     msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
+;     print, debug_module + msg;
+;     donotcare = error_log_writer(routine_name,msg);
+;     FILE_DELETE, i_out_filename, /QUIET;
+;     ; Must return immediately.
+;     return, r_status
+; endif
 
-r_controlled_point_cols =  *(o_data_variable_structure.s_variable_array);
-PTR_FREE, o_data_variable_structure.s_variable_array;
+; r_controlled_point_cols =  *(o_data_variable_structure.s_variable_array);
+; PTR_FREE, o_data_variable_structure.s_variable_array;
 
-r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
-r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
-data_type_as_int = SIZE(r_controlled_point_cols,/TYPE);
-r_data_type = convert_int_type_to_char_type(data_type_as_int);
+; r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
+; r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
+; data_type_as_int = SIZE(r_controlled_point_cols,/TYPE);
+; r_data_type = convert_int_type_to_char_type(data_type_as_int);
 
-i_variable_short_name = 'cntl_pt_rows';
+r_controlled_point_cols = INDGEN(num_lats, START=1)
 
-dataset_name = i_variable_short_name;
-variable_read_start = SYSTIME(/SECONDS);
-r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
-               o_data_variable_structure);
-variable_read_end =  SYSTIME(/SECONDS);
-variable_read_duration = variable_read_end - variable_read_start;
-variable_read_duration_array[variable_read_index++] = dataset_name + " " + STRING(variable_read_duration);
-variables_read_duration_total = variables_read_duration_total + variable_read_duration;
+; i_variable_short_name = 'cntl_pt_rows';
 
-if (TEST_PARAMETER EQ "BAD_CNTL_PT_ROWS_VARIABLE_READ") then begin
-    r_status = FAILURE;
-endif
+; dataset_name = i_variable_short_name;
+; variable_read_start = SYSTIME(/SECONDS);
+; r_status = read_gds1_netcdf_one_variable(i_filename,i_variable_short_name,$
+;                o_data_variable_structure);
+; variable_read_end =  SYSTIME(/SECONDS);
+; variable_read_duration = variable_read_end - variable_read_start;
+; variable_read_duration_array[variable_read_index++] = dataset_name + " " + STRING(variable_read_duration);
+; variables_read_duration_total = variables_read_duration_total + variable_read_duration;
 
-if (r_status NE SUCCESS) then begin
-    msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
-    print, debug_module + msg;
-    donotcare = error_log_writer(routine_name,msg);
-    FILE_DELETE, i_out_filename, /QUIET;
-    ; Must return immediately.
-    return, r_status
-endif
+; if (TEST_PARAMETER EQ "BAD_CNTL_PT_ROWS_VARIABLE_READ") then begin
+;     r_status = FAILURE;
+; endif
 
-r_controlled_point_rows =  *(o_data_variable_structure.s_variable_array);
-PTR_FREE, o_data_variable_structure.s_variable_array;
+; if (r_status NE SUCCESS) then begin
+;     msg = "Cannot read variable " + i_variable_short_name + " from file " + i_filename;
+;     print, debug_module + msg;
+;     donotcare = error_log_writer(routine_name,msg);
+;     FILE_DELETE, i_out_filename, /QUIET;
+;     ; Must return immediately.
+;     return, r_status
+; endif
 
-r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
-r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
-data_type_as_int = SIZE(r_controlled_point_rows,/TYPE);
-r_data_type = convert_int_type_to_char_type(data_type_as_int);
-tempvar = SIZE(TEMPORARY(r_controlled_point_rows)); Clear memory
+; r_controlled_point_rows =  *(o_data_variable_structure.s_variable_array);
+; PTR_FREE, o_data_variable_structure.s_variable_array;
+
+; r_status = find_netcdf_variable_attribute_info('long_name',o_data_variable_structure.s_attributes_array,r_long_name);
+; r_status = find_netcdf_variable_attribute_info('units',    o_data_variable_structure.s_attributes_array,r_units);
+; data_type_as_int = SIZE(r_controlled_point_rows,/TYPE);
+; r_data_type = convert_int_type_to_char_type(data_type_as_int);
+; tempvar = SIZE(TEMPORARY(r_controlled_point_rows)); Clear memory
+
+r_controlled_point_rows = INDGEN(num_lons, START=1)
 
 i_variable_short_name = 'l2_flags';
 dataset_name = i_variable_short_name;
