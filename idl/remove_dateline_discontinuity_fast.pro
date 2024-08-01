@@ -20,6 +20,13 @@ FUNCTION remove_dateline_discontinuity_fast,$
 
 ;------------------------------------------------------------------------------------------------
 
+
+debug_module = 'remove_dateline_discontinuity_fast.pro - INFO:';
+
+PRINT, /IMPLIED_PRINT, debug_module + "i_controlled_point_lats: " + STRING(i_controlled_point_lats);
+PRINT, /IMPLIED_PRINT, debug_module + "i_controlled_point_lons: " + STRING(i_controlled_point_lons);
+PRINT, /IMPLIED_PRINT, debug_module + "ir_longitude_control_points: " + STRING(SIZE(ir_longitude_control_points));
+
 ; Load constants.
 
 @modis_data_config.cfg
