@@ -109,9 +109,9 @@ sub ghrsst_modis_file_manager()
   #
 
   if (($i_datasource eq "MODIS_A" or $i_datasource eq "MODIS_T") or 
-      ($i_datasource eq "VIIRS")) { 
+      ($i_datasource eq "VIIRS" or $i_datasource eq "JPSS1")) { 
       # If processing VIIRS dataset, we set the environment variable GHRSST_L2P_VIIRS_RUN_MODE to true so the IDL knows which function to call.
-      if ($i_datasource eq "VIIRS") { 
+      if ($i_datasource eq "VIIRS" or $i_datasource eq "JPSS1") { 
           $ENV{GHRSST_L2P_VIIRS_RUN_MODE} = "true";
       }
       $status = manage_ghrsst_modis_data_sets($i_data_type,$i_datasource,$i_ftp_push_flag,

@@ -20,7 +20,7 @@ sub generic_get_registry_filename {
     #
     
     my $i_scratch_area    = shift; # Directory where registry is stored. 
-    my $i_data_source      = shift; # {MODIS_A,MODIS_T,VIIRS}
+    my $i_data_source      = shift; # {MODIS_A,MODIS_T,VIIRS,JPSS1}
     my $i_processing_type = shift; # {QUICKLOOK,REFINED}
 
     my $debug_module = "generic_get_registry_filename:";
@@ -37,7 +37,7 @@ sub generic_get_registry_filename {
         } elsif ($i_processing_type eq "REFINED") {
             $o_L2P_registry = $i_scratch_area . "/ghrsst_master_" . lc($i_data_source) . "_refined_list_processed_files_" . $ENV{'RANDOM_NUMBER'} . ".dat";
         }
-    } elsif ($i_data_source eq "VIIRS") {
+    } elsif ($i_data_source eq "VIIRS" or $i_data_source eq "JPSS1") {
         if ($i_processing_type eq "QUICKLOOK") {
             $o_L2P_registry = $i_scratch_area . "/ghrsst_master_viirs_quicklook_list_processed_files_" . $ENV{'RANDOM_NUMBER'} . ".dat";
         } elsif ($i_processing_type eq "REFINED") {
@@ -107,6 +107,22 @@ if (index($0,$module_name) >= 0)
     ;
 
     $data_source      = "VIIRS";
+    $processing_type = "REFINED";
+    $o_L2P_registry = generic_get_registry_filename($scratch_area,
+                                                    $data_source,
+                                                    $processing_type);
+    print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
+    ;
+
+    $data_source      = "JPSS1";
+    $processing_type = "QUICKLOOK";
+    $o_L2P_registry = generic_get_registry_filename($scratch_area,
+                                                    $data_source,
+                                                    $processing_type);
+    print "data_source $data_source processing_type $processing_type o_L2P_registry $o_L2P_registry\n";
+    ;
+
+    $data_source      = "JPSS1";
     $processing_type = "REFINED";
     $o_L2P_registry = generic_get_registry_filename($scratch_area,
                                                     $data_source,
