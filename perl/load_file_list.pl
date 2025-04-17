@@ -52,6 +52,9 @@ sub load_file_list {
     } elsif ($data_source eq 'VIIRS') {
         $day_ext = '.SNPP_GSSTD.nc';
         $night_ext = '.SNPP_GSSTN.nc';
+    } elsif ($data_source eq 'JPSS1') {
+        $day_ext = '.SNPP_GSSTD.nc';
+        $night_ext = '.SNPP_GSSTN.nc';
     } else {
         # Not a valid data source
         $status = 1;
