@@ -41,7 +41,7 @@ sub get_modis_processing_directories {
     my $r_l2p_core_output_directory  = $ENV{MODIS_SEATMP_L2P_CORE_DIRECTORY}; 
 
     # Add support for VIIRS dataset.
-    if ($i_datasource eq "VIIRS") {
+    if ($i_datasource eq "VIIRS" or $i_datasource eq "JPSS1") {
         $r_l2p_core_output_directory  = $ENV{VIIRS_SEATMP_L2P_CORE_DIRECTORY}; 
     }
     # Do a sanity check to make sure the output directory is defined and the account has write permission.
@@ -97,6 +97,15 @@ sub get_modis_processing_directories {
         } elsif ($i_processing_type eq "REFINED") {
             $l_modis_data_directory   =  get_ghrsst_config("VIIRS_REFINED_SEATMP_DATASETS_DIRECTORY");
             $r_l2p_core_output_directory = $r_l2p_core_output_directory . "/VIIRS_REFINED";
+        }
+    } elsif ($i_datasource eq "JPSS1") {
+        $r_modis_data_name_prefix = "V";
+        if ($i_processing_type eq "QUICKLOOK") {
+            $l_modis_data_directory   =  get_ghrsst_config("JPSS1_QUICKLOOK_SEATMP_DATASETS_DIRECTORY");
+            $r_l2p_core_output_directory = $r_l2p_core_output_directory . "/JPSS1";
+        } elsif ($i_processing_type eq "REFINED") {
+            $l_modis_data_directory   =  get_ghrsst_config("JPSS1_REFINED_SEATMP_DATASETS_DIRECTORY");
+            $r_l2p_core_output_directory = $r_l2p_core_output_directory . "/JPSS1_REFINED";
         }
     } else {
         print "get_modis_processing_directories: data source is not supported at the moment.\n";
@@ -168,6 +177,40 @@ if (index($0,$module_name) >= 0)
     # Test the VIIRS QUICKLOOK
     #
     my $i_datasource       = uc("VIIRS");
+    my $i_processing_type  = uc("QUICKLOOK");
+    my ($r_modis_search_directory,
+        $r_modis_data_name_prefix,
+        $r_l2p_core_output_directory) = get_modis_processing_directories($i_datasource,
+                                                                         $i_processing_type);
+
+    print $debug_module ."i_datasource                $i_datasource\n";
+    print $debug_module ."i_processing_type           $i_processing_type\n";
+    print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
+    print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
+    print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
+    ;
+
+    #
+    # Test the JPSS1 REFINED
+    #
+    my $i_datasource       = uc("JPSS1");
+    my $i_processing_type  = uc("REFINED");
+    my ($r_modis_search_directory,
+        $r_modis_data_name_prefix,
+        $r_l2p_core_output_directory) = get_modis_processing_directories($i_datasource,
+                                                                         $i_processing_type);
+
+    print $debug_module ."i_datasource                $i_datasource\n";
+    print $debug_module ."i_processing_type           $i_processing_type\n";
+    print $debug_module ."r_modis_search_directory    $r_modis_search_directory\n";
+    print $debug_module ."r_modis_data_name_prefix    $r_modis_data_name_prefix\n";
+    print $debug_module ."r_l2p_core_output_directory $r_l2p_core_output_directory\n";
+    ;
+
+    #
+    # Test the JPSS1 QUICKLOOK
+    #
+    my $i_datasource       = uc("JPSS1");
     my $i_processing_type  = uc("QUICKLOOK");
     my ($r_modis_search_directory,
         $r_modis_data_name_prefix,

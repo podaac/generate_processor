@@ -89,7 +89,7 @@ sub manage_ghrsst_modis_data_sets {
     my $debug_module = "manage_ghrsst_modis_data_sets:";
     my $debug_mode   = 0;
 
-    print "manage_ghrsst_modis_data_sets.pl.pl - INFO: i_test_parameter [$i_test_parameter]\n";
+    print "manage_ghrsst_modis_data_sets.pl - INFO: i_test_parameter [$i_test_parameter]\n";
 
     my $file_search_directory = "DUMMY";
     my $modis_search_directory = "DUMMY";
@@ -179,7 +179,7 @@ sub manage_ghrsst_modis_data_sets {
     for(@modis_filelist) {
         my $pfilename = basename($_);
         $pfilename =~ s/^\s+|\s+$//g;    # Trim whitespace
-        print "manage_ghrsst_modis_data_sets.pl - INFO: File to process: $pfilename";
+        print "manage_ghrsst_modis_data_sets.pl - INFO: File to process: $pfilename\n";
         write_final_log("file_to_process: $pfilename");
     }
 
